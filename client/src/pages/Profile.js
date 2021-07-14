@@ -1,14 +1,15 @@
 import React from 'react'
 import locationListener from '../hooks/LocationListner'
 export default function Profile() {
-    const {location}= locationListener()
-    console.log(location)
-    if(!location){
+    const {place}= locationListener()
+    console.log(place)
+    if(!place){
         return null
     }
     return (
         <div>
-           <p>{location.latitude}</p>
+           <p>{place.country}</p>
+           <p>{place.province}</p>
         </div>
     )
 }
