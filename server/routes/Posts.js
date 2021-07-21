@@ -21,11 +21,29 @@ router.get('/',requireLogin,(req,res)=>{
         console.log(err)
     })
 })
-// get all posts by country
-router.get('/:province',requireLogin,(req,res)=>{
+// get all posts by province
+router.get('/province/:provincename',requireLogin,(req,res)=>{
     Post.findAll({
-        where:{province: req.params.province},
-        include:[{model:User}, {model:Comment,
+        where:{province: req.params.provincename},
+        include:[{model:User, attributes: {
+            exclude: ['password']
+        }}, {model:Comment,
+        include:{model:CommentReply}}] 
+    })
+    .then(posts=>{
+        res.json({posts})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+// get all posts by country
+router.get('/country/:countryname',requireLogin,(req,res)=>{
+    Post.findAll({
+        where:{country: req.params.countryname},
+        include:[{model:User, attributes: {
+            exclude: ['password']
+        }}, {model:Comment,
         include:{model:CommentReply}}] 
     })
     .then(posts=>{
