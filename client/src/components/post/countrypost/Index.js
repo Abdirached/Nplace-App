@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
 import Video from "../Video";
 import Footer from "../Footer";
+import Comments from "./Comments";
 const axios = require("axios");
 
 export default function CountryPost() {
@@ -30,18 +31,19 @@ export default function CountryPost() {
   };
   return (
     <div>
-      {posts.map((result) => {
-        return result.map((data) => (
-          <div
-            className="rounded col-span-4 border bg-white border-gray-primary mb-12"
-            key={data.postId}
-          >
-            <Header firstname={data.User.firstName} />
-            <Video src={data.video} caption={data.content} />
-            <Footer caption={data.content} firstname={data.User.firstName} />
-          </div>
-        ));
-      })}
+      {posts.payload
+        ? posts.payload.map((data) => (
+            <div
+              className="rounded col-span-4 border bg-white border-gray-primary mb-12"
+              key={data.postId}
+            >
+              <Header firstname={data.User.firstName} />
+              <Video src={data.video} caption={data.content} />
+              <Footer caption={data.content} firstname={data.User.firstName} />
+              <Comments commentData={data.Comments} />
+            </div>
+          ))
+        : null}
     </div>
   );
 }

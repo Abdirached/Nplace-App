@@ -1,9 +1,5 @@
-import React from 'react'
+import { useState } from "react";
 
 export default function Add() {
-    return (
-        <div>
-            Iam Add
-        </div>
-    )
+  return <div>Iam Add</div>;
 }

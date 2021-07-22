@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = []
+const initialState = [];
 const provincePostsSlice = createSlice({
-  name: 'provinceposts',
+  name: "provinceposts",
   initialState,
   reducers: {
-    postsAdded(state, action){
-         state.push(action.payload)
-      }
-  }
-})
-export const {postsAdded} = provincePostsSlice.actions
-export default provincePostsSlice.reducer
+    postsAdded(state, action) {
+      return { ...state, payload: action.payload };
+    },
+  },
+});
+export const { postsAdded } = provincePostsSlice.actions;
+export default provincePostsSlice.reducer;

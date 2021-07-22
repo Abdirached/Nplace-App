@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
           const { userId, firstName, lastName, email, avatar } = savedUser;
           res.json({
             token,
-            user: { userId, firstName, lastName, email, avatar },
+            userId: userId,
           });
         } else {
           return res.json({ error: "invalid email or password" });
