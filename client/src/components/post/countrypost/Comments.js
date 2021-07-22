@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function Comments() {
-    return (
-        <div>
-            iam comments component for country
-        </div>
-    )
+  return <div>iam comments component for country</div>;
 }
