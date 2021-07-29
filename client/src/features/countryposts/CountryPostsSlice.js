@@ -6,7 +6,7 @@ const countryPostsSlice = createSlice({
   initialState,
   reducers: {
     postsAdded(state, action) {
-      return { ...state, payload: action.payload };
+      return action.payload;
     },
   },
 });

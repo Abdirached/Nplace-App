@@ -1,13 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit'
-import usersReducer from '../features/users/UsersSlice'
-import countryPostsReducer from '../features/countryposts/CountryPostsSlice'
-import provincePostsReducer from '../features/provinceposts/ProvincePostsSlice'
-
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "../features/users/UserSlice";
+import countryPostsReducer from "../features/countryposts/CountryPostsSlice";
+import provincePostsReducer from "../features/provinceposts/ProvincePostsSlice";
 
 export const store = configureStore({
   reducer: {
-    users: usersReducer,
+    user: userReducer,
     countryPosts: countryPostsReducer,
-    provincePosts: provincePostsReducer
+    provincePosts: provincePostsReducer,
   },
-})
+});
