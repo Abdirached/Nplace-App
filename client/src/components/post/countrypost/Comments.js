@@ -5,8 +5,8 @@ export default function Comments({ commentData }) {
   return (
     <div>
       {commentData.map((comment) => (
-        <div>
-          <div key={comment.commentId}>
+        <div key={comment.commentId}>
+          <div>
             <p>{comment.text}</p>
             <p>{comment.User ? comment.User.firstName : null}</p>
           </div>
