@@ -5,19 +5,21 @@ import Header from "../Header";
 import Video from "../Video";
 import Footer from "../Footer";
 import Comments from "./Comments";
+import locationListner from "../../../hooks/LocationListner";
 const axios = require("axios");
 
 export default function CountryPost() {
+  const { place } = locationListner();
   const posts = useSelector((state) => state.countryPosts);
   console.log(posts);
   const dispatch = useDispatch();
   useEffect(() => {
     countryPosts();
-  }, []);
+  }, [place]);
   const countryPosts = async function getCountryPosts() {
     try {
       const response = await axios.get(
-        "http://localhost:5000/Posts/country/Uk",
+        `http://localhost:5000/Posts/country/${place.country}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("jwt"),

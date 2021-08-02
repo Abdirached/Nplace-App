@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import locationListner from "../hooks/LocationListner";
 const axios = require("axios");
 
 export default function Add() {
   const [url, setUrl] = useState("");
-  const [video, setVideo] = useState("");
   const [fields, setFields] = useState("");
-  const onsubmit = async function onsubmitVideo(e) {
-    e.preventDefault();
+  const [file, setFile] = useState("");
+  const [content, setContent] = useState("");
+  const { place } = locationListner();
+  useEffect(() => {
+    signedurl();
+  }, []);
+  const signedurl = async function getSignedUrl() {
     try {
       const response = await axios.get(
         "http://localhost:5000/Storage/signedurl",
@@ -22,36 +27,67 @@ export default function Add() {
     } catch (error) {
       console.log(error);
     }
+  };
+  const onsubmit = async function onsubmitVideo(e) {
+    e.preventDefault();
     try {
       const data = new FormData();
       Object.keys(fields).forEach((key) => {
         data.append(key, fields[key]);
       });
-      data.append("file", video);
+      data.append("file", file);
       const response = await axios({
         method: "post",
-        url: url,
-        data: data,
+        url,
+        data,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
+    }
+    try {
+      const country = place.country;
+      const province = place.province;
+      const key = fields.key;
+      const videoUrl = `https://nplacebucket.s3.amazonaws.com/${key}`;
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:5000/Posts",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        data: {
+          country,
+          province,
+          content,
+          video: videoUrl,
+        },
       });
       console.log(response);
     } catch (error) {
       console.log(error.response);
     }
   };
+  if (place == null) {
+    return null;
+  }
   return (
     <div>
       <form onSubmit={onsubmit}>
+        <input type="text" readOnly value={place.country} />
+        <input type="text" readOnly value={place.province} />
+        <input
+          type="textarea"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
         <input
           type="file"
           name="file"
-          onChange={(e) => setVideo(e.target.files[0])}
+          onChange={(e) => setFile(e.target.files[0])}
         />
         <button type="submit">submit</button>
       </form>
-      <img
-        className="h-12 w-12"
-        src="https://nplacebucket.s3.amazonaws.com/18c412ca-7e0e-48a4-b295-7ba3ce8c23b1"
-      />
     </div>
   );
 }
