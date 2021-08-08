@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
 import locationListner from "../hooks/LocationListner";
 const axios = require("axios");
 
@@ -72,22 +73,25 @@ export default function Add() {
     return null;
   }
   return (
-    <div>
-      <form onSubmit={onsubmit}>
-        <input type="text" readOnly value={place.country} />
-        <input type="text" readOnly value={place.province} />
-        <input
-          type="textarea"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <input
-          type="file"
-          name="file"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-        <button type="submit">submit</button>
-      </form>
-    </div>
+    <>
+      <Navbar />
+      <div>
+        <form onSubmit={onsubmit}>
+          <input type="text" readOnly value={place.country} />
+          <input type="text" readOnly value={place.province} />
+          <input
+            type="textarea"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+          <input
+            type="file"
+            name="file"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+          <button type="submit">submit</button>
+        </form>
+      </div>
+    </>
   );
 }

@@ -88,8 +88,32 @@ router.get("/:postId", requireLogin, (req, res) => {
   Post.findOne({
     where: { postId: req.params.postId },
     include: [
-      { model: User },
-      { model: Comment, include: { model: CommentReply } },
+      {
+        model: User,
+        attributes: {
+          exclude: ["password"],
+        },
+      },
+      {
+        model: Comment,
+        include: [
+          {
+            model: CommentReply,
+            include: {
+              model: User,
+              attributes: {
+                exclude: ["password", "email", "phonenumber"],
+              },
+            },
+          },
+          {
+            model: User,
+            attributes: {
+              exclude: ["password", "email", "phonenumber"],
+            },
+          },
+        ],
+      },
     ],
   })
     .then((post) => {

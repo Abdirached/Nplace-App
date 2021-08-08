@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { postsAdded } from "../../../features/countryposts/CountryPostsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Header from "../Header";
 import Video from "../Video";
 import Footer from "../Footer";
-import Comments from "./Comments";
 import locationListner from "../../../hooks/LocationListner";
 const axios = require("axios");
 
@@ -42,7 +42,7 @@ export default function CountryPost() {
               <Header firstname={data.User.firstName} />
               <Video src={data.video} caption={data.content} />
               <Footer caption={data.content} firstname={data.User.firstName} />
-              <Comments commentData={data.Comments} />
+              <Link to={`/Posts/${data.postId}`}>view post</Link>
             </div>
           ))
         : null}
