@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import locationListner from "../hooks/LocationListner";
+import UselocationListner from "../hooks/UseLocationListner";
 const axios = require("axios");
 
 export default function Add() {
@@ -8,7 +8,7 @@ export default function Add() {
   const [fields, setFields] = useState("");
   const [file, setFile] = useState("");
   const [content, setContent] = useState("");
-  const { place } = locationListner();
+  const { place } = UselocationListner();
   useEffect(() => {
     signedurl();
   }, []);

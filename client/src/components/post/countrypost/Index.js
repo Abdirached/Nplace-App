@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 import Header from "../Header";
 import Video from "../Video";
 import Footer from "../Footer";
-import locationListner from "../../../hooks/LocationListner";
+import UselocationListner from "../../../hooks/UseLocationListner";
 const axios = require("axios");
 
 export default function CountryPost() {
-  const { place } = locationListner();
+  const { place } = UselocationListner();
   const posts = useSelector((state) => state.countryPosts);
   console.log(posts);
   const dispatch = useDispatch();
