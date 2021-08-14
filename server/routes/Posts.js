@@ -123,7 +123,30 @@ router.get("/:postId", requireLogin, (req, res) => {
       console.log(err);
     });
 });
-
+// update singlepost
+router.put("/:postId/editpost", requireLogin, (req, res) => {
+  const { country, province, content, video } = req.body;
+  if (!country || !province || !content || !video) {
+    return res.status(422).json({ error: "please add all the fields" });
+  }
+  req.user.password = undefined;
+  const post = Post.update(
+    {
+      country,
+      province,
+      content,
+      video,
+      userId: req.user.userId,
+    },
+    { where: { postId: req.params.postId } }
+  )
+    .then((result) => {
+      res.json({ post: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 // create a post route
 router.post("/", requireLogin, (req, res) => {
   const { country, province, content, video } = req.body;
@@ -163,6 +186,27 @@ router.post("/:postId/comments", requireLogin, (req, res) => {
       console.log(err);
     });
 });
+// edit comment in a post
+router.put("/:postId/comments/:commentId", requireLogin, (req, res) => {
+  const { text } = req.body;
+  if (!text) {
+    return res.status(422).json({ error: "please add comment" });
+  }
+  const comment = Comment.update(
+    {
+      text,
+      userId: req.user.userId,
+      postId: req.params.postId,
+    },
+    { where: { commentId: req.params.commentId }, returning: true }
+  )
+    .then((result) => {
+      res.json({ comment: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 // add commentreply to a comment in a post
 router.post(
   "/:postId/comments/:commentId/commentReply",
@@ -178,6 +222,32 @@ router.post(
       postId: req.params.postId,
       commentId: req.params.commentId,
     })
+      .then((result) => {
+        res.json({ commentReply: result });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+);
+// edit commentReply
+router.put(
+  "/:postId/comments/:commentId/commentReply/:commentReplyId",
+  requireLogin,
+  (req, res) => {
+    const { text } = req.body;
+    if (!text) {
+      return res.status(422).json({ error: "please add commentReply" });
+    }
+    const commentReply = CommentReply.update(
+      {
+        text,
+        userId: req.user.userId,
+        postId: req.params.postId,
+        commentId: req.params.commentId,
+      },
+      { where: { commentReplyId: req.params.commentReplyId }, returning: true }
+    )
       .then((result) => {
         res.json({ commentReply: result });
       })

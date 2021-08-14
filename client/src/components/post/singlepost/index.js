@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Header from "../Header";
 import Video from "../Video";
 import Footer from "../Footer";
@@ -38,6 +38,7 @@ export default function SinglePost() {
           <Header firstname={post.User.firstName} />
           <Video src={post.video} caption={post.content} />
           <Footer caption={post.content} firstname={post.User.firstName} />
+          <Link to={`/Posts/${post.postId}/Edit`}>Edit post</Link>
           <Comments commentData={post.Comments} />
         </div>
       ) : null}

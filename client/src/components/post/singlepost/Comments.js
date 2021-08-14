@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import AddComment from "./AddComment";
 import CommentReplies from "./CommentReplies";
+import EditComment from "./EditComment";
 
 export default function Comments({ commentData }) {
   const [comments, setComments] = useState(commentData);
@@ -22,6 +23,12 @@ export default function Comments({ commentData }) {
                   : currentUserInfo.user.firstName}
               </p>
             </div>
+            <EditComment
+              comments={comments}
+              setComments={setComments}
+              commentId={comment.commentId}
+              commentText={comment.text}
+            />
             <CommentReplies
               repliesData={comment.CommentReplies}
               commentId={comment.commentId}

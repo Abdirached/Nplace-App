@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import AddCommentReply from "./AddCommentReply";
+import EditCommentReply from "./EditCommentReply";
 import UseUser from "../../../hooks/UseUser";
 
 export default function CommentRepliesMain({ repliesData, commentId }) {
@@ -44,6 +45,13 @@ export default function CommentRepliesMain({ repliesData, commentId }) {
                       ? reply.User.firstName
                       : currentUserInfo.user.firstName}
                   </p>
+                  <EditCommentReply
+                    commentReplies={commentReplies}
+                    setCommentReplies={setCommentReplies}
+                    commentId={commentId}
+                    commentReplyId={reply.commentReplyId}
+                    commentReplyText={reply.text}
+                  />
                 </div>
               ))
             : null}
