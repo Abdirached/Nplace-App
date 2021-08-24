@@ -14,15 +14,15 @@ AWS.config.update({
   credentials: credentials,
 });
 const s3 = new AWS.S3();
-const params = {
-  Fields: {
-    key: uuidv4(),
-  },
-  Conditions: [["content-length-range", 0, 10000000]],
-  Expires: 600000,
-  Bucket: process.env.S3_BUCKET,
-};
 router.get("/signedurl", requireLogin, async (req, res) => {
+  const params = {
+    Fields: {
+      key: uuidv4(),
+    },
+    Conditions: [["content-length-range", 0, 10000000]],
+    Expires: 3600,
+    Bucket: process.env.S3_BUCKET,
+  };
   const response = await s3.createPresignedPost(params, (err, data) => {
     res.json(data);
   });

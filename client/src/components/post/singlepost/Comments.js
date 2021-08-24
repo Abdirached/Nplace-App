@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import AddComment from "./AddComment";
 import CommentReplies from "./CommentReplies";
-import EditComment from "./EditComment";
+import DeleteComment from "./DeleteComment";
 
 export default function Comments({ commentData }) {
   const [comments, setComments] = useState(commentData);
-  const currentUserInfo = useSelector((state) => state.user);
+  const userId = JSON.parse(localStorage.getItem("userId"));
   return (
     <>
       <div>
@@ -15,20 +14,24 @@ export default function Comments({ commentData }) {
       <div>
         {comments.map((comment) => (
           <div key={comment.commentId}>
-            <div>
-              <p>{comment.text}</p>
-              <p>
-                {comment.User
-                  ? comment.User.firstName
-                  : currentUserInfo.user.firstName}
-              </p>
-            </div>
-            <EditComment
-              comments={comments}
-              setComments={setComments}
-              commentId={comment.commentId}
-              commentText={comment.text}
-            />
+            {userId == comment.User?.userId ? (
+              <div>
+                <audio src={comment.text} controls />
+                <p>{comment.User?.firstName}</p>
+                <div>
+                  <DeleteComment
+                    comments={comments}
+                    setComments={setComments}
+                    commentId={comment.commentId}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div>
+                <audio src={comment.text} controls />
+                <p>{comment.User?.firstName}</p>
+              </div>
+            )}
             <CommentReplies
               repliesData={comment.CommentReplies}
               commentId={comment.commentId}

@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import UseSignedUrl from "../../../hooks/UseSignedUrl";
+import UseRecorder from "../../../hooks/UseRecorder";
 const axios = require("axios");
 
 export default function AddCommentReply({
@@ -7,16 +9,39 @@ export default function AddCommentReply({
   setCommentReplies,
   commentId,
 }) {
+  const [audioURL, isRecording, startRecording, stopRecording, file] =
+    UseRecorder();
+  const [url, fields] = UseSignedUrl();
   const { postId } = useParams();
   console.log(commentId);
   const [commentReply, setCommentReply] = useState("");
   const [toggle, setToggle] = useState(false);
+  useEffect(() => {
+    console.log(file);
+  }, [file]);
   const handleToggle = function handleToggleReplyInput() {
     setToggle(true);
   };
   const onSubmit = async function onSubmitComment(e) {
     e.preventDefault();
     try {
+      const data = new FormData();
+      Object.keys(fields).forEach((key) => {
+        data.append(key, fields[key]);
+      });
+      data.append("file", file);
+      const response = await axios({
+        method: "post",
+        url,
+        data,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
+    }
+    try {
+      const key = fields.key;
+      const audioUrl = `https://nplacebucket.s3.amazonaws.com/${key}`;
       const response = await axios({
         method: "post",
         url: `http://localhost:5000/Posts/${postId}/comments/${commentId}/commentReply`,
@@ -24,26 +49,34 @@ export default function AddCommentReply({
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
         data: {
-          text: commentReply,
+          text: audioUrl,
         },
       });
       console.log(response.data);
       setCommentReplies([response.data.commentReply, ...commentReplies]);
-      setCommentReply("");
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
-    <div>
+    <div className="inline-block h-full w-full">
       {toggle ? (
-        <form onSubmit={onSubmit}>
-          <input
-            type="textArea"
-            name="addCommentReply"
-            value={commentReply}
-            onChange={(e) => setCommentReply(e.target.value)}
-            placeholder="add commentReply"
+        <form onSubmit={onSubmit} className="flex flex-row justify-evenly">
+          <audio src={audioURL} controls />
+          <button
+            onClick={startRecording}
+            disabled={isRecording}
             className="border-2"
-          />
+          >
+            start recording
+          </button>
+          <button
+            onClick={stopRecording}
+            disabled={!isRecording}
+            className="border-2"
+          >
+            stop recording
+          </button>
           <button type="onSubmit">submit</button>
         </form>
       ) : (

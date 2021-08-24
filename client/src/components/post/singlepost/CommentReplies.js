@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import AddCommentReply from "./AddCommentReply";
-import EditCommentReply from "./EditCommentReply";
-import UseUser from "../../../hooks/UseUser";
+import DeleteCommentReply from "./DeleteCommentReply";
+const userId = JSON.parse(localStorage.getItem("userId"));
 
 export default function CommentRepliesMain({ repliesData, commentId }) {
-  const { currentUser } = UseUser();
   const [commentReplies, setCommentReplies] = useState(repliesData);
-  const currentUserInfo = useSelector((state) => state.user);
   const [toggle, setToggle] = useState(false);
   const handleToggle = function handleToggleReplyInput() {
     setToggle(true);
@@ -39,19 +36,23 @@ export default function CommentRepliesMain({ repliesData, commentId }) {
                   className="border-2 border-opacity-5"
                   key={reply.commentReplyId}
                 >
-                  <p>{reply.text}</p>
-                  <p>
-                    {reply.User
-                      ? reply.User.firstName
-                      : currentUserInfo.user.firstName}
-                  </p>
-                  <EditCommentReply
-                    commentReplies={commentReplies}
-                    setCommentReplies={setCommentReplies}
-                    commentId={commentId}
-                    commentReplyId={reply.commentReplyId}
-                    commentReplyText={reply.text}
-                  />
+                  {userId == reply.User?.userId ? (
+                    <div>
+                      <audio src={reply.text} controls />
+                      <p>{reply.User?.firstName}</p>
+                      <DeleteCommentReply
+                        commentReplies={commentReplies}
+                        setCommentReplies={setCommentReplies}
+                        commentId={commentId}
+                        commentReplyId={reply.commentReplyId}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <audio src={reply.text} controls />
+                      <p>{reply.User?.firstName}</p>
+                    </div>
+                  )}
                 </div>
               ))
             : null}

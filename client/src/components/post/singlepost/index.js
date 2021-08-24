@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import Header from "../Header";
 import Video from "../Video";
 import Footer from "../Footer";
@@ -7,8 +7,10 @@ import Comments from "./Comments";
 const axios = require("axios");
 
 export default function SinglePost() {
+  const history = useHistory();
   const { postId } = useParams();
   const [post, setPost] = useState();
+  const userId = JSON.parse(localStorage.getItem("userId"));
   useEffect(() => {
     indivualPost();
   }, []);
@@ -28,9 +30,28 @@ export default function SinglePost() {
       console.log(error);
     }
   };
+  const deleteIndivualPost = async function deleteIndivualPostById() {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/Posts/${postId}/deletepost`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        }
+      );
+      console.log(response);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  if (post == null) {
+    return null;
+  }
   return (
     <div>
-      {post ? (
+      {post.User.userId !== userId ? (
         <div
           className="rounded col-span-4 border bg-white border-gray-primary mb-12"
           key={post.postId}
@@ -41,7 +62,21 @@ export default function SinglePost() {
           <Link to={`/Posts/${post.postId}/Edit`}>Edit post</Link>
           <Comments commentData={post.Comments} />
         </div>
-      ) : null}
+      ) : (
+        <div
+          className="rounded col-span-4 border bg-white border-gray-primary mb-12"
+          key={post.postId}
+        >
+          <Header firstname={post.User.firstName} />
+          <Video src={post.video} caption={post.content} />
+          <Footer caption={post.content} firstname={post.User.firstName} />
+          <Link to={`/Posts/${post.postId}/Edit`}>Edit post</Link>
+          <div>
+            <button onClick={() => deleteIndivualPost()}>deletepost</button>
+          </div>
+          <Comments commentData={post.Comments} />
+        </div>
+      )}
     </div>
   );
 }

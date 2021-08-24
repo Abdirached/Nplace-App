@@ -147,6 +147,17 @@ router.put("/:postId/editpost", requireLogin, (req, res) => {
       console.log(err);
     });
 });
+// delete single post route
+router.delete("/:postId/deletepost", requireLogin, (req, res) => {
+  const post = Post.destroy({ where: { postId: req.params.postId } })
+    .then((result) => {
+      // return deleted result if available
+      res.json({ post: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 // create a post route
 router.post("/", requireLogin, (req, res) => {
   const { country, province, content, video } = req.body;
@@ -207,6 +218,23 @@ router.put("/:postId/comments/:commentId", requireLogin, (req, res) => {
       console.log(err);
     });
 });
+// delete comment in a post
+router.delete(
+  "/:postId/comments/:commentId/deletecomment",
+  requireLogin,
+  (req, res) => {
+    const comment = Comment.destroy({
+      where: { commentId: req.params.commentId },
+      returning: true,
+    })
+      .then((result) => {
+        res.json({ comment: result });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+);
 // add commentreply to a comment in a post
 router.post(
   "/:postId/comments/:commentId/commentReply",
@@ -248,6 +276,23 @@ router.put(
       },
       { where: { commentReplyId: req.params.commentReplyId }, returning: true }
     )
+      .then((result) => {
+        res.json({ commentReply: result });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+);
+// delete commentreply in a comment
+router.delete(
+  "/:postId/comments/:commentId/commentReply/:commentReplyId/deleteCommentReply",
+  requireLogin,
+  (req, res) => {
+    const commentReply = CommentReply.destroy({
+      where: { commentReplyId: req.params.commentReplyId },
+      returning: true,
+    })
       .then((result) => {
         res.json({ commentReply: result });
       })

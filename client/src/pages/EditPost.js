@@ -2,18 +2,20 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import UselocationListner from "../hooks/UseLocationListner";
+import UseRecorder from "../hooks/UseRecorder";
+import UseSignedUrl from "../hooks/UseSignedUrl";
 const axios = require("axios");
 
 export default function EditPost() {
+  const [audioURL, isRecording, startRecording, stopRecording, file] =
+    UseRecorder();
+  const [url, fields] = UseSignedUrl();
   const { postId } = useParams();
-  const [url, setUrl] = useState("");
-  const [fields, setFields] = useState("");
-  const [file, setFile] = useState("");
   const [content, setContent] = useState("");
   const { place } = UselocationListner();
   useEffect(() => {
-    signedurl();
-  }, []);
+    console.log(file);
+  }, [file]);
   useEffect(() => {
     indivualPost();
   }, []);
@@ -33,23 +35,7 @@ export default function EditPost() {
       console.log(error);
     }
   };
-  const signedurl = async function getSignedUrl() {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/Storage/signedurl",
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        }
-      );
-      console.log(response);
-      setUrl(response.data.url);
-      setFields(response.data.fields);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const onsubmit = async function onsubmitVideo(e) {
     e.preventDefault();
     try {
@@ -97,8 +83,11 @@ export default function EditPost() {
   return (
     <>
       <Navbar />
-      <div>
-        <form onSubmit={onsubmit}>
+      <div className="inline-block w-full h-full">
+        <form
+          onSubmit={onsubmit}
+          className="flex flex-col justify-evenly md:flex-row "
+        >
           <input type="text" readOnly value={place.country} />
           <input type="text" readOnly value={place.province} />
           <input
@@ -106,11 +95,21 @@ export default function EditPost() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <input
-            type="file"
-            name="file"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+          <audio src={audioURL} controls />
+          <button
+            onClick={startRecording}
+            disabled={isRecording}
+            className="border-2"
+          >
+            start recording
+          </button>
+          <button
+            onClick={stopRecording}
+            disabled={!isRecording}
+            className="border-2"
+          >
+            stop recording
+          </button>
           <button type="submit">submit</button>
         </form>
       </div>

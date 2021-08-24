@@ -1,34 +1,19 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import UselocationListner from "../hooks/UseLocationListner";
+import UseRecorder from "../hooks/UseRecorder";
+import UseSignedUrl from "../hooks/UseSignedUrl";
 const axios = require("axios");
 
 export default function Add() {
-  const [url, setUrl] = useState("");
-  const [fields, setFields] = useState("");
-  const [file, setFile] = useState("");
+  const [audioURL, isRecording, startRecording, stopRecording, file] =
+    UseRecorder();
+  const [url, fields] = UseSignedUrl();
   const [content, setContent] = useState("");
   const { place } = UselocationListner();
   useEffect(() => {
-    signedurl();
-  }, []);
-  const signedurl = async function getSignedUrl() {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/Storage/signedurl",
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        }
-      );
-      console.log(response);
-      setUrl(response.data.url);
-      setFields(response.data.fields);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    console.log(file);
+  }, [file]);
   const onsubmit = async function onsubmitVideo(e) {
     e.preventDefault();
     try {
@@ -75,8 +60,11 @@ export default function Add() {
   return (
     <>
       <Navbar />
-      <div>
-        <form onSubmit={onsubmit}>
+      <div className="inline-block w-full h-full">
+        <form
+          onSubmit={onsubmit}
+          className="flex flex-col justify-evenly md:flex-row "
+        >
           <input type="text" readOnly value={place.country} />
           <input type="text" readOnly value={place.province} />
           <input
@@ -84,11 +72,21 @@ export default function Add() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <input
-            type="file"
-            name="file"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+          <audio src={audioURL} controls />
+          <button
+            onClick={startRecording}
+            disabled={isRecording}
+            className="border-2"
+          >
+            start recording
+          </button>
+          <button
+            onClick={stopRecording}
+            disabled={!isRecording}
+            className="border-2"
+          >
+            stop recording
+          </button>
           <button type="submit">submit</button>
         </form>
       </div>
