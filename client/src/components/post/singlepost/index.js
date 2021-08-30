@@ -60,7 +60,7 @@ export default function SinglePost() {
           <Video src={post.video} caption={post.content} />
           <Footer caption={post.content} firstname={post.User.firstName} />
           <Link to={`/Posts/${post.postId}/Edit`}>Edit post</Link>
-          <Comments commentData={post.Comments} />
+          <Comments commentData={post.Comments} postOwner={post.User.userId} />
         </div>
       ) : (
         <div
@@ -74,7 +74,7 @@ export default function SinglePost() {
           <div>
             <button onClick={() => deleteIndivualPost()}>deletepost</button>
           </div>
-          <Comments commentData={post.Comments} />
+          <Comments commentData={post.Comments} postOwner={post.User.userId} />
         </div>
       )}
     </div>

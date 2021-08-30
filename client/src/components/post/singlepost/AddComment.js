@@ -4,12 +4,13 @@ import UseSignedUrl from "../../../hooks/UseSignedUrl";
 import UseRecorder from "../../../hooks/UseRecorder";
 const axios = require("axios");
 
-export default function AddComment({ comments, setComments }) {
+export default function AddComment({ comments, setComments, postOwner }) {
+  console.log(postOwner);
+  const currentUserId = JSON.parse(localStorage.getItem("userId"));
   const [audioURL, isRecording, startRecording, stopRecording, file] =
     UseRecorder();
   const [url, fields] = UseSignedUrl();
   const { postId } = useParams();
-  console.log(postId);
   useEffect(() => {
     console.log(file);
   }, [file]);
@@ -46,6 +47,25 @@ export default function AddComment({ comments, setComments }) {
       console.log(response.data.comment);
       setComments([response.data.comment, ...comments]);
     } catch (error) {}
+    try {
+      const response = await axios({
+        method: "post",
+        url: `http://localhost:5000/Notifications`,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        data: {
+          action: "commented",
+          actorId: currentUserId,
+          recipientId: postOwner,
+          notifiableId: postId,
+          notifiableObject: "post",
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
   return (
     <div className="inline-block h-full w-full">

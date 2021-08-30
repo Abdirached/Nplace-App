@@ -3,13 +3,17 @@ import AddComment from "./AddComment";
 import CommentReplies from "./CommentReplies";
 import DeleteComment from "./DeleteComment";
 
-export default function Comments({ commentData }) {
+export default function Comments({ commentData, postOwner }) {
   const [comments, setComments] = useState(commentData);
   const userId = JSON.parse(localStorage.getItem("userId"));
   return (
     <>
       <div>
-        <AddComment comments={comments} setComments={setComments} />
+        <AddComment
+          comments={comments}
+          setComments={setComments}
+          postOwner={postOwner}
+        />
       </div>
       <div>
         {comments.map((comment) => (
@@ -35,6 +39,7 @@ export default function Comments({ commentData }) {
             <CommentReplies
               repliesData={comment.CommentReplies}
               commentId={comment.commentId}
+              commentOwner={comment.User?.userId}
             />
           </div>
         ))}

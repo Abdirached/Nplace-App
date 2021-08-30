@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Add from "./pages/Add";
 import Signup from "./pages/SignUp";
 import Signin from "./pages/SignIn";
+import Notifications from "./pages/Notifications";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/Posts/:postId/Edit" component={EditPost} />
         <Route exact path="/Profile" component={Profile} />
         <Route exact path="/Add" component={Add} />
+        <Route exact path="/Notifications" component={Notifications} />
         <Route exact path="/SignUp" component={Signup} />
         <Route exact path="/SignIn" component={Signin} />
       </Switch>

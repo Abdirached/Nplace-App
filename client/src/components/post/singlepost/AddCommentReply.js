@@ -8,12 +8,13 @@ export default function AddCommentReply({
   commentReplies,
   setCommentReplies,
   commentId,
+  commentOwner,
 }) {
   const [audioURL, isRecording, startRecording, stopRecording, file] =
     UseRecorder();
   const [url, fields] = UseSignedUrl();
   const { postId } = useParams();
-  console.log(commentId);
+  const currentUserId = JSON.parse(localStorage.getItem("userId"));
   const [commentReply, setCommentReply] = useState("");
   const [toggle, setToggle] = useState(false);
   useEffect(() => {
@@ -56,6 +57,25 @@ export default function AddCommentReply({
       setCommentReplies([response.data.commentReply, ...commentReplies]);
     } catch (error) {
       console.log(error);
+    }
+    try {
+      const response = await axios({
+        method: "post",
+        url: `http://localhost:5000/Notifications`,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        data: {
+          action: "replied",
+          actorId: currentUserId,
+          recipientId: commentOwner,
+          notifiableId: postId,
+          notifiableObject: "Comment",
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
     }
   };
   return (

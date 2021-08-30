@@ -3,7 +3,11 @@ import AddCommentReply from "./AddCommentReply";
 import DeleteCommentReply from "./DeleteCommentReply";
 const userId = JSON.parse(localStorage.getItem("userId"));
 
-export default function CommentRepliesMain({ repliesData, commentId }) {
+export default function CommentRepliesMain({
+  repliesData,
+  commentId,
+  commentOwner,
+}) {
   const [commentReplies, setCommentReplies] = useState(repliesData);
   const [toggle, setToggle] = useState(false);
   const handleToggle = function handleToggleReplyInput() {
@@ -18,6 +22,7 @@ export default function CommentRepliesMain({ repliesData, commentId }) {
             commentReplies={commentReplies}
             setCommentReplies={setCommentReplies}
             commentId={commentId}
+            commentOwner={commentOwner}
           />
         </div>
         <div>
