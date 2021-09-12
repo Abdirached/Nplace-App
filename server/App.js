@@ -57,5 +57,8 @@ app.use("/Notifications", notificationRouter);
 //presigned route
 const storageRouter = require("./routes/Storage");
 app.use("/Storage", storageRouter);
+// forgot password route
+const forgotPasswordRouter = require("./routes/ForgetPassword");
+app.use("/forgot-password", forgotPasswordRouter);
 
 app.listen(5000, console.log("server is running on 5000"));

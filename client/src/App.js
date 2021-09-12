@@ -9,6 +9,8 @@ import Profile from "./pages/Profile";
 import Add from "./pages/Add";
 import Signup from "./pages/SignUp";
 import Signin from "./pages/SignIn";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Notifications from "./pages/Notifications";
 
 function App() {
@@ -24,6 +26,16 @@ function App() {
         <Route exact path="/Notifications" component={Notifications} />
         <Route exact path="/SignUp" component={Signup} />
         <Route exact path="/SignIn" component={Signin} />
+        <Route
+          exact
+          path="/forgot-password/reset-link"
+          component={ForgotPassword}
+        />
+        <Route
+          exact
+          path="/forgot-password/reset-password/:token"
+          component={ResetPassword}
+        />
       </Switch>
     </Router>
   );
