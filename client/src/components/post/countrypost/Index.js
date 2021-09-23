@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { MdComment } from "react-icons/md";
 import { postsAdded } from "../../../features/countryposts/CountryPostsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -32,17 +33,23 @@ export default function CountryPost() {
     }
   };
   return (
-    <div>
+    <div className=" relative w-4/5 m-auto sm:col-span-3 sm:w-3/4 lg:w-3/5 sm:left-48 md:left-56 lg:left-80">
       {posts
         ? posts.map((data) => (
             <div
-              className="rounded col-span-4 border bg-white border-gray-primary mb-12"
+              className="rounded col-span-4 border bg-white border-gray-primary mb-10"
               key={data.postId}
             >
-              <Header firstname={data.User.firstName} />
+              <Header
+                firstname={data.User.firstName}
+                lastName={data.User.lastName}
+              />
               <Video src={data.video} caption={data.content} />
               <Footer caption={data.content} firstname={data.User.firstName} />
-              <Link to={`/Posts/${data.postId}`}>view post</Link>
+              <Link to={`/Posts/${data.postId}`} className="flex">
+                <MdComment className="ml-4 mt-2 mb-4 text-2xl" />
+                <p className="ml-1 mt-2">{data.Comments.length}</p>
+              </Link>
             </div>
           ))
         : null}

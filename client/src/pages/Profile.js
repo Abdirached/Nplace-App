@@ -9,9 +9,9 @@ export default function Profile() {
   return (
     <>
       <Navbar />
-      <div className="h-screen relative top-2 sm:grid sm:grid-cols-3 md:grid-cols-4">
+      <div className="h-full relative sm:grid sm:grid-cols-3 md:grid-cols-4">
         <div className="w-full flex sm:flex-col sm:relative sm:top-8">
-          <div className="ml-4 w-36 sm:flex sm:justify-center lg:w-4/5 sm:w-full">
+          <div className="ml-4 w-36 sm:flex sm:justify-center lg:w-4/5 sm:w-full lg:pl-24">
             {currentUserInfo.user ? (
               <img
                 className="rounded-full h-24 w-24 object-fill sm:h-32 sm:w-32"
@@ -22,7 +22,7 @@ export default function Profile() {
               <Skeleton circle height={150} width={150} count={1} />
             )}
           </div>
-          <div className="ml-3 flex flex-col w-full">
+          <div className="ml-3 flex flex-col w-full lg:pl-24">
             <div className="relative flex top-4 sm:top-4 sm:justify-center lg:w-4/5 sm:w-full">
               <p className="text-xl font-bold">
                 {currentUserInfo.user?.firstName}
@@ -42,7 +42,9 @@ export default function Profile() {
           </div>
         </div>
         <div className="relative top-8 flex-col sm:col-span-2 md:col-span-3">
-          <h2 className="font-bold p-4">Market Contributions</h2>
+          <h2 className="font-bold lg:pl-12 lg:pb-4 mt-2 pl-10 mb-2">
+            Market Contributions
+          </h2>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {!currentUserInfo.posts
               ? new Array(3)
@@ -52,7 +54,7 @@ export default function Profile() {
               ? currentUserInfo.posts.map((post) => (
                   <div
                     key={post.postId}
-                    className="relative w-full flex justify-center"
+                    className="relative w-full flex justify-center lg:w-4/5 lg:left-12"
                   >
                     <audio controls src={post.video} className="bg-gray-100" />
                   </div>

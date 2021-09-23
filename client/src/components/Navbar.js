@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { MdCloudUpload, MdNotifications, MdHome } from "react-icons/md";
 
 export default function Navbar() {
   return (
-    <header className="h-16 bg-white border-b border-gray-primary mb-4">
+    <div className="h-16 bg-white border-b border-gray-primary mb-4 sticky top-0 z-50">
       <div className="container mx-auto max-w-screen-lg h-full">
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
@@ -17,47 +18,24 @@ export default function Navbar() {
           </div>
           <div className="text-gray-700 text-center flex justify-evenly items-center align-items">
             <Link to="/" aria-label="Home">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-7 mr-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke="round"
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
-            </Link>
-            <Link to="/Profile" aria-label="Profile">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-7 mr-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke="round"
-                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <MdHome className=" text-3xl font-bold mr-4" />
             </Link>
             <Link to="/Add" aria-label="Add">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-7 mr-6 "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
+              <MdCloudUpload className=" text-3xl font-bold mr-4" />
+            </Link>
+            <Link to="/Notifications" aria-label="Notifications">
+              <MdNotifications className=" text-3xl font-bold mr-4" />
+            </Link>
+            <Link to="/Profile" aria-label="Profile">
+              <img
+                className="rounded-full h-8 w-8 flex"
+                src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                alt="profile picture"
+              />
             </Link>
           </div>
         </div>
       </div>
-    </header>
+    </div>
   );
 }
