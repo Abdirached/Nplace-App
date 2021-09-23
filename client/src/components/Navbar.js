@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { MdCloudUpload, MdNotifications, MdHome } from "react-icons/md";
+import {
+  MdCloudUpload,
+  MdNotifications,
+  MdHome,
+  MdMenu,
+  MdClose,
+} from "react-icons/md";
 
 export default function Navbar() {
+  const [toggleOpen, setToggleOpen] = useState(false);
   return (
     <div className="h-16 bg-white border-b border-gray-primary mb-4 sticky top-0 z-50">
       <div className="container mx-auto max-w-screen-lg h-full">
@@ -16,10 +24,7 @@ export default function Navbar() {
               </Link>
             </h1>
           </div>
-          <div className="text-gray-700 text-center flex justify-evenly items-center align-items">
-            <Link to="/" aria-label="Home">
-              <MdHome className=" text-3xl font-bold mr-4" />
-            </Link>
+          <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items">
             <Link to="/Add" aria-label="Add">
               <MdCloudUpload className=" text-3xl font-bold mr-4" />
             </Link>
@@ -28,11 +33,40 @@ export default function Navbar() {
             </Link>
             <Link to="/Profile" aria-label="Profile">
               <img
-                className="rounded-full h-8 w-8 flex"
+                className="rounded-full h-8 w-8 flex mr-4"
                 src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                 alt="profile picture"
               />
             </Link>
+          </div>
+          <div className="md:hidden">
+            <button onClick={() => setToggleOpen(!toggleOpen)}>
+              {!toggleOpen ? (
+                <MdMenu className="text-3xl font-bold md:hidden mr-4 mt-4" />
+              ) : (
+                <MdClose className="text-3xl font-bold md:hidden mr-4 mt-4" />
+              )}
+            </button>
+            {toggleOpen ? (
+              <div className=" md:hidden flex flex-col text-gray-700 text-center items-center relative right-8">
+                <Link to="/" aria-label="Home">
+                  <MdHome className=" text-3xl font-bold mb-4" />
+                </Link>
+                <Link to="/Add" aria-label="Add">
+                  <MdCloudUpload className=" text-3xl font-bold mb-4" />
+                </Link>
+                <Link to="/Notifications" aria-label="Notifications">
+                  <MdNotifications className=" text-3xl font-bold mb-4" />
+                </Link>
+                <Link to="/Profile" aria-label="Profile">
+                  <img
+                    className="rounded-full h-8 w-8 flex"
+                    src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    alt="profile picture"
+                  />
+                </Link>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
