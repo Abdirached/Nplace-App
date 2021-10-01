@@ -4,7 +4,7 @@ import { postsAdded } from "../../../features/countryposts/CountryPostsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Header from "../Header";
-import Video from "../Video";
+import Audio from "../Audio";
 import Footer from "../Footer";
 import UselocationListner from "../../../hooks/UseLocationListner";
 const axios = require("axios");
@@ -37,17 +37,17 @@ export default function CountryPost() {
       {posts
         ? posts.map((data) => (
             <div
-              className="rounded col-span-4 border bg-white border-gray-primary mb-10"
+              className="rounded-lg col-span-4 border bg-white border-gray-primary mb-10"
               key={data.postId}
             >
               <Header
                 firstname={data.User.firstName}
                 lastName={data.User.lastName}
               />
-              <Video src={data.video} caption={data.content} />
+              <Audio src={data.video} caption={data.content} />
               <Footer caption={data.content} firstname={data.User.firstName} />
               <Link to={`/Posts/${data.postId}`} className="flex">
-                <MdComment className="ml-4 mt-2 mb-4 text-2xl" />
+                <MdComment className="ml-4 mt-2 mb-4 text-2xl text-gray-500" />
                 <p className="ml-1 mt-2">{data.Comments.length}</p>
               </Link>
             </div>

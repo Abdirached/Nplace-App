@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import Header from "../Header";
-import Video from "../Video";
+import Audio from "../Audio";
 import Footer from "../Footer";
 import Comments from "./Comments";
 const axios = require("axios");
@@ -57,7 +57,7 @@ export default function SinglePost() {
           key={post.postId}
         >
           <Header firstname={post.User.firstName} />
-          <Video src={post.video} caption={post.content} />
+          <Audio src={post.video} caption={post.content} />
           <Footer caption={post.content} firstname={post.User.firstName} />
           <Link to={`/Posts/${post.postId}/Edit`}>Edit post</Link>
           <Comments commentData={post.Comments} postOwner={post.User.userId} />
@@ -68,7 +68,7 @@ export default function SinglePost() {
           key={post.postId}
         >
           <Header firstname={post.User.firstName} />
-          <Video src={post.video} caption={post.content} />
+          <Audio src={post.video} caption={post.content} />
           <Footer caption={post.content} firstname={post.User.firstName} />
           <Link to={`/Posts/${post.postId}/Edit`}>Edit post</Link>
           <div>
