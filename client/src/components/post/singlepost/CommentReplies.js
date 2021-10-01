@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AddCommentReply from "./AddCommentReply";
 import DeleteCommentReply from "./DeleteCommentReply";
+import EditCommentReply from "./EditCommentReply";
 const userId = JSON.parse(localStorage.getItem("userId"));
 
 export default function CommentRepliesMain({
@@ -43,7 +44,7 @@ export default function CommentRepliesMain({
                 >
                   {userId == reply.User?.userId ? (
                     <div>
-                      <audio src={reply.text} controls />
+                      <p>{reply.text}</p>
                       <p>{reply.User?.firstName}</p>
                       <DeleteCommentReply
                         commentReplies={commentReplies}
@@ -51,10 +52,17 @@ export default function CommentRepliesMain({
                         commentId={commentId}
                         commentReplyId={reply.commentReplyId}
                       />
+                      <EditCommentReply
+                        commentReplies={commentReplies}
+                        setCommentReplies={setCommentReplies}
+                        commentId={commentId}
+                        commentReplyId={reply.commentReplyId}
+                        commentReplyText={reply.text}
+                      />
                     </div>
                   ) : (
                     <div>
-                      <audio src={reply.text} controls />
+                      <p>{reply.text}</p>
                       <p>{reply.User?.firstName}</p>
                     </div>
                   )}

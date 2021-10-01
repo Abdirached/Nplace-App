@@ -2,6 +2,7 @@ import { useState } from "react";
 import AddComment from "./AddComment";
 import CommentReplies from "./CommentReplies";
 import DeleteComment from "./DeleteComment";
+import EditComment from "./EditComment";
 
 export default function Comments({ commentData, postOwner }) {
   const [comments, setComments] = useState(commentData);
@@ -20,7 +21,7 @@ export default function Comments({ commentData, postOwner }) {
           <div key={comment.commentId}>
             {userId == comment.User?.userId ? (
               <div>
-                <audio src={comment.text} controls />
+                <p>{comment.text}</p>
                 <p>{comment.User?.firstName}</p>
                 <div>
                   <DeleteComment
@@ -29,10 +30,16 @@ export default function Comments({ commentData, postOwner }) {
                     commentId={comment.commentId}
                   />
                 </div>
+                <EditComment
+                  comments={comments}
+                  setComments={setComments}
+                  commentId={comment.commentId}
+                  commentText={comment.text}
+                />
               </div>
             ) : (
               <div>
-                <audio src={comment.text} controls />
+                <p>{comment.text}</p>
                 <p>{comment.User?.firstName}</p>
               </div>
             )}

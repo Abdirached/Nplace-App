@@ -14,9 +14,6 @@ const CommentReplyModel = sequelize.define("CommentReply", {
   text: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      isUrl: true,
-    },
   },
 });
 module.exports = CommentReplyModel;

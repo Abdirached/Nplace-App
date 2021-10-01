@@ -15,9 +15,6 @@ const CommentModel = sequelize.define("Comment", {
   text: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      isUrl: true,
-    },
   },
 });
 
