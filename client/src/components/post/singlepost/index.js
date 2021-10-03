@@ -53,33 +53,33 @@ export default function SinglePost() {
   return (
     <div className="h-full">
       {post.User.userId !== userId ? (
-        <div className="border bg-white border-gray-primary" key={post.postId}>
+        <div className="bg-white" key={post.postId}>
           <Header firstname={post.User.firstName} />
           <Audio src={post.video} caption={post.content} />
-          <div>
-            <p>{post.content}</p>
+          <div className="mt-4 mb-4">
+            <p className="ml-4">{post.content}</p>
           </div>
           <Comments commentData={post.Comments} postOwner={post.User.userId} />
         </div>
       ) : (
-        <div className="border bg-white border-gray-primary" key={post.postId}>
+        <div className="bg-white" key={post.postId}>
           <Header firstname={post.User.firstName} />
           <Audio src={post.video} caption={post.content} />
-          <div>
-            <p>{post.content}</p>
+          <div className="mt-4 mb-4">
+            <p className="ml-4">{post.content}</p>
           </div>
-          <div className="mb-2">
+          <div className="h-8">
             <Link
               to={`/Posts/${post.postId}/Edit`}
-              className="float-right mr-4"
+              className="float-right mr-6"
             >
               <MdEdit className="text-2xl" />
             </Link>
             <button
               onClick={() => deleteIndivualPost()}
-              className="float-right mr-2"
+              className="float-right mr-4"
             >
-              <MdDelete className="text-2xl" />
+              <MdDelete className="text-2xl hover:text-red-500" />
             </button>
           </div>
           <Comments commentData={post.Comments} postOwner={post.User.userId} />

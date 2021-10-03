@@ -6,6 +6,7 @@ export default function EditComment({
   setComments,
   commentId,
   commentText,
+  setshowEditComponent,
 }) {
   const { postId } = useParams();
   const [comment, setComment] = useState(commentText);
@@ -22,12 +23,14 @@ export default function EditComment({
           text: comment,
         },
       });
+      console.log(response);
       // filter comments in the state to remove the old one thats updated
       const foundComments = comments.filter(
-        (comment) => comment.commentId != response.data.comment[1][0].commentId
+        (comment) => comment.commentId != response.data.comment.commentId
       );
-      console.log(response.data.comment[1][0]);
-      setComments([response.data.comment[1][0], ...foundComments]);
+      // console.log(response.data.comment[1][0]);
+      setComments([response.data.comment, ...foundComments]);
+      setshowEditComponent(false);
     } catch (error) {}
   };
   return (

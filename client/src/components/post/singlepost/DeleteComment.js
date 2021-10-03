@@ -29,7 +29,7 @@ export default function DeleteComment({ comments, setComments, commentId }) {
           deleteIndivualComment();
         }}
       >
-        delete comment
+        delete
       </button>
     </div>
   );

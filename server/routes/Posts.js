@@ -191,7 +191,28 @@ router.post("/:postId/comments", requireLogin, (req, res) => {
     postId: req.params.postId,
   })
     .then((result) => {
-      res.json({ comment: result });
+      Comment.findOne({
+        where: { commentId: result.commentId },
+        include: [
+          {
+            model: CommentReply,
+            include: {
+              model: User,
+              attributes: {
+                exclude: ["password", "email", "phonenumber"],
+              },
+            },
+          },
+          {
+            model: User,
+            attributes: {
+              exclude: ["password", "email", "phonenumber"],
+            },
+          },
+        ],
+      }).then((comment) => {
+        res.json({ comment });
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -212,7 +233,28 @@ router.put("/:postId/comments/:commentId", requireLogin, (req, res) => {
     { where: { commentId: req.params.commentId }, returning: true }
   )
     .then((result) => {
-      res.json({ comment: result });
+      Comment.findOne({
+        where: { commentId: req.params.commentId },
+        include: [
+          {
+            model: CommentReply,
+            include: {
+              model: User,
+              attributes: {
+                exclude: ["password", "email", "phonenumber"],
+              },
+            },
+          },
+          {
+            model: User,
+            attributes: {
+              exclude: ["password", "email", "phonenumber"],
+            },
+          },
+        ],
+      }).then((comment) => {
+        res.json({ comment });
+      });
     })
     .catch((err) => {
       console.log(err);

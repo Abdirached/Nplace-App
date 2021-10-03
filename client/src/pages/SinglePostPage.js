@@ -6,7 +6,7 @@ export default function SinglePostPage() {
   return (
     <>
       <Navbar />
-      <SinglePost />;
+      <SinglePost />
     </>
   );
 }
