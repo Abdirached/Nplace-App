@@ -293,7 +293,19 @@ router.post(
       commentId: req.params.commentId,
     })
       .then((result) => {
-        res.json({ commentReply: result });
+        CommentReply.findOne({
+          where: { commentReplyId: result.commentReplyId },
+          include: [
+            {
+              model: User,
+              attributes: {
+                exclude: ["password", "email", "phonenumber"],
+              },
+            },
+          ],
+        }).then((commentReply) => {
+          res.json({ commentReply });
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -319,7 +331,19 @@ router.put(
       { where: { commentReplyId: req.params.commentReplyId }, returning: true }
     )
       .then((result) => {
-        res.json({ commentReply: result });
+        CommentReply.findOne({
+          where: { commentReplyId: req.params.commentReplyId },
+          include: [
+            {
+              model: User,
+              attributes: {
+                exclude: ["password", "email", "phonenumber"],
+              },
+            },
+          ],
+        }).then((commentReply) => {
+          res.json({ commentReply });
+        });
       })
       .catch((err) => {
         console.log(err);

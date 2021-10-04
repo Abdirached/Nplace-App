@@ -7,6 +7,7 @@ export default function EditCommentReply({
   commentId,
   commentReplyId,
   commentReplyText,
+  setshowEditComponent,
 }) {
   const { postId } = useParams();
   const [commentReply, setCommentReply] = useState(commentReplyText);
@@ -27,14 +28,14 @@ export default function EditCommentReply({
       const foundCommentReplies = commentReplies.filter(
         (commentReply) =>
           commentReply.commentReplyId !=
-          response.data.commentReply[1][0].commentReplyId
+          response.data.commentReply.commentReplyId
       );
-      console.log(response.data.commentReply[1][0]);
-      setCommentReplies([
-        response.data.commentReply[1][0],
-        ...foundCommentReplies,
-      ]);
-    } catch (error) {}
+      console.log(response.data.commentReply);
+      setCommentReplies([response.data.commentReply, ...foundCommentReplies]);
+      setshowEditComponent(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>

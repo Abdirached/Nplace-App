@@ -12,9 +12,6 @@ export default function AddCommentReply({
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
   const [commentReply, setCommentReply] = useState("");
   const [toggle, setToggle] = useState(false);
-  const handleToggle = function handleToggleReplyInput() {
-    setToggle(true);
-  };
   const onSubmit = async function onSubmitComment(e) {
     e.preventDefault();
     try {
@@ -66,10 +63,13 @@ export default function AddCommentReply({
             placeholder="add commentReply"
             className="border-2"
           />
+          <button onClick={() => setToggle(!toggle)} className="mr-2 ml-2">
+            Cancel
+          </button>
           <button type="onSubmit">submit</button>
         </form>
       ) : (
-        <button onClick={handleToggle}>Reply</button>
+        <button onClick={() => setToggle(!toggle)}>Reply</button>
       )}
     </div>
   );
