@@ -45,19 +45,20 @@ export default function AddComment({ comments, setComments, postOwner }) {
     }
   };
   return (
-    <div className="h-12 mb-16">
+    <div className="h-12 mb-16 ml-2 mr-2 mt-6">
       <form onSubmit={onSubmit}>
-        <input
+        <textarea
           type="textArea"
           name="addComment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="    Add Comment"
-          className="border-b border-gray-500  outline-none h-12 w-full mt-2 block"
+          placeholder=" Add Comment"
+          className="border outline-none h-12 w-full mt-4 block resize-none"
+          rows="2"
         />
         <button
           type="submit"
-          className="bg-blue-medium text-white rounded h-8 font-bold w-20 ml-4 mt-4"
+          className="bg-blue-medium text-white rounded h-8 font-bold w-20 ml-2 mt-4"
         >
           submit
         </button>

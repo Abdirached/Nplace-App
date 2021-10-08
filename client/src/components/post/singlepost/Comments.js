@@ -14,7 +14,7 @@ export default function Comments({ commentData, postOwner }) {
   const userId = JSON.parse(localStorage.getItem("userId"));
   return (
     <>
-      <div className="h-full border-t">
+      <div className="h-full border-t w-full">
         <AddComment
           comments={comments}
           setComments={setComments}
@@ -23,55 +23,73 @@ export default function Comments({ commentData, postOwner }) {
       </div>
       <div className="mb-2">
         {comments.map((comment) => (
-          <div key={comment.commentId} className="outline-black mb-4 w-full">
+          <div key={comment.commentId} className="mb-4 w-full">
             {userId == comment.User?.userId ? (
               <div className="flex items-center justify-between w-full">
-                <div>
-                  <p>{comment.User?.firstName}</p>
-                  {selected == comment.commentId && showEditComponent ? (
-                    <div className="outline-black">
-                      <EditComment
+                <div className="flex mt-2 ml-2">
+                  <img
+                    className="rounded-full h-10 w-10 flex mr-3 ml-1"
+                    src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    alt="profile picture"
+                  />
+                  <div>
+                    <p className="font-bold text-base">
+                      {comment.User?.firstName}
+                      <span className="ml-1 font-bold text-base">
+                        {comment.User?.lastName}
+                      </span>
+                    </p>
+                    {selected == comment.commentId && showEditComponent ? (
+                      <div className="outline-black">
+                        <EditComment
+                          comments={comments}
+                          setComments={setComments}
+                          commentId={comment.commentId}
+                          commentText={comment.text}
+                          setshowEditComponent={setshowEditComponent}
+                        />
+                        <button onClick={() => setshowEditComponent(false)}>
+                          cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <p>{comment.text}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-col mr-2 h-full relative outline-none">
+                  <button
+                    onClick={() => {
+                      setToggleOpen(!toggleOpen);
+                      setSelected(comment.commentId);
+                    }}
+                    key={comment.commentId}
+                    className="outline-none"
+                  >
+                    {!toggleOpen ? (
+                      <HiOutlineDotsVertical className="text-2xl font-semibold" />
+                    ) : (
+                      <HiOutlineDotsVertical className="text-2xl font-semibold" />
+                    )}
+                  </button>
+                  {selected == comment.commentId && toggleOpen ? (
+                    <div className="bg-gray-50 mt-2 border z-50 w-24 pl-2 absolute right-1 top-6 rounded">
+                      <DeleteComment
                         comments={comments}
                         setComments={setComments}
                         commentId={comment.commentId}
-                        commentText={comment.text}
-                        setshowEditComponent={setshowEditComponent}
                       />
-                      <button onClick={() => setshowEditComponent(false)}>
-                        cancel
+                      <button
+                        onClick={() => {
+                          setshowEditComponent(!showEditComponent);
+                          setToggleOpen(!toggleOpen);
+                        }}
+                      >
+                        {!showEditComponent ? <p>Edit</p> : null}
                       </button>
                     </div>
-                  ) : (
-                    <p>{comment.text}</p>
-                  )}
+                  ) : null}
                 </div>
-                <button
-                  onClick={() => {
-                    setToggleOpen(!toggleOpen);
-                    setSelected(comment.commentId);
-                  }}
-                  key={comment.commentId}
-                >
-                  {!toggleOpen ? (
-                    <HiOutlineDotsVertical className="text-2xl font-bold" />
-                  ) : (
-                    <HiOutlineDotsVertical className="text-2xl font-bold" />
-                  )}
-                </button>
-                {selected == comment.commentId && toggleOpen ? (
-                  <div>
-                    <DeleteComment
-                      comments={comments}
-                      setComments={setComments}
-                      commentId={comment.commentId}
-                    />
-                    <button
-                      onClick={() => setshowEditComponent(!showEditComponent)}
-                    >
-                      {!showEditComponent ? <p>Edit</p> : null}
-                    </button>
-                  </div>
-                ) : null}
               </div>
             ) : (
               <div>
