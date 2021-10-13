@@ -7,6 +7,8 @@ const PostModel = require("./Post");
 const CommentModel = require("./Comment");
 const CommentReplyModel = require("./CommentReply");
 const NotificationModel = require("./Notification");
+const ChatModel = require("./Chat");
+const MessageModel = require("./Message");
 const UserModel = sequelize.define("User", {
   // Model attributes are defined here
   userId: {
@@ -96,5 +98,34 @@ NotificationModel.belongsTo(UserModel, {
     name: "userId",
     type: DataTypes.UUID,
   },
+});
+UserModel.hasMany(MessageModel, {
+  foreignKey: {
+    name: "senderId",
+    type: DataTypes.UUID,
+  },
+  as: "OutgoingMessages",
+});
+
+UserModel.hasMany(MessageModel, {
+  foreignKey: {
+    name: "receiverId",
+    type: DataTypes.UUID,
+  },
+  as: "IncomingMessages",
+});
+MessageModel.belongsTo(UserModel, {
+  foreignKey: {
+    name: "senderId",
+    type: DataTypes.UUID,
+  },
+  as: "Sender",
+});
+MessageModel.belongsTo(UserModel, {
+  foreignKey: {
+    name: "receiverId",
+    type: DataTypes.UUID,
+  },
+  as: "Receiver",
 });
 module.exports = UserModel;

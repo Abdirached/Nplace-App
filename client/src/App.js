@@ -12,6 +12,7 @@ import Signin from "./pages/SignIn";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Notifications from "./pages/Notifications";
+import Chat from "./pages/Chat";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/Profile" component={Profile} />
         <Route exact path="/Add" component={Add} />
         <Route exact path="/Notifications" component={Notifications} />
+        <Route exact path="/Chat" component={Chat} />
         <Route exact path="/SignUp" component={Signup} />
         <Route exact path="/SignIn" component={Signin} />
         <Route

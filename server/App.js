@@ -7,6 +7,8 @@ const PostModel = require("./models/Post");
 const CommentModel = require("./models/Comment");
 const CommentReplyModel = require("./models/CommentReply");
 const NotificationModel = require("./models/Notification");
+const ChatModel = require("./models/Chat");
+const MessageModel = require("./models/Message");
 require("dotenv").config();
 // connect DB
 const sequelize = new Sequelize(
@@ -29,6 +31,8 @@ const modelSync = async function dbSync() {
     const commentTable = await CommentModel.sync();
     const commentReplyTable = await CommentReplyModel.sync();
     const notificationTable = await NotificationModel.sync();
+    const chatTable = await ChatModel.sync();
+    const messageTable = await MessageModel.sync();
     console.log("done");
   } catch (error) {
     console.error("not done");
@@ -54,6 +58,9 @@ app.use("/Profile", profileRouter);
 //Notification route
 const notificationRouter = require("./routes/Notifications");
 app.use("/Notifications", notificationRouter);
+// chat route
+const chatRouter = require("./routes/Chats");
+app.use("/Chats", chatRouter);
 //presigned route
 const storageRouter = require("./routes/Storage");
 app.use("/Storage", storageRouter);
