@@ -8,25 +8,27 @@ export default function Messages({ currentUserId, currentChat }) {
   // console.log(chatMessages);
   useEffect(() => {
     const fetchSingleChat = async function fetchSingleChatWithId() {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/Chats/chat/${currentChat}`,
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
-            },
-          }
-        );
-        setChat(response.data.chat);
-        setMessages(response.data.chat.Messages);
-      } catch (error) {
-        console.log(error);
+      if (currentChat !== null) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/Chats/chat/${currentChat}`,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            }
+          );
+          setChat(response.data.chat);
+          setMessages(response.data.chat.Messages);
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
     fetchSingleChat();
   }, [currentChat]);
   return (
-    <div className="col-span-2 outline-black">
+    <div className="col-span-2">
       {currentChat && messages ? (
         <div>
           {messages.map((message) => (
@@ -45,7 +47,11 @@ export default function Messages({ currentUserId, currentChat }) {
             messages={messages}
           />
         </div>
-      ) : null}
+      ) : (
+        <span className="text-4xl text-gray-300">
+          open chat to start conversation
+        </span>
+      )}
     </div>
   );
 }

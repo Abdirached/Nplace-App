@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import io from "socket.io-client";
 const axios = require("axios");
 
 export default function SendMessage({
@@ -7,9 +8,23 @@ export default function SendMessage({
   setMessages,
   messages,
 }) {
+  const socket = io("http://localhost:5000", { query: { currentUserId } });
   const [message, setMessage] = useState("");
   const chatOwners = [chat.ownerOne, chat.ownerTwo];
   const personToChat = chatOwners.find((person) => person !== currentUserId);
+  useEffect(() => {
+    socket.on("getMessage", (data) => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          senderId: data.senderId,
+          receiverId: data.receiverId,
+          text: data.text,
+          messageId: data.messageId,
+        },
+      ]);
+    });
+  }, []);
   const onSubmit = async function onSubmitMessage(e) {
     e.preventDefault();
     try {
@@ -25,8 +40,13 @@ export default function SendMessage({
           text: message,
         },
       });
-      console.log(response.data);
-      setMessages([...messages, response.data.message]);
+      // console.log(response.data);
+      socket.emit("sendMessage", {
+        senderId: currentUserId,
+        receiverId: personToChat,
+        text: message,
+        messageId: response.data.message.messageId,
+      });
       setMessage("");
     } catch (error) {}
   };

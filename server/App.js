@@ -1,6 +1,31 @@
 const express = require("express");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 const cors = require("cors");
+// socketio
+io.on("connection", (socket) => {
+  const currentUserId = socket.handshake.query.currentUserId;
+  console.log(currentUserId);
+  socket.join(currentUserId);
+  socket.on("sendMessage", ({ senderId, receiverId, text, messageId }) => {
+    console.log(text);
+    socket.to(senderId).to(receiverId).emit("getMessage", {
+      senderId,
+      receiverId,
+      text,
+      messageId,
+    });
+  });
+  console.log("a user connected");
+});
+// importing models
 const { Sequelize } = require("sequelize");
 const UserModel = require("./models/User");
 const PostModel = require("./models/Post");
@@ -9,6 +34,7 @@ const CommentReplyModel = require("./models/CommentReply");
 const NotificationModel = require("./models/Notification");
 const ChatModel = require("./models/Chat");
 const MessageModel = require("./models/Message");
+// requiring env
 require("dotenv").config();
 // connect DB
 const sequelize = new Sequelize(
@@ -68,4 +94,4 @@ app.use("/Storage", storageRouter);
 const forgotPasswordRouter = require("./routes/ForgetPassword");
 app.use("/forgot-password", forgotPasswordRouter);
 
-app.listen(5000, console.log("server is running on 5000"));
+httpServer.listen(5000, console.log("server is running on 5000"));

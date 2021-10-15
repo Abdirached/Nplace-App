@@ -32,7 +32,7 @@ export default function Index() {
     <div className="grid grid-cols-3">
       <div>
         {chat.chats?.map((chat) => (
-          <div key={chat.chatId}>
+          <div key={chat.chatId} className="mb-4">
             <Sidebar
               chat={chat}
               currentUserId={currentUserId}
