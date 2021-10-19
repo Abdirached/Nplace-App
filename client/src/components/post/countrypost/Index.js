@@ -1,17 +1,19 @@
-import { useEffect } from "react";
-import { MdComment } from "react-icons/md";
+import { useEffect, useState } from "react";
 import { postsAdded } from "../../../features/countryposts/CountryPostsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import Header from "../Header";
 import Audio from "../Audio";
 import Footer from "../Footer";
 import UselocationListner from "../../../hooks/UseLocationListner";
+import PostChat from "../PostChat";
 const axios = require("axios");
 
 export default function CountryPost() {
+  const currentUserId = JSON.parse(localStorage.getItem("userId"));
   const { place } = UselocationListner();
   const posts = useSelector((state) => state.countryPosts);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   console.log(posts);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -46,10 +48,22 @@ export default function CountryPost() {
               />
               <Audio src={data.video} caption={data.content} />
               <Footer caption={data.content} firstname={data.User.firstName} />
-              <Link to={`/Posts/${data.postId}`} className="flex">
-                <MdComment className="ml-4 mt-2 mb-4 text-2xl text-gray-500" />
-                <p className="ml-1 mt-2">{data.Comments.length}</p>
-              </Link>
+              {currentUserId !== data.userId ? (
+                <button
+                  onClick={() => {
+                    setOpen(!open);
+                    setSelected(data.postId);
+                  }}
+                >
+                  send Message
+                </button>
+              ) : null}
+              {open && selected === data.postId ? (
+                <PostChat
+                  postUserId={data.userId}
+                  postUserName={data.User.firstName}
+                />
+              ) : null}
             </div>
           ))
         : null}
