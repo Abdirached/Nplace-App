@@ -22,10 +22,12 @@ router.post("/", (req, res) => {
             { userId: savedUser.userId },
             process.env.JWT_SECRET
           );
-          const { userId, firstName, lastName, email, avatar } = savedUser;
+          const { userId, firstName, lastName, email, avatar, role } =
+            savedUser;
           res.json({
             token,
             userId: userId,
+            role,
           });
         } else {
           return res.json({ error: "invalid email or password" });

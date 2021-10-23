@@ -26,6 +26,7 @@ export default function SignIn() {
       }
       localStorage.setItem("jwt", response.data.token);
       localStorage.setItem("userId", JSON.stringify(response.data.userId));
+      localStorage.setItem("userRole", JSON.stringify(response.data.role));
       console.log("successfull signin");
       history.push("/");
     } catch (error) {

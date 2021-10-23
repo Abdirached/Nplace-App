@@ -1,11 +1,31 @@
+import { useEffect, useState, useContext } from "react";
 import Skeleton from "react-loading-skeleton";
-import { useSelector } from "react-redux";
-import UseUser from "../hooks/UseUser";
 import Navbar from "../components/Navbar";
+import { UserContext } from "../context/UserProvider";
+const axios = require("axios");
 export default function Profile() {
-  const { currentUser } = UseUser();
-  const currentUserInfo = useSelector((state) => state.user);
-  console.log(currentUserInfo);
+  const { user } = useContext(UserContext);
+  console.log(user);
+  const [currentUserInfo, setCurrentUserInfo] = useState([]);
+  useEffect(() => {
+    const currentUser = async function fetchcurrentUserDetails() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/Profile/${user}`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
+          }
+        );
+        // console.log(response.data.user);
+        setCurrentUserInfo(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    currentUser();
+  }, [user]);
   return (
     <>
       <Navbar />

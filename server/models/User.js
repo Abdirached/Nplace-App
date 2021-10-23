@@ -17,13 +17,16 @@ const UserModel = sequelize.define("User", {
     primaryKey: true,
     allowNull: false,
   },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   lastName: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   email: {
     type: DataTypes.STRING,

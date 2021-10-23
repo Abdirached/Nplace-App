@@ -13,6 +13,7 @@ router.get("/:userId", requireLogin, (req, res) => {
       "userId",
       "firstName",
       "lastName",
+      "role",
       "avatar",
       "createdAt",
       "updatedAt",
@@ -21,7 +22,6 @@ router.get("/:userId", requireLogin, (req, res) => {
     .then((user) => {
       Post.findAll({
         where: { userId: req.params.userId },
-        include: [{ model: Comment, include: { model: CommentReply } }],
       })
         .then((posts) => {
           res.json({ user, posts });
