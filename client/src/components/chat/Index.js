@@ -6,6 +6,7 @@ const axios = require("axios");
 export default function Index() {
   const [chat, setChat] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
+  const [closeSidebar, setCloseSidebar] = useState(true);
   console.log(currentChat);
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
   useEffect(() => {
@@ -37,6 +38,9 @@ export default function Index() {
               chat={chat}
               currentUserId={currentUserId}
               setCurrentChat={setCurrentChat}
+              closeSidebar={closeSidebar}
+              setCloseSidebar={setCloseSidebar}
+              currentChat={currentChat}
             />
           </div>
         ))}
@@ -45,6 +49,8 @@ export default function Index() {
         chat={chat}
         currentUserId={currentUserId}
         currentChat={currentChat}
+        closeSidebar={closeSidebar}
+        setCloseSidebar={setCloseSidebar}
       />
     </div>
   );

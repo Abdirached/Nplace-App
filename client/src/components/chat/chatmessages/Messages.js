@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import SendMessage from "./SendMessage";
 const axios = require("axios");
 
-export default function Messages({ currentUserId, currentChat }) {
+export default function Messages({
+  currentUserId,
+  currentChat,
+  setCloseSidebar,
+  closeSidebar,
+}) {
   const [chat, setChat] = useState([]);
   const [messages, setMessages] = useState([]);
   // console.log(chatMessages);
@@ -28,30 +33,71 @@ export default function Messages({ currentUserId, currentChat }) {
     fetchSingleChat();
   }, [currentChat]);
   return (
-    <div className="col-span-2">
-      {currentChat && messages ? (
-        <div>
-          {messages.map((message) => (
-            <div key={message.messageId} className="mb-2">
-              {message.senderId == currentUserId ? (
-                <p className="ml-auto bg-blue-50 w-1/2">{message.text}</p>
-              ) : (
-                <p>{message.text}</p>
-              )}
-            </div>
-          ))}
-          <SendMessage
-            chat={chat}
-            currentUserId={currentUserId}
-            setMessages={setMessages}
-            messages={messages}
-          />
-        </div>
+    <>
+      {closeSidebar && currentChat ? (
+        <>
+          <button
+            onClick={() => {
+              setCloseSidebar(false);
+              setMessages([]);
+            }}
+            className="md:hidden"
+          >
+            go back to chats
+          </button>
+          <div className="col-span-2">
+            {currentChat && messages ? (
+              <div>
+                {messages.map((message) => (
+                  <div key={message.messageId} className="mb-2">
+                    {message.senderId == currentUserId ? (
+                      <p className="ml-auto bg-blue-50 w-1/2">{message.text}</p>
+                    ) : (
+                      <p>{message.text}</p>
+                    )}
+                  </div>
+                ))}
+                <SendMessage
+                  chat={chat}
+                  currentUserId={currentUserId}
+                  setMessages={setMessages}
+                  messages={messages}
+                />
+              </div>
+            ) : (
+              <span className="text-4xl text-gray-300">
+                open chat to start conversation
+              </span>
+            )}
+          </div>
+        </>
       ) : (
-        <span className="text-4xl text-gray-300">
-          open chat to start conversation
-        </span>
+        <div className="col-span-2 hidden md:block">
+          {currentChat && messages ? (
+            <div>
+              {messages.map((message) => (
+                <div key={message.messageId} className="mb-2">
+                  {message.senderId == currentUserId ? (
+                    <p className="ml-auto bg-blue-50 w-1/2">{message.text}</p>
+                  ) : (
+                    <p>{message.text}</p>
+                  )}
+                </div>
+              ))}
+              <SendMessage
+                chat={chat}
+                currentUserId={currentUserId}
+                setMessages={setMessages}
+                messages={messages}
+              />
+            </div>
+          ) : (
+            <span className="text-4xl text-gray-300">
+              open chat to start conversation
+            </span>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }
