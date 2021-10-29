@@ -1,30 +1,10 @@
 import { useState, useEffect } from "react";
-import io from "socket.io-client";
 const axios = require("axios");
 
-export default function SendMessage({
-  chat,
-  currentUserId,
-  setMessages,
-  messages,
-}) {
-  const socket = io("http://localhost:5000", { query: { currentUserId } });
+export default function SendMessage({ chat, currentUserId, socket }) {
   const [message, setMessage] = useState("");
   const chatOwners = [chat.ownerOne, chat.ownerTwo];
   const personToChat = chatOwners.find((person) => person !== currentUserId);
-  useEffect(() => {
-    socket.on("getMessage", (data) => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          senderId: data.senderId,
-          receiverId: data.receiverId,
-          text: data.text,
-          messageId: data.messageId,
-        },
-      ]);
-    });
-  }, []);
   const onSubmit = async function onSubmitMessage(e) {
     e.preventDefault();
     try {
@@ -40,33 +20,40 @@ export default function SendMessage({
           text: message,
         },
       });
-      // console.log(response.data);
+      console.log(response.data);
       socket.emit("sendMessage", {
         senderId: currentUserId,
         receiverId: personToChat,
         text: message,
         messageId: response.data.message.messageId,
+        chatId: response.data.message.chatId,
       });
       setMessage("");
     } catch (error) {}
   };
   return (
-    <div>
+    <div className="border-t-2 border-gray-200 px-4 pt-4 mb-2">
       <form onSubmit={onSubmit} className="flex">
-        <textarea
-          type="input"
+        <input
           name="addComment"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder=" Add Comment"
-          className="border outline-none w-4/5 mt-4 resize-none overflow-hidden"
-          rows="2"
+          type="text"
+          placeholder="Write Something"
+          className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3"
         />
         <button
           type="submit"
-          className="bg-blue-medium text-white rounded h-8 font-bold w-20 ml-2 mt-6"
+          className="ml-2 inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
         >
-          submit
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="h-6 w-6 transform rotate-90"
+          >
+            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+          </svg>
         </button>
       </form>
     </div>

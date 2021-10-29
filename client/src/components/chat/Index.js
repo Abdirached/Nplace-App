@@ -7,9 +7,10 @@ export default function Index() {
   const [chat, setChat] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [closed, setClosed] = useState(false);
-  console.log(currentChat);
+  // console.log(currentChat);
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
   useEffect(() => {
+    let mounted = true;
     const fetchChats = async function fetchCurrentUserChats() {
       try {
         const response = await axios.get(
@@ -21,21 +22,26 @@ export default function Index() {
           }
         );
         console.log(response);
-        setChat(response.data);
+        if (mounted) {
+          setChat(response.data);
+        }
       } catch (error) {
         console.log(error);
       }
     };
     fetchChats();
+    return () => {
+      mounted = false;
+    };
   }, [currentUserId]);
 
   return (
-    <div className="grid grid-cols-3">
+    <div className="md:grid md:grid-cols-3 w-full h-full">
       {!closed ? (
         <>
-          <div>
+          <div className=" w-full md:col-span-1 h-full">
             {chat.chats?.map((chat) => (
-              <div key={chat.chatId} className="mb-4">
+              <div key={chat.chatId} className="mb-8 mt-4">
                 <Sidebar
                   chat={chat}
                   currentUserId={currentUserId}
@@ -47,11 +53,12 @@ export default function Index() {
               </div>
             ))}
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:block md:col-span-2  md:w-4/5 md:ml-20">
             <Messages
               chat={chat}
               currentUserId={currentUserId}
               currentChat={currentChat}
+              setCurrentChat={setCurrentChat}
               closed={closed}
               setClosed={setClosed}
             />
@@ -59,9 +66,9 @@ export default function Index() {
         </>
       ) : (
         <>
-          <div className="hidden md:block">
+          <div className="hidden md:block  w-full md:col-span-1 h-full">
             {chat.chats?.map((chat) => (
-              <div key={chat.chatId} className="mb-4">
+              <div key={chat.chatId} className="mb-8 mt-4">
                 <Sidebar
                   chat={chat}
                   currentUserId={currentUserId}
@@ -73,11 +80,12 @@ export default function Index() {
               </div>
             ))}
           </div>
-          <div>
+          <div className="col-span-2 md:w-4/5 md:ml-20">
             <Messages
               chat={chat}
               currentUserId={currentUserId}
               currentChat={currentChat}
+              setCurrentChat={setCurrentChat}
               closed={closed}
               setClosed={setClosed}
             />

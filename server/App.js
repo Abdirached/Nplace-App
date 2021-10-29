@@ -14,15 +14,19 @@ io.on("connection", (socket) => {
   const currentUserId = socket.handshake.query.currentUserId;
   console.log(currentUserId);
   socket.join(currentUserId);
-  socket.on("sendMessage", ({ senderId, receiverId, text, messageId }) => {
-    console.log(text);
-    socket.to(senderId).to(receiverId).emit("getMessage", {
-      senderId,
-      receiverId,
-      text,
-      messageId,
-    });
-  });
+  socket.on(
+    "sendMessage",
+    ({ senderId, receiverId, text, messageId, chatId }) => {
+      console.log(text);
+      socket.to(senderId).to(receiverId).emit("getMessage", {
+        senderId,
+        receiverId,
+        text,
+        messageId,
+        chatId,
+      });
+    }
+  );
   console.log("a user connected");
 });
 // importing models
