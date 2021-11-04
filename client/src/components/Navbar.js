@@ -7,19 +7,19 @@ export default function Navbar() {
   const { role } = useContext(UserContext);
   const [toggleOpen, setToggleOpen] = useState(false);
   return (
-    <div className="h-16 bg-white border-b border-gray-primary mb-4 sticky top-0 z-50">
-      <div className="container mx-auto max-w-screen-lg h-full">
+    <div className="h-16 bg-white border-b border-gray-primary sticky top-0 z-50">
+      <div className="h-full w-full">
         {role === "buyer" ? (
           <div className="flex justify-between h-full">
-            <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
+            <div className="text-gray-700 text-center flex items-center align-items cursor-pointer md:ml-4">
               <h1 className="flex justify-start w-full">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToppz55Pdmw3ijkiuOuiOkmDZvMIxPSh6ZGg&usqp=CAU"
-                  className="mt-2 mb-2 w-3/12"
+                  className="mt-2 mb-2 w-3/12 ml-4"
                 />
               </h1>
             </div>
-            <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items">
+            <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items mr-4">
               <Link to="/Add" aria-label="Add">
                 <MdCloudUpload className=" text-3xl font-bold mr-4" />
               </Link>
@@ -43,7 +43,7 @@ export default function Navbar() {
                 )}
               </button>
               {toggleOpen ? (
-                <div className=" md:hidden flex flex-col text-gray-700 text-center items-center relative right-8">
+                <div className=" md:hidden flex flex-col text-gray-700 text-center items-center relative right-8 z-50">
                   <Link to="/Add" aria-label="Add">
                     <MdCloudUpload className=" text-3xl font-bold mb-4" />
                   </Link>
@@ -63,15 +63,15 @@ export default function Navbar() {
           </div>
         ) : role === "seller" ? (
           <div className="flex justify-between h-full">
-            <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
+            <div className="text-gray-700 text-center flex items-center align-items cursor-pointer md:ml-4">
               <h1 className="flex justify-start w-full">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToppz55Pdmw3ijkiuOuiOkmDZvMIxPSh6ZGg&usqp=CAU"
-                  className="mt-2 mb-2 w-3/12"
+                  className="mt-2 mb-2 w-3/12 ml-4"
                 />
               </h1>
             </div>
-            <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items">
+            <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items mr-4">
               <Link to="/" aria-label="Home">
                 <MdHome className=" text-3xl font-bold mr-3" />
               </Link>
@@ -95,7 +95,7 @@ export default function Navbar() {
                 )}
               </button>
               {toggleOpen ? (
-                <div className=" md:hidden flex flex-col text-gray-700 text-center items-center relative right-8">
+                <div className=" md:hidden flex flex-col text-gray-700 text-center items-center relative right-8 z-50">
                   <Link to="/" aria-label="Home">
                     <MdHome className=" text-3xl font-bold mb-4" />
                   </Link>

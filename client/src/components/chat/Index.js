@@ -36,12 +36,21 @@ export default function Index() {
   }, [currentUserId]);
 
   return (
-    <div className="md:grid md:grid-cols-3 w-full h-full">
+    <div className="flex w-full h-full">
       {!closed ? (
         <>
-          <div className=" w-full md:col-span-1 h-full">
+          <div className="w-full h-screen bg-gray-50 border-r md:w-1/3 fixed">
+            <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
+              <span className=" font-bold mr-3 text-gray-700 mb-7 mt-4 ml-4 md:mb-3">
+                Chat
+              </span>
+            </div>
             {chat.chats?.map((chat) => (
-              <div key={chat.chatId} className="mb-8 mt-4">
+              <div
+                key={chat.chatId}
+                className="mb-4 mt-4 bg-white m-auto"
+                style={{ width: "96%" }}
+              >
                 <Sidebar
                   chat={chat}
                   currentUserId={currentUserId}
@@ -53,7 +62,7 @@ export default function Index() {
               </div>
             ))}
           </div>
-          <div className="hidden md:block md:col-span-2  md:w-4/5 md:ml-20">
+          <div className="hidden md:block md:w-2/3 w-full md:ml-auto">
             <Messages
               chat={chat}
               currentUserId={currentUserId}
@@ -66,9 +75,18 @@ export default function Index() {
         </>
       ) : (
         <>
-          <div className="hidden md:block  w-full md:col-span-1 h-full">
+          <div className="hidden md:block w-full h-screen bg-gray-50 border-r md:w-1/3 fixed">
+            <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
+              <span className=" font-bold mr-3 text-gray-700 mb-7 mt-4 ml-4 md:mb-3">
+                Chat
+              </span>
+            </div>
             {chat.chats?.map((chat) => (
-              <div key={chat.chatId} className="mb-8 mt-4">
+              <div
+                key={chat.chatId}
+                className="mb-4 mt-4 bg-white m-auto"
+                style={{ width: "96%" }}
+              >
                 <Sidebar
                   chat={chat}
                   currentUserId={currentUserId}
@@ -80,7 +98,7 @@ export default function Index() {
               </div>
             ))}
           </div>
-          <div className="col-span-2 md:w-4/5 md:ml-20">
+          <div className="md:w-2/3 w-full md:ml-auto">
             <Messages
               chat={chat}
               currentUserId={currentUserId}

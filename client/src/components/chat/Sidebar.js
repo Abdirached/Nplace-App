@@ -57,7 +57,7 @@ export default function Sidebar({
               {person.lastName}
             </span>
           </p>
-          <p className="text-gray-400">new camera for you.</p>
+          <p className="text-gray-400">camera for you.</p>
           <div className="mt-1 mr-2 md:inline-block hidden lg:hidden">
             <p className="text-gray-400">10:45pm</p>
           </div>

@@ -72,15 +72,25 @@ export default function Messages({
     <div className=" w-full h-full">
       {currentChat ? (
         <>
-          <button
-            onClick={() => {
-              setClosed(!closed);
-              setCurrentChat(null);
-            }}
-            className="md:hidden ml-2"
-          >
-            <MdArrowBack className="text-4xl font-semibold" />
-          </button>
+          <div className="flex items-center mb-4 border-b sticky z-20 bg-white top-16">
+            <button
+              onClick={() => {
+                setClosed(!closed);
+                setCurrentChat(null);
+              }}
+              className="md:hidden ml-2 mr-1"
+            >
+              <MdArrowBack className="text-4xl font-semibold" />
+            </button>
+            <img
+              className="rounded-full h-12 w-12 flex mr-3 ml-3 mt-4 mb-4"
+              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+              alt="profile picture"
+            />
+            <div className="text-2xl mt-1 flex items-center">
+              <span className="text-gray-700 mr-3">Anderson Vanhron</span>
+            </div>
+          </div>
           {messages.length !== 0 ? (
             <div>
               {messages.map((message) => (
