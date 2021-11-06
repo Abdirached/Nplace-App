@@ -4,7 +4,7 @@ import Messages from "./chatmessages/Messages";
 const axios = require("axios");
 
 export default function Index() {
-  const [chat, setChat] = useState([]);
+  const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [closed, setClosed] = useState(false);
   // console.log(currentChat);
@@ -23,7 +23,7 @@ export default function Index() {
         );
         console.log(response);
         if (mounted) {
-          setChat(response.data);
+          setChats(response.data);
         }
       } catch (error) {
         console.log(error);
@@ -45,10 +45,10 @@ export default function Index() {
                 Chat
               </span>
             </div>
-            {chat.chats?.map((chat) => (
+            {chats.chats?.map((chat) => (
               <div
                 key={chat.chatId}
-                className="mb-4 mt-4 bg-white m-auto"
+                className="mb-6 mt-6 bg-white m-auto"
                 style={{ width: "96%" }}
               >
                 <Sidebar
@@ -64,7 +64,6 @@ export default function Index() {
           </div>
           <div className="hidden md:block md:w-2/3 w-full md:ml-auto">
             <Messages
-              chat={chat}
               currentUserId={currentUserId}
               currentChat={currentChat}
               setCurrentChat={setCurrentChat}
@@ -81,10 +80,10 @@ export default function Index() {
                 Chat
               </span>
             </div>
-            {chat.chats?.map((chat) => (
+            {chats.chats?.map((chat) => (
               <div
                 key={chat.chatId}
-                className="mb-4 mt-4 bg-white m-auto"
+                className="mb-6 mt-6 bg-white m-auto"
                 style={{ width: "96%" }}
               >
                 <Sidebar
@@ -100,7 +99,6 @@ export default function Index() {
           </div>
           <div className="md:w-2/3 w-full md:ml-auto">
             <Messages
-              chat={chat}
               currentUserId={currentUserId}
               currentChat={currentChat}
               setCurrentChat={setCurrentChat}

@@ -15,7 +15,37 @@ export default function Messages({
   const socket = io("http://localhost:5000", { query: { currentUserId } });
   const [chat, setChat] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [person, setPerson] = useState([]);
+  const chatOwners = [chat.ownerOne, chat.ownerTwo];
+  const personToChat = chatOwners.find((person) => person !== currentUserId);
   // console.log(chatMessages);
+  useEffect(() => {
+    let mounted = true;
+    const fetchPerson = async function fetchPersonInfo() {
+      if (personToChat !== undefined) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/Profile/${personToChat}`,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            }
+          );
+          // console.log(response.data.user);
+          if (mounted) {
+            setPerson(response.data.user);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchPerson();
+    return () => {
+      mounted = false;
+    };
+  }, [chat]);
   useEffect(() => {
     if (currentChat !== messages[0]?.chatId) {
       setMessages([]);
@@ -72,71 +102,71 @@ export default function Messages({
     <div className=" w-full h-full">
       {currentChat ? (
         <>
-          <div className="flex items-center mb-4 border-b sticky z-20 bg-white top-16">
-            <button
-              onClick={() => {
-                setClosed(!closed);
-                setCurrentChat(null);
-              }}
-              className="md:hidden ml-2 mr-1"
-            >
-              <MdArrowBack className="text-4xl font-semibold" />
-            </button>
-            <img
-              className="rounded-full h-12 w-12 flex mr-3 ml-3 mt-4 mb-4"
-              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-              alt="profile picture"
-            />
-            <div className="text-2xl mt-1 flex items-center">
-              <span className="text-gray-700 mr-3">Anderson Vanhron</span>
-            </div>
-          </div>
-          {messages.length !== 0 ? (
-            <div>
-              {messages.map((message) => (
-                <div
-                  key={message.messageId}
-                  className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+          {messages.length !== 0 &&
+          person.length !== 0 &&
+          personToChat === person.userId ? (
+            <>
+              <div className="flex items-center mb-4 border-b sticky z-20 bg-white top-16">
+                <button
+                  onClick={() => {
+                    setClosed(!closed);
+                    setCurrentChat(null);
+                  }}
+                  className="md:hidden ml-2 mr-1"
                 >
-                  {message.senderId !== currentUserId ? (
-                    <div className="flex items-end">
-                      <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-                        <div>
-                          <span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-blue-600 text-white ">
-                            {message.text}
-                          </span>
-                        </div>
-                      </div>
-                      <img
-                        src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                        alt="My profile"
-                        className="w-6 h-6 rounded-full order-1"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex items-end justify-end">
-                      <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-                        <div>
-                          <span className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-gray-300 text-gray-600">
-                            {message.text}
-                          </span>
-                        </div>
-                      </div>
-                      <img
-                        src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                        alt="My profile"
-                        className="w-6 h-6 rounded-full order-2"
-                      />
-                    </div>
-                  )}
+                  <MdArrowBack className="text-4xl font-semibold" />
+                </button>
+                <img
+                  className="rounded-full h-12 w-12 flex mr-3 ml-3 mt-4 mb-4"
+                  src={person.avatar}
+                  alt="profile picture"
+                />
+                <div className="text-2xl mt-1 flex items-center">
+                  <span className="text-gray-700 mr-2">{person.firstName}</span>
+                  <span className="text-gray-700 mr-3">{person.lastName}</span>
                 </div>
-              ))}
-              <SendMessage
-                chat={chat}
-                currentUserId={currentUserId}
-                socket={socket}
-              />
-            </div>
+              </div>
+              <div>
+                {messages.map((message) => (
+                  <div
+                    key={message.messageId}
+                    className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+                  >
+                    {message.senderId !== currentUserId ? (
+                      <div className="flex items-end">
+                        <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                          <div>
+                            <span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-blue-600 text-white ">
+                              {message.text}
+                            </span>
+                          </div>
+                        </div>
+                        <img
+                          src={person.avatar}
+                          alt="My profile"
+                          className="w-6 h-6 rounded-full order-1"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex items-end justify-end">
+                        <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                          <div>
+                            <span className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-gray-300 text-gray-600">
+                              {message.text}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                <SendMessage
+                  chat={chat}
+                  currentUserId={currentUserId}
+                  socket={socket}
+                />
+              </div>
+            </>
           ) : (
             <ReactLoader />
           )}

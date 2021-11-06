@@ -36,7 +36,7 @@ export default function Sidebar({
     return () => {
       mounted = false;
     };
-  }, [currentUserId]);
+  }, [personToChat]);
 
   return (
     <div className=" flex w-full justify-between">
