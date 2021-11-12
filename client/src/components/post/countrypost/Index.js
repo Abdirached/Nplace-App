@@ -20,7 +20,7 @@ export default function CountryPost() {
       if (place !== null) {
         try {
           const response = await axios.get(
-            `http://localhost:5000/Posts/country/${place.country}`,
+            `http://localhost:5000/Posts/country/${place}`,
             {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -43,11 +43,11 @@ export default function CountryPost() {
     };
   }, [place]);
   return (
-    <div className=" relative w-4/5 m-auto sm:col-span-3 sm:w-3/4 lg:w-3/5 sm:left-48 md:left-56 lg:left-80">
+    <div className=" relative md:w-2/3 mr-auto w-full mt-4">
       {posts.length !== 0 ? (
         posts.map((data) => (
           <div
-            className="rounded-lg col-span-4 border bg-white border-gray-primary mb-10"
+            className=" rounded-xl border bg-white border-gray-primary mb-4 md:w-4/5 lg:w-3/4 md:mx-auto mx-2 shadow-sm"
             key={data.postId}
           >
             <Header
@@ -62,20 +62,22 @@ export default function CountryPost() {
                   setOpen(!open);
                   setSelected(data.postId);
                 }}
+                className=" bg-gray-300 rounded h-8 w-20 ml-4 mt-1 mb-4"
               >
-                send Message
+                Message
               </button>
             ) : null}
             {open && selected === data.postId ? (
               <PostChat
                 postUserId={data.userId}
                 postUserName={data.User.firstName}
+                setOpen={setOpen}
               />
             ) : null}
           </div>
         ))
       ) : (
-        <Skeleton count={3} width={550} height={150} className="mb-4" />
+        <Skeleton count={4} width={550} height={150} className="mb-4" />
       )}
     </div>
   );

@@ -5,11 +5,14 @@ export default function HomeCountry() {
   return (
     <>
       <Navbar />
-      <div className="relative sm:grid sm:grid-cols-4">
-        <div className=" sm:h-full sm:fixed sm:w-3/5 md:w-full">
+      <div className="relative w-full h-full flex bg-gray-50">
+        <CountryPost />
+        <div
+          className=" h-full fixed left-2/3 hidden md:inline-block"
+          style={{ width: "32%" }}
+        >
           <Sidebar />
         </div>
-        <CountryPost />
       </div>
     </>
   );

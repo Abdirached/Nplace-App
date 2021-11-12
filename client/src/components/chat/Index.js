@@ -48,7 +48,7 @@ export default function Index() {
             {chats.chats?.map((chat) => (
               <div
                 key={chat.chatId}
-                className="mb-6 mt-6 bg-white m-auto"
+                className="mb-6 mt-6 bg-white m-auto rounded-md p-1"
                 style={{ width: "96%" }}
               >
                 <Sidebar
@@ -83,7 +83,7 @@ export default function Index() {
             {chats.chats?.map((chat) => (
               <div
                 key={chat.chatId}
-                className="mb-6 mt-6 bg-white m-auto"
+                className="mb-6 mt-6 bg-white m-auto rounded-md p-1"
                 style={{ width: "96%" }}
               >
                 <Sidebar

@@ -65,8 +65,8 @@ export default function Add() {
           onSubmit={onsubmit}
           className="flex flex-col justify-evenly md:flex-row "
         >
-          <input type="text" readOnly value={place.country} />
-          <input type="text" readOnly value={place.province} />
+          <input type="text" readOnly value={place} />
+          <input type="text" readOnly value={place} />
           <input
             type="textarea"
             value={content}

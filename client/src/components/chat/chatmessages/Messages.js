@@ -117,7 +117,7 @@ export default function Messages({
                   <MdArrowBack className="text-4xl font-semibold" />
                 </button>
                 <img
-                  className="rounded-full h-12 w-12 flex mr-3 ml-3 mt-4 mb-4"
+                  className="w-10 sm:w-16 h-10 sm:h-16 rounded-full m-2"
                   src={person.avatar}
                   alt="profile picture"
                 />
