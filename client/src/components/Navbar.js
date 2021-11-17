@@ -43,14 +43,26 @@ export default function Navbar() {
                 )}
               </button>
               {toggleOpen ? (
-                <div className=" md:hidden flex flex-col text-gray-700 text-center items-center relative right-8 z-50">
-                  <Link to="/Add" aria-label="Add">
+                <div className=" md:hidden flex flex-col origin-top-right absolute right-0 mt-2 mr-4 w-48 rounded-md shadow-md py-1 bg-gray-200 focus:outline-none">
+                  <Link
+                    to="/Add"
+                    aria-label="Add"
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
                     <MdCloudUpload className=" text-3xl font-bold mb-4" />
                   </Link>
-                  <Link to="/Chat" aria-label="Notifications">
+                  <Link
+                    to="/Chat"
+                    aria-label="Notifications"
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
                     <MdMail className=" text-3xl font-bold mb-4" />
                   </Link>
-                  <Link to="/Profile" aria-label="Profile">
+                  <Link
+                    to="/Profile"
+                    aria-label="Profile"
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
                     <img
                       className="rounded-full h-8 w-8 flex"
                       src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
@@ -95,14 +107,26 @@ export default function Navbar() {
                 )}
               </button>
               {toggleOpen ? (
-                <div className=" md:hidden flex flex-col text-gray-700 text-center items-center relative right-8 z-50">
-                  <Link to="/" aria-label="Home">
+                <div className=" md:hidden flex flex-col origin-top-right absolute right-0 mt-2 mr-4 w-48 rounded-md shadow-md py-1 bg-gray-200 focus:outline-none">
+                  <Link
+                    to="/"
+                    aria-label="Home"
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
                     <MdHome className=" text-3xl font-bold mb-4" />
                   </Link>
-                  <Link to="/Chat" aria-label="Notifications">
+                  <Link
+                    to="/Chat"
+                    aria-label="Notifications"
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
                     <MdMail className=" text-3xl font-bold mb-4" />
                   </Link>
-                  <Link to="/Profile" aria-label="Profile">
+                  <Link
+                    to="/Profile"
+                    aria-label="Profile"
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
                     <img
                       className="rounded-full h-8 w-8 flex"
                       src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"

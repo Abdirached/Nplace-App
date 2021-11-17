@@ -26,7 +26,7 @@ export default function Sidebar() {
     currentUser();
   }, [user]);
   return (
-    <div className="w-full flex sm:relative border py-2 bg-gray-200 rounded-lg shadow-sm mt-4 ml-2">
+    <div className="w-full flex sm:relative border py-2 bg-gray-200 rounded-lg shadow-sm mt-4">
       <div className="sm:flex sm:justify-center sm:w-full">
         {currentUserInfo.user ? (
           <img

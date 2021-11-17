@@ -47,7 +47,7 @@ export default function CountryPost() {
       {posts.length !== 0 ? (
         posts.map((data) => (
           <div
-            className=" rounded-xl border bg-white border-gray-primary mb-4 md:w-4/5 lg:w-3/4 md:mx-auto mx-2 shadow-sm"
+            className=" rounded-xl border bg-white border-gray-primary mb-4 sm:w-4/5 md:w-3/4 lg:w-2/3 sm:mx-auto mx-2 shadow-sm"
             key={data.postId}
           >
             <Header
