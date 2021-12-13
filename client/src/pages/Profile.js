@@ -29,7 +29,7 @@ export default function Profile() {
   return (
     <>
       <Navbar />
-      <div className="h-full relative sm:grid sm:grid-cols-3 md:grid-cols-4">
+      <div className="h-screen relative sm:grid sm:grid-cols-3 md:grid-cols-4 bg-gray-50">
         <div className="w-full flex sm:flex-col sm:relative sm:top-8">
           <div className="ml-4 w-36 sm:flex sm:justify-center lg:w-4/5 sm:w-full lg:pl-24">
             {currentUserInfo.user ? (
