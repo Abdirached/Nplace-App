@@ -43,7 +43,7 @@ export default function Navbar() {
                 )}
               </button>
               {toggleOpen ? (
-                <div className=" md:hidden flex flex-col origin-top-right absolute right-0 mt-2 mr-4 w-48 rounded-md shadow-md py-1 bg-gray-200 focus:outline-none">
+                <div className=" md:hidden flex flex-col origin-top absolute right-0 mt-2  w-full rounded-md shadow-md py-1 bg-white focus:outline-none">
                   <Link
                     to="/Add"
                     aria-label="Add"
@@ -107,7 +107,7 @@ export default function Navbar() {
                 )}
               </button>
               {toggleOpen ? (
-                <div className=" md:hidden flex flex-col origin-top-right absolute right-0 mt-2 mr-4 w-48 rounded-md shadow-md py-1 bg-gray-200 focus:outline-none">
+                <div className=" md:hidden flex flex-col origin-top absolute right-0 mt-2 w-full rounded-md shadow-md py-1 bg-white focus:outline-none">
                   <Link
                     to="/"
                     aria-label="Home"

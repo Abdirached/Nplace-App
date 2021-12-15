@@ -105,12 +105,12 @@ export default function Add() {
               {status !== "idle" ? status.toUpperCase() : null}
             </p>
             {status === "recording" ? (
-              <div className="rounded-full w-32 m-auto bg-red-500 h-32 mt-8">
-                <FaMicrophone className="text-8xl text-white m-auto pt-8 animate-pulse" />
+              <div className="rounded-full w-36 m-auto bg-red-500 h-36 mt-8 flex justify-center items-center">
+                <FaMicrophone className="text-7xl text-white  animate-pulse" />
               </div>
             ) : (
-              <div className="rounded-full w-32 m-auto bg-red-500 h-32 mt-8">
-                <FaMicrophone className="text-8xl text-white m-auto pt-8" />
+              <div className="rounded-full w-36 m-auto bg-red-500 h-36 mt-8 flex justify-center items-center">
+                <FaMicrophone className="text-7xl text-white " />
               </div>
             )}
             <div className=" mt-8">
@@ -124,13 +124,13 @@ export default function Add() {
                   <div className="flex justify-around  w-full">
                     <button
                       onClick={stopRecording}
-                      className="bg-gray-500 text-white rounded h-10 w-36 text-lg"
+                      className="bg-gray-700 text-white rounded h-12 w-36 text-lg"
                     >
                       Stop recording
                     </button>
                     <button
                       onClick={clearBlobUrl}
-                      className="bg-red-500 text-white rounded h-10 w-24 text-lg"
+                      className="bg-red-500 text-white rounded h-12 w-24 text-lg"
                     >
                       cancel
                     </button>
@@ -139,7 +139,7 @@ export default function Add() {
                 {status === "idle" ? (
                   <button
                     onClick={startRecording}
-                    className="bg-gray-500 text-white rounded h-10 w-36 text-lg"
+                    className="bg-gray-700 text-white rounded h-12 w-36 text-lg"
                   >
                     Start recording
                   </button>
@@ -147,20 +147,20 @@ export default function Add() {
                 {status === "stopped" ? (
                   <button
                     onClick={clearBlobUrl}
-                    className="bg-red-500 text-white rounded h-10 w-40 text-lg"
+                    className="bg-red-500 text-white rounded h-12 w-40 text-lg"
                   >
                     Delete recording
                   </button>
                 ) : null}
               </div>
             </div>
-            <div className="mt-8 ">
+            <div className="mt-16 ">
               <form
                 onSubmit={onsubmit}
                 className="flex flex-col justify-evenly"
               >
                 <input
-                  className="w-4/5 m-auto focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-700 pl-12 bg-gray-200 rounded-md py-3 lg:w-1/2"
+                  className="w-4/5 m-auto focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-700 pl-12 bg-gray-200 rounded-md py-4 lg:w-1/2"
                   type="text"
                   placeholder="Add description"
                   value={content}
@@ -169,7 +169,7 @@ export default function Add() {
                 <div className="flex justify-center">
                   <button
                     disabled={isInvalid}
-                    className={`bg-blue-medium text-white rounded h-10 w-24 mt-8 text-lg ${
+                    className={`bg-blue-medium text-white rounded h-12 w-24 mt-10 text-lg ${
                       isInvalid && "opacity-50"
                     }`}
                     onClick={() => setLoading(true)}
