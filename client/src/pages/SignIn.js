@@ -34,72 +34,77 @@ export default function SignIn() {
     }
   };
   return (
-    <div className="container flex mx-auto max-w-screen-md items-center h-screen">
-      <div className="flex w-3/5">
+    <section className="flex flex-col md:flex-row h-screen items-center">
+      <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 h-screen">
         <img
-          src="https://images.unsplash.com/photo-1533228100845-08145b01de14?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzR8fHBob25lfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-          alt="iPhone with Instagram app"
+          src="https://source.unsplash.com/random"
+          alt=""
+          className="w-full h-full object-cover"
         />
       </div>
-      <div className="flex flex-col w-2/5">
-        <div className="flex flex-col items-center bg-white p-4 border border-gray-primary mb-4 rounded">
-          <h1 className="flex justify-center w-full">
-            <img
-              src="https://images.unsplash.com/photo-1533228100845-08145b01de14?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzR8fHBob25lfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-              alt="Instagram"
-              className="mt-2 w-6/12 mb-4"
-            />
+      <div
+        className="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12
+        flex items-center justify-center"
+      >
+        <div className="w-full h-100">
+          <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">
+            Log in to your account
           </h1>
-
-          {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
-
-          <form onSubmit={onSubmit}>
-            <input
-              aria-label="Enter your email address"
-              type="text"
-              placeholder="Email address"
-              className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
-              onChange={({ target }) => setEmail(target.value)}
-              value={email}
-            />
-            <input
-              aria-label="Enter your password"
-              type="password"
-              placeholder="Password"
-              className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
-              onChange={({ target }) => setPassword(target.value)}
-              value={password}
-            />
+          <form onSubmit={onSubmit} className="mt-6">
+            <div>
+              <label className="block text-gray-700">Email Address</label>
+              <input
+                aria-label="Enter your email address"
+                type="text"
+                placeholder="Email address"
+                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                onChange={({ target }) => setEmail(target.value)}
+                value={email}
+                autoFocus
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700">Password</label>
+              <input
+                aria-label="Enter your password"
+                type="password"
+                placeholder="Password"
+                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
+              focus:bg-white focus:outline-none"
+                onChange={({ target }) => setPassword(target.value)}
+                value={password}
+              />
+            </div>
+            <div className="text-right mt-2">
+              <Link
+                to={"/forgot-password/reset-link"}
+                className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
+              >
+                Forgot Password?
+              </Link>
+            </div>
             <button
               disabled={isInvalid}
               type="submit"
-              className={`bg-blue-medium text-white w-full rounded h-8 font-bold
-              ${isInvalid && "opacity-50"}`}
+              className="w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg
+              px-4 py-3 mt-6"
             >
-              Login
+              Log In
             </button>
           </form>
-        </div>
-        <div className="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
-          <p className="text-sm">
-            Don't have an account?{` `}
-            <Link to={"/SignUp"} className="font-bold text-blue-medium">
-              Sign up
-            </Link>
-          </p>
-        </div>
-        <div className="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
-          <p className="text-sm">
-            Forgot password?{` `}
+          {error && <p className="my-4 text-red-500">{error}</p>}
+          <hr className="my-6 border-gray-300 w-full"></hr>
+          <p className="mt-8">
+            Need an account?{" "}
             <Link
-              to={"/forgot-password/reset-link"}
-              className="font-bold text-blue-medium"
+              to={"/SignUp"}
+              className="text-blue-500 hover:text-blue-700 font-semibold"
             >
-              Forgot password
+              Create an account
             </Link>
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

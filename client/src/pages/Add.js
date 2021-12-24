@@ -124,7 +124,7 @@ export default function Add() {
                   <div className="flex justify-around  w-full">
                     <button
                       onClick={stopRecording}
-                      className="bg-gray-700 text-white rounded h-12 w-36 text-lg"
+                      className="bg-gray-600 text-white rounded h-12 w-36 text-lg"
                     >
                       Stop recording
                     </button>
@@ -132,14 +132,14 @@ export default function Add() {
                       onClick={clearBlobUrl}
                       className="bg-red-500 text-white rounded h-12 w-24 text-lg"
                     >
-                      cancel
+                      Cancel
                     </button>
                   </div>
                 ) : null}
                 {status === "idle" ? (
                   <button
                     onClick={startRecording}
-                    className="bg-gray-700 text-white rounded h-12 w-36 text-lg"
+                    className="bg-gray-600 text-white rounded h-12 w-36 text-lg"
                   >
                     Start recording
                   </button>
@@ -160,7 +160,7 @@ export default function Add() {
                 className="flex flex-col justify-evenly"
               >
                 <input
-                  className="w-4/5 m-auto focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-700 pl-12 bg-gray-200 rounded-md py-4 lg:w-1/2"
+                  className="w-4/5 m-auto focus:outline-none focus:placeholder-gray-100 text-white placeholder-gray-100 pl-12 bg-gray-400 rounded-md py-4 lg:w-1/2"
                   type="text"
                   placeholder="Add description"
                   value={content}
