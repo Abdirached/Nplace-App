@@ -5,7 +5,7 @@ export default function HomeCountry() {
   return (
     <>
       <Navbar />
-      <div className="relative w-full h-full flex bg-gray-50">
+      <div className="relative w-full h-full flex bg-white">
         <CountryPost />
         <div
           className=" h-full fixed left-2/3 hidden md:inline-block"

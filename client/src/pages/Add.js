@@ -95,22 +95,22 @@ export default function Add() {
     }
   };
   return (
-    <>
+    <div className="h-full">
       <Navbar />
-      <div className="w-full h-screen bg-gray-50 fixed">
+      <div className="w-full h-full">
         {place !== null ? (
-          <div className="w-full sm:w-9/12 m-auto sm:bg-gray-50 rounded-xl mt-8 pb-8 sm:border sm:shadow-sm">
+          <div className="w-full sm:w-9/12 mx-auto rounded-xl mt-8 pb-8 mb-8">
             <ToastContainer />
             <p className="text-center mt-8 text-lg">
               {status !== "idle" ? status.toUpperCase() : null}
             </p>
             {status === "recording" ? (
-              <div className="rounded-full w-36 m-auto bg-red-500 h-36 mt-8 flex justify-center items-center">
-                <FaMicrophone className="text-7xl text-white  animate-pulse" />
+              <div className="rounded-full w-28 m-auto bg-red-500 h-28 mt-8 flex justify-center items-center">
+                <FaMicrophone className="text-5xl text-white  animate-pulse" />
               </div>
             ) : (
-              <div className="rounded-full w-36 m-auto bg-red-500 h-36 mt-8 flex justify-center items-center">
-                <FaMicrophone className="text-7xl text-white " />
+              <div className="rounded-full w-28 m-auto bg-red-500 h-28 mt-8 flex justify-center items-center">
+                <FaMicrophone className="text-5xl text-white " />
               </div>
             )}
             <div className=" mt-8">
@@ -124,13 +124,13 @@ export default function Add() {
                   <div className="flex justify-around  w-full">
                     <button
                       onClick={stopRecording}
-                      className="bg-gray-600 text-white rounded h-12 w-36 text-lg"
+                      className="bg-gray-600 text-white rounded h-10 w-32 "
                     >
                       Stop recording
                     </button>
                     <button
                       onClick={clearBlobUrl}
-                      className="bg-red-500 text-white rounded h-12 w-24 text-lg"
+                      className="bg-red-500 text-white rounded h-10 w-32 "
                     >
                       Cancel
                     </button>
@@ -139,7 +139,7 @@ export default function Add() {
                 {status === "idle" ? (
                   <button
                     onClick={startRecording}
-                    className="bg-gray-600 text-white rounded h-12 w-36 text-lg"
+                    className="bg-gray-600 text-white rounded h-10 w-32 "
                   >
                     Start recording
                   </button>
@@ -147,7 +147,7 @@ export default function Add() {
                 {status === "stopped" ? (
                   <button
                     onClick={clearBlobUrl}
-                    className="bg-red-500 text-white rounded h-12 w-40 text-lg"
+                    className="bg-red-500 text-white rounded h-10 w-36"
                   >
                     Delete recording
                   </button>
@@ -160,7 +160,7 @@ export default function Add() {
                 className="flex flex-col justify-evenly"
               >
                 <input
-                  className="w-4/5 m-auto focus:outline-none focus:placeholder-gray-100 text-white placeholder-gray-100 pl-12 bg-gray-400 rounded-md py-4 lg:w-1/2"
+                  className="w-4/5 m-auto focus:outline-none focus:placeholder-gray-600 text-gray-700 placeholder-gray-400 pl-12 bg-gray-200 rounded-md py-4 lg:w-1/2"
                   type="text"
                   placeholder="Add description"
                   value={content}
@@ -169,7 +169,7 @@ export default function Add() {
                 <div className="flex justify-center">
                   <button
                     disabled={isInvalid}
-                    className={`bg-blue-medium text-white rounded h-12 w-24 mt-10 text-lg ${
+                    className={`bg-blue-medium text-white rounded h-10 w-32 mt-10  ${
                       isInvalid && "opacity-50"
                     }`}
                     onClick={() => setLoading(true)}
@@ -184,6 +184,6 @@ export default function Add() {
           <ReactLoader />
         )}
       </div>
-    </>
+    </div>
   );
 }
