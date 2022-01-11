@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { MdCloudUpload, MdMail, MdHome, MdMenu, MdClose } from "react-icons/md";
 import { UserContext } from "../context/UserProvider";
+import logo from "../images/keekeen2.png";
 
 export default function Navbar() {
   const { role } = useContext(UserContext);
@@ -11,13 +12,8 @@ export default function Navbar() {
       <div className="h-full w-full">
         {role === "buyer" ? (
           <div className="flex justify-between h-full">
-            <div className="text-gray-700 text-center flex items-center align-items cursor-pointer md:ml-4">
-              <h1 className="flex justify-start w-full">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToppz55Pdmw3ijkiuOuiOkmDZvMIxPSh6ZGg&usqp=CAU"
-                  className="mt-2 mb-2 w-3/12 ml-4"
-                />
-              </h1>
+            <div className="text-gray-700 text-center flex items-center align-items cursor-default md:ml-4">
+              <img src={logo} className="mt-4 mb-2 w-48 h-40" />
             </div>
             <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items mr-4">
               <Link to="/Add" aria-label="Add">
@@ -75,13 +71,8 @@ export default function Navbar() {
           </div>
         ) : role === "seller" ? (
           <div className="flex justify-between h-full">
-            <div className="text-gray-700 text-center flex items-center align-items cursor-pointer md:ml-4">
-              <h1 className="flex justify-start w-full">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToppz55Pdmw3ijkiuOuiOkmDZvMIxPSh6ZGg&usqp=CAU"
-                  className="mt-2 mb-2 w-3/12 ml-4"
-                />
-              </h1>
+            <div className="text-gray-700 text-center flex items-center align-items cursor-default md:ml-4">
+              <img src={logo} className="mt-4 mb-2 w-48 h-40" />
             </div>
             <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items mr-4">
               <Link to="/" aria-label="Home">
