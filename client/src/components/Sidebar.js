@@ -26,7 +26,7 @@ export default function Sidebar() {
     currentUser();
   }, [user]);
   return (
-    <div className="w-full flex sm:relative border py-2 bg-gray-200 rounded-lg shadow-sm mt-4">
+    <div className="w-full flex sm:relative py-2 bg-white rounded-lg shadow-sm mt-4 border">
       <div className="sm:flex sm:justify-center sm:w-full">
         {currentUserInfo.user ? (
           <img
@@ -48,7 +48,7 @@ export default function Sidebar() {
         <div className="flex relative top-7 sm:top-8 w-20  sm:justify-center lg:justify-start lg:w-4/5 sm:w-full">
           <button
             type="submit"
-            className="bg-blue-medium text-white w-full rounded h-8 font-bold sm:w-20"
+            className="bg-red-500 text-white w-full rounded h-8 sm:w-20"
           >
             Logout
           </button>

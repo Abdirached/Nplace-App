@@ -5,6 +5,7 @@ import Audio from "../Audio";
 import Footer from "../Footer";
 import UselocationListner from "../../../hooks/UseLocationListner";
 import PostChat from "../PostChat";
+import { formatDistance } from "date-fns";
 const axios = require("axios");
 
 export default function CountryPost() {
@@ -62,7 +63,7 @@ export default function CountryPost() {
                   setOpen(!open);
                   setSelected(data.postId);
                 }}
-                className=" bg-gray-300 rounded h-8 w-20 ml-4 mt-1 mb-4"
+                className=" bg-indigo-500 rounded h-8 w-20 ml-4 mt-1 mb-4 text-white"
               >
                 Message
               </button>
@@ -74,6 +75,11 @@ export default function CountryPost() {
                 setOpen={setOpen}
               />
             ) : null}
+            <div>
+              <p className="text-gray-base uppercase text-xs mb-4 ml-4">
+                {formatDistance(new Date(data.createdAt), new Date())} ago
+              </p>
+            </div>
           </div>
         ))
       ) : (

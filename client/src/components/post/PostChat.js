@@ -78,7 +78,7 @@ export default function PostChat({ postUserId, postUserName, setOpen }) {
                 />
                 <button
                   type="submit"
-                  className="bg-blue-medium text-white rounded h-8 w-20 ml-2 mt-2"
+                  className=" bg-indigo-500 text-white rounded h-8 w-20 ml-2 mt-2"
                 >
                   Send
                 </button>
