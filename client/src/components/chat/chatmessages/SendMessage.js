@@ -29,6 +29,24 @@ export default function SendMessage({ chat, currentUserId, socket }) {
         chatId: response.data.message.chatId,
       });
       setMessage("");
+      const readStatusResponse = await axios({
+        method: "put",
+        url: `http://localhost:5000/Chats/chat/${chat.chatId}`,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        data: {
+          isRead: false,
+        },
+      });
+      console.log(readStatusResponse.data);
+      socket.emit("chatStatus", {
+        senderId: currentUserId,
+        receiverId: personToChat,
+        messageId: response.data.message.messageId,
+        chatId: response.data.message.chatId,
+        isRead: readStatusResponse.data.chat[1][0].isRead,
+      });
     } catch (error) {}
   };
   return (

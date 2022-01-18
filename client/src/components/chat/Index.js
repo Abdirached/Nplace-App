@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Sidebar from "./Sidebar";
 import Messages from "./chatmessages/Messages";
+import { MessagesProvider } from "../../context/MessagesProvider";
 const axios = require("axios");
 
 export default function Index() {
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [closed, setClosed] = useState(false);
-  // console.log(currentChat);
+  // console.log(chats);
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
   useEffect(() => {
     let mounted = true;
@@ -36,78 +37,80 @@ export default function Index() {
   }, [currentUserId]);
 
   return (
-    <div className="flex w-full h-full">
-      {!closed ? (
-        <>
-          <div className="w-full h-screen bg-gray-50 border-r md:w-1/3 fixed">
-            <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
-              <span className=" font-bold mr-3 text-gray-700 mb-7 mt-4 ml-4 md:mb-3">
-                Chat
-              </span>
-            </div>
-            {chats.chats?.map((chat) => (
-              <div
-                key={chat.chatId}
-                className="mb-6 mt-6 bg-white m-auto rounded-md p-1"
-                style={{ width: "96%" }}
-              >
-                <Sidebar
-                  chat={chat}
-                  currentUserId={currentUserId}
-                  setCurrentChat={setCurrentChat}
-                  closed={closed}
-                  setClosed={setClosed}
-                  currentChat={currentChat}
-                />
+    <MessagesProvider>
+      <div className="flex w-full h-full">
+        {!closed ? (
+          <>
+            <div className="w-full h-screen bg-gray-50 border-r md:w-1/3 fixed">
+              <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
+                <span className=" font-bold mr-3 text-gray-700 mb-7 mt-4 ml-4 md:mb-3">
+                  Chat
+                </span>
               </div>
-            ))}
-          </div>
-          <div className="hidden md:block md:w-2/3 w-full md:ml-auto">
-            <Messages
-              currentUserId={currentUserId}
-              currentChat={currentChat}
-              setCurrentChat={setCurrentChat}
-              closed={closed}
-              setClosed={setClosed}
-            />
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="hidden md:block w-full h-screen bg-gray-50 border-r md:w-1/3 fixed">
-            <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
-              <span className=" font-bold mr-3 text-gray-700 mb-7 mt-4 ml-4 md:mb-3">
-                Chat
-              </span>
+              {chats.chats?.map((chat) => (
+                <div
+                  key={chat.chatId}
+                  className="mb-6 mt-6 bg-white m-auto rounded-md p-1"
+                  style={{ width: "96%" }}
+                >
+                  <Sidebar
+                    chat={chat}
+                    currentUserId={currentUserId}
+                    setCurrentChat={setCurrentChat}
+                    closed={closed}
+                    setClosed={setClosed}
+                    currentChat={currentChat}
+                  />
+                </div>
+              ))}
             </div>
-            {chats.chats?.map((chat) => (
-              <div
-                key={chat.chatId}
-                className="mb-6 mt-6 bg-white m-auto rounded-md p-1"
-                style={{ width: "96%" }}
-              >
-                <Sidebar
-                  chat={chat}
-                  currentUserId={currentUserId}
-                  setCurrentChat={setCurrentChat}
-                  closed={closed}
-                  setClosed={setClosed}
-                  currentChat={currentChat}
-                />
+            <div className="hidden md:block md:w-2/3 w-full md:ml-auto">
+              <Messages
+                currentUserId={currentUserId}
+                currentChat={currentChat}
+                setCurrentChat={setCurrentChat}
+                closed={closed}
+                setClosed={setClosed}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="hidden md:block w-full h-screen bg-gray-50 border-r md:w-1/3 fixed">
+              <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
+                <span className=" font-bold mr-3 text-gray-700 mb-7 mt-4 ml-4 md:mb-3">
+                  Chat
+                </span>
               </div>
-            ))}
-          </div>
-          <div className="md:w-2/3 w-full md:ml-auto">
-            <Messages
-              currentUserId={currentUserId}
-              currentChat={currentChat}
-              setCurrentChat={setCurrentChat}
-              closed={closed}
-              setClosed={setClosed}
-            />
-          </div>
-        </>
-      )}
-    </div>
+              {chats.chats?.map((chat) => (
+                <div
+                  key={chat.chatId}
+                  className="mb-6 mt-6 bg-white m-auto rounded-md p-1"
+                  style={{ width: "96%" }}
+                >
+                  <Sidebar
+                    chat={chat}
+                    currentUserId={currentUserId}
+                    setCurrentChat={setCurrentChat}
+                    closed={closed}
+                    setClosed={setClosed}
+                    currentChat={currentChat}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="md:w-2/3 w-full md:ml-auto">
+              <Messages
+                currentUserId={currentUserId}
+                currentChat={currentChat}
+                setCurrentChat={setCurrentChat}
+                closed={closed}
+                setClosed={setClosed}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </MessagesProvider>
   );
 }

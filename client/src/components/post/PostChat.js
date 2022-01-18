@@ -5,7 +5,7 @@ export default function PostChat({ postUserId, postUserName, setOpen }) {
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
-  const chatOwners = [chat.ownerOne, chat.ownerTwo];
+  const chatOwners = [chat?.ownerOne, chat?.ownerTwo];
   const personToChat = chatOwners.find((person) => person !== currentUserId);
 
   useEffect(() => {

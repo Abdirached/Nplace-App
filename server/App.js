@@ -27,6 +27,18 @@ io.on("connection", (socket) => {
       });
     }
   );
+  socket.on(
+    "chatStatus",
+    ({ senderId, receiverId, messageId, chatId, isRead }) => {
+      socket.to(senderId).to(receiverId).emit("getChatStatus", {
+        senderId,
+        receiverId,
+        messageId,
+        chatId,
+        isRead,
+      });
+    }
+  );
   console.log("a user connected");
 });
 // importing models

@@ -102,4 +102,20 @@ router.post("/chat/:chatId/messages", requireLogin, (req, res) => {
       res.send(err);
     });
 });
+// update chat read status
+router.put("/chat/:chatId", requireLogin, (req, res) => {
+  const { isRead } = req.body;
+  ChatModel.update(
+    {
+      isRead,
+    },
+    { where: { chatId: req.params.chatId }, returning: true }
+  )
+    .then((chat) => {
+      res.json({ chat });
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
 module.exports = router;

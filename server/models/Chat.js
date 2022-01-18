@@ -20,6 +20,9 @@ const ChatModel = sequelize.define("Chat", {
     type: DataTypes.UUID,
     allowNull: false,
   },
+  isRead: {
+    type: DataTypes.BOOLEAN,
+  },
 });
 
 ChatModel.hasMany(MessageModel, {

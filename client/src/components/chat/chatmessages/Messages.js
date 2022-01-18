@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import io from "socket.io-client";
 import ReactLoader from "../../ReactLoader";
 import SendMessage from "./SendMessage";
 import { MdArrowBack } from "react-icons/md";
+import { MessagesContext } from "../../../context/MessagesProvider";
 const axios = require("axios");
-
 export default function Messages({
   currentUserId,
   currentChat,
@@ -13,8 +13,8 @@ export default function Messages({
   setClosed,
 }) {
   const socket = io("http://localhost:5000", { query: { currentUserId } });
+  const { messages, setMessages } = useContext(MessagesContext);
   const [chat, setChat] = useState([]);
-  const [messages, setMessages] = useState([]);
   const [person, setPerson] = useState([]);
   const chatOwners = [chat.ownerOne, chat.ownerTwo];
   const personToChat = chatOwners.find((person) => person !== currentUserId);
