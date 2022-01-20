@@ -16,7 +16,7 @@ io.on("connection", (socket) => {
   socket.join(currentUserId);
   socket.on(
     "sendMessage",
-    ({ senderId, receiverId, text, messageId, chatId }) => {
+    ({ senderId, receiverId, text, messageId, chatId, createdAt }) => {
       console.log(text);
       socket.to(senderId).to(receiverId).emit("getMessage", {
         senderId,
@@ -24,6 +24,7 @@ io.on("connection", (socket) => {
         text,
         messageId,
         chatId,
+        createdAt,
       });
     }
   );

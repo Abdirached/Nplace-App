@@ -123,16 +123,17 @@ export default function Sidebar({
           chat.Messages[chat.Messages.length - 1]?.senderId !== currentUserId &&
           chat.chatId !== currentChat ? (
             <span className="text-xs px-2 font-bold bg-red-500 text-white rounded py-0.5 ml-2">
-              info
+              new
             </span>
           ) : null}
           {chatStatus.length !== 0 &&
           !chatStatus.isread &&
           chatStatus.chatId !== currentChat &&
           chatStatus.senderId !== currentUserId &&
-          chatStatus.chatId === chat.chatId ? (
+          chatStatus.chatId === chat.chatId &&
+          read ? (
             <span className="text-xs px-2 font-bold bg-blue-500 text-white rounded py-0.5 ml-2">
-              info
+              new
             </span>
           ) : null}
         </div>

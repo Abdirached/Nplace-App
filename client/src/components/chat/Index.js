@@ -41,7 +41,7 @@ export default function Index() {
       <div className="flex w-full h-full">
         {!closed ? (
           <>
-            <div className="w-full h-screen bg-gray-50 border-r md:w-1/3 fixed">
+            <div className="w-full h-screen bg-gray-100 border-r md:w-1/3 fixed">
               <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
                 <span className=" font-bold mr-3 text-gray-700 mb-7 mt-4 ml-4 md:mb-3">
                   Chat
@@ -76,7 +76,7 @@ export default function Index() {
           </>
         ) : (
           <>
-            <div className="hidden md:block w-full h-screen bg-gray-50 border-r md:w-1/3 fixed">
+            <div className="hidden md:block w-full h-screen bg-gray-100 border-r md:w-1/3 fixed">
               <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
                 <span className=" font-bold mr-3 text-gray-700 mb-7 mt-4 ml-4 md:mb-3">
                   Chat

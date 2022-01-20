@@ -27,6 +27,7 @@ export default function SendMessage({ chat, currentUserId, socket }) {
         text: message,
         messageId: response.data.message.messageId,
         chatId: response.data.message.chatId,
+        createdAt: response.data.message.createdAt,
       });
       setMessage("");
       const readStatusResponse = await axios({

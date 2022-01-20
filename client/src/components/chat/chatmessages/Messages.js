@@ -1,5 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import io from "socket.io-client";
+import { formatRelative } from "date-fns";
 import ReactLoader from "../../ReactLoader";
 import SendMessage from "./SendMessage";
 import { MdArrowBack } from "react-icons/md";
@@ -19,6 +20,13 @@ export default function Messages({
   const chatOwners = [chat.ownerOne, chat.ownerTwo];
   const personToChat = chatOwners.find((person) => person !== currentUserId);
   // console.log(chatMessages);
+  const messagesEndRef = useRef(null);
+  useEffect(() => {
+    const scrollToBottom = function scrollToBottomfunc() {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+    scrollToBottom();
+  }, [messages, socket]);
   useEffect(() => {
     let mounted = true;
     const fetchPerson = async function fetchPersonInfo() {
@@ -88,6 +96,7 @@ export default function Messages({
             text: data.text,
             messageId: data.messageId,
             chatId: data.chatId,
+            createdAt: data.createdAt,
           },
         ]);
       } else {
@@ -106,7 +115,7 @@ export default function Messages({
           person.length !== 0 &&
           personToChat === person.userId ? (
             <>
-              <div className="flex items-center mb-4 border-b sticky z-20 bg-white top-16">
+              <div className="flex items-center mb-4 border-b shadow-sm sticky z-20 bg-white top-16">
                 <button
                   onClick={() => {
                     setClosed(!closed);
@@ -133,33 +142,54 @@ export default function Messages({
                     className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
                   >
                     {message.senderId !== currentUserId ? (
-                      <div className="flex items-end">
-                        <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-                          <div>
-                            <span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-blue-600 text-white ">
-                              {message.text}
-                            </span>
+                      <div className="flex flex-col">
+                        <div className="flex items-end">
+                          <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                            <div>
+                              <span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-blue-600 text-white ">
+                                {message.text}
+                              </span>
+                            </div>
                           </div>
+                          <img
+                            src={person.avatar}
+                            alt="My profile"
+                            className="w-6 h-6 rounded-full order-1"
+                          />
                         </div>
-                        <img
-                          src={person.avatar}
-                          alt="My profile"
-                          className="w-6 h-6 rounded-full order-1"
-                        />
+                        <div className="flex items-start">
+                          <span className="px-4 py-2 rounded-lg inline-block rounded-br-none text-gray-600 text-xs ml-6">
+                            {formatRelative(
+                              new Date(message.createdAt),
+                              new Date()
+                            )}
+                          </span>
+                        </div>
                       </div>
                     ) : (
-                      <div className="flex items-end justify-end">
-                        <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-                          <div>
-                            <span className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-gray-300 text-gray-600">
-                              {message.text}
-                            </span>
+                      <div className="flex flex-col">
+                        <div className="flex items-end justify-end">
+                          <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                            <div>
+                              <span className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-gray-300 text-gray-600">
+                                {message.text}
+                              </span>
+                            </div>
                           </div>
+                        </div>
+                        <div className="flex items-end justify-end">
+                          <span className="px-4 py-2 rounded-lg inline-block rounded-br-none text-gray-600 text-xs">
+                            {formatRelative(
+                              new Date(message.createdAt),
+                              new Date()
+                            )}
+                          </span>
                         </div>
                       </div>
                     )}
                   </div>
                 ))}
+                <div ref={messagesEndRef}></div>
                 <SendMessage
                   chat={chat}
                   currentUserId={currentUserId}
