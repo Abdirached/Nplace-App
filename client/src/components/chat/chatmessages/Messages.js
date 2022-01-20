@@ -110,11 +110,11 @@ export default function Messages({
   return (
     <div className=" w-full h-full">
       {currentChat ? (
-        <>
+        <div>
           {messages.length !== 0 &&
           person.length !== 0 &&
           personToChat === person.userId ? (
-            <>
+            <div>
               <div className="flex items-center mb-4 border-b shadow-sm sticky z-20 bg-white top-16">
                 <button
                   onClick={() => {
@@ -126,7 +126,7 @@ export default function Messages({
                   <MdArrowBack className="text-4xl font-semibold" />
                 </button>
                 <img
-                  className="w-10 sm:w-16 h-10 sm:h-16 rounded-full m-2"
+                  className="w-10 sm:w-16 h-10 sm:h-16 rounded-full m-4"
                   src={person.avatar}
                   alt="profile picture"
                 />
@@ -196,15 +196,19 @@ export default function Messages({
                   socket={socket}
                 />
               </div>
-            </>
+            </div>
           ) : (
-            <ReactLoader />
+            <div>
+              <ReactLoader />
+            </div>
           )}
-        </>
+        </div>
       ) : (
-        <span className="text-4xl text-gray-300">
-          open chat to start conversation
-        </span>
+        <div className=" m-0 absolute top-1/2 left-1/2">
+          <span className="text-4xl text-gray-300">
+            Open chat to start conversation
+          </span>
+        </div>
       )}
     </div>
   );
