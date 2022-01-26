@@ -55,7 +55,7 @@ export default function Messages({
     };
   }, [chat]);
   useEffect(() => {
-    if (currentChat !== messages[0]?.chatId) {
+    if (currentChat !== messages[messages.length - 1]?.chatId) {
       setMessages([]);
     }
     let mounted = true;

@@ -38,19 +38,19 @@ export default function Index() {
 
   return (
     <MessagesProvider>
-      <div className="flex w-full h-full">
+      <div className="w-full h-full">
         {!closed ? (
-          <>
+          <div className="flex">
             <div className="w-full h-screen bg-white border-r md:w-1/2 lg:w-2/5 fixed overflow-y-auto">
               <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
                 <span className=" font-semibold mr-3 text-gray-700 mb-4 mt-4 ml-4 md:mb-3">
-                  Channels
+                  Chats
                 </span>
               </div>
               {chats.chats?.map((chat) => (
                 <div
                   key={chat.chatId}
-                  className={`mb-6 mt-6 bg-gray-100 m-auto rounded-md ${
+                  className={`mb-6 mt-6 bg-gray-100 mx-auto rounded-md ${
                     currentChat === chat.chatId && "bg-gray-300"
                   }`}
                   style={{ width: "95%" }}
@@ -75,19 +75,19 @@ export default function Index() {
                 setClosed={setClosed}
               />
             </div>
-          </>
+          </div>
         ) : (
-          <>
+          <div className="flex">
             <div className="hidden md:block w-full h-screen bg-white border-r md:w-1/2 lg:w-2/5 fixed overflow-y-auto">
               <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
                 <span className=" font-semibold mr-3 text-gray-700 mb-4 mt-4 ml-4 md:mb-3">
-                  Channels
+                  Chats
                 </span>
               </div>
               {chats.chats?.map((chat) => (
                 <div
                   key={chat.chatId}
-                  className={`mb-6 mt-6 bg-gray-100 m-auto rounded-md ${
+                  className={`mb-6 mt-6 bg-gray-100 mx-auto rounded-md ${
                     currentChat === chat.chatId && " bg-gray-300"
                   }`}
                   style={{ width: "95%" }}
@@ -112,7 +112,7 @@ export default function Index() {
                 setClosed={setClosed}
               />
             </div>
-          </>
+          </div>
         )}
       </div>
     </MessagesProvider>
