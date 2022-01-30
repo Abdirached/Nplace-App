@@ -1,3 +1,4 @@
 # enviroment variable
 .env
+# node modules
 node_modules
