@@ -28,9 +28,6 @@ const PostModel = sequelize.define("Post", {
   video: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      isUrl: true,
-    },
   },
 });
 

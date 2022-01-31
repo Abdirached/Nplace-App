@@ -14,10 +14,10 @@ AWS.config.update({
   credentials: credentials,
 });
 const s3 = new AWS.S3();
-router.get("/signedurl", requireLogin, async (req, res) => {
+router.get("/signedurl/:filename", requireLogin, async (req, res) => {
   const params = {
     Fields: {
-      key: uuidv4(),
+      key: `${uuidv4()}-${req.params.filename}`,
     },
     Conditions: [["content-length-range", 0, 10000000]],
     Expires: 3600,
