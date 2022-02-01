@@ -1,63 +1,124 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import UselocationListner from "../hooks/UseLocationListner";
-import UseRecorder from "../hooks/UseRecorder";
-import UseSignedUrl from "../hooks/UseSignedUrl";
+import ReactLoader from "../components/ReactLoader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const axios = require("axios");
 
 export default function EditPost() {
-  const [audioURL, isRecording, startRecording, stopRecording, file] =
-    UseRecorder();
-  const [url, fields] = UseSignedUrl();
+  const [media, setMedia] = useState("");
+  const [file, setFile] = useState("");
+  const [url, setUrl] = useState();
+  const [fields, setFields] = useState();
   const { postId } = useParams();
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [fileUrl, setFileUrl] = useState("");
   const { place } = UselocationListner();
+  const isInvalid = content === "" || !file;
+  // console.log(file);
+  // console.log(media.split(".").pop());
+  const hiddenFileInput = useRef(null);
+  // console.log(hiddenFileInput.current?.value);
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
   useEffect(() => {
-    console.log(file);
+    const signedurl = async function getSignedUrl() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/Storage/signedurl/${file?.name}`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
+          }
+        );
+        console.log(response);
+        setUrl(response.data.url);
+        setFields(response.data.fields);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    signedurl();
   }, [file]);
   useEffect(() => {
+    if (file) {
+      setFileUrl(URL.createObjectURL(file));
+    }
+  }, [file]);
+  const mimeTypes = ["video/mp4", "video/webm", "image/jpeg"];
+  useEffect(() => {
+    if (file && file?.size > 40971520) {
+      toast.error("file over limit", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setFile("");
+      return;
+    } else if (file && !mimeTypes.includes(file?.type)) {
+      toast.error("file not supported", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setFile("");
+      return;
+    }
+    console.log("ok guys");
+  }, [file]);
+  useEffect(() => {
+    const indivualPost = async function getIndivualPost() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/Posts/${postId}`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
+          }
+        );
+        console.log(response.data.post.content);
+        setContent(response.data.post.content);
+        setMedia(response.data.post.video);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     indivualPost();
   }, []);
-  const indivualPost = async function getIndivualPost() {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/Posts/${postId}`,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        }
-      );
-      console.log(response.data.post.content);
-      setContent(response.data.post.content);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const onsubmit = async function onsubmitVideo(e) {
     e.preventDefault();
     try {
+      const country = place;
+      const province = place;
+      const s3Key = fields.key;
+      const videoUrl = `https://nplacebucket.s3.amazonaws.com/${s3Key}`;
       const data = new FormData();
       Object.keys(fields).forEach((key) => {
         data.append(key, fields[key]);
       });
       data.append("file", file);
-      const response = await axios({
+      const uploadFileToS3Response = await axios({
         method: "post",
         url,
         data,
       });
-      console.log(response);
-    } catch (error) {
-      console.log(error.response);
-    }
-    try {
-      const country = place.country;
-      const province = place.province;
-      const key = fields.key;
-      const videoUrl = `https://nplacebucket.s3.amazonaws.com/${key}`;
+      console.log(uploadFileToS3Response);
       const response = await axios({
         method: "put",
         url: `http://localhost:5000/Posts/${postId}/editpost`,
@@ -72,47 +133,155 @@ export default function EditPost() {
         },
       });
       console.log("successfully updated");
-      console.log(response);
+      setContent("");
+      toast.success("Successfully updated!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setFile("");
+      setLoading(false);
     } catch (error) {
       console.log(error.response);
+      setLoading(false);
+      if (error.response) {
+        toast.error(error.response.data.error, {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error(error.message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     }
   };
-  if (place == null) {
-    return null;
-  }
   return (
-    <>
+    <div className="h-full">
       <Navbar />
-      <div className="inline-block w-full h-full">
-        <form
-          onSubmit={onsubmit}
-          className="flex flex-col justify-evenly md:flex-row "
-        >
-          <input type="text" readOnly value={place.country} />
-          <input type="text" readOnly value={place.province} />
-          <input
-            type="textarea"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-          <audio src={audioURL} controls />
-          <button
-            onClick={startRecording}
-            disabled={isRecording}
-            className="border-2"
-          >
-            start recording
-          </button>
-          <button
-            onClick={stopRecording}
-            disabled={!isRecording}
-            className="border-2"
-          >
-            stop recording
-          </button>
-          <button type="submit">submit</button>
-        </form>
+      <div className="w-full h-full">
+        {place !== null && media ? (
+          <div className="w-full h-full">
+            <ToastContainer />
+            <div className="mt-4 w-4/5 md:w-3/5 mx-auto">
+              <h1 className="text-3xl text-gray-900 font-bold">Edit order</h1>
+            </div>
+            <div className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center w-4/5 mx-auto mb-8 mt-6 md:w-3/5">
+              {!file && !media ? (
+                <>
+                  <header className="flex flex-col justify-center items-center">
+                    <span className="mb-3 font-semibold text-gray-900 justify-center">
+                      Choose file to upload
+                    </span>
+                    <span className="mb-6 text-gray-400 justify-center">
+                      Only video or image
+                    </span>
+                    <span className="mb-3 text-gray-400 justify-center">
+                      Video less than 1 GB and up to 3 minutes
+                    </span>
+                  </header>
+                </>
+              ) : file?.type === "video/mp4" ||
+                (file?.type === "video/webm" && file) ? (
+                <div className="h-2/5 w-4/5 mx-auto">
+                  <ReactPlayer
+                    url={fileUrl}
+                    controls
+                    width="100%"
+                    height="100%"
+                  />
+                </div>
+              ) : file?.type === "image/jpeg" && file ? (
+                <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
+                  <img src={fileUrl} className=" w-full h-full" />
+                </div>
+              ) : media.split(".").pop() === "mp4" ||
+                (media.split(".").pop() === "webm" && !file) ? (
+                <div className="h-2/5 w-4/5 mx-auto">
+                  <ReactPlayer
+                    url={media}
+                    controls
+                    width="100%"
+                    height="100%"
+                  />
+                </div>
+              ) : media.split(".").pop() === "jpeg" && !file ? (
+                <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
+                  <img src={media} className=" w-full h-full" />
+                </div>
+              ) : (
+                <p>Something went wrong !</p>
+              )}
+              <div>
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={(e) => {
+                    setFile(e.target.files[0]);
+                    e.target.value = "";
+                  }}
+                  ref={hiddenFileInput}
+                />
+                <button
+                  onClick={handleClick}
+                  className="mt-4 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
+                >
+                  Upload a file
+                </button>
+              </div>
+            </div>
+            <div className=" mb-12 flex flex-col w-4/5 md:w-3/5 mx-auto gap-3">
+              <h4 className="ml-1 font-semibold">Description</h4>
+              <form
+                onSubmit={onsubmit}
+                className="flex flex-col justify-evenly"
+              >
+                <input
+                  className=" w-full m-auto focus:outline-none focus:placeholder-gray-600 text-gray-700 placeholder-gray-400 pl-12 rounded-md py-4 border border-gray-300"
+                  type="text"
+                  placeholder="Add description"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+                <button
+                  disabled={isInvalid}
+                  className={`bg-indigo-500 text-white rounded-md w-48 py-3 mt-16 text-center mx-auto  ${
+                    isInvalid && "opacity-50"
+                  }`}
+                  onClick={() => setLoading(true)}
+                >
+                  {loading ? "Loading.." : "Send"}
+                </button>
+              </form>
+              <div className="flex items-center justify-center">
+                <button
+                  className="bg-gray-500 text-white rounded-md w-48 py-3 mt-4 text-center"
+                  onClick={() => setFile("")}
+                >
+                  Discard
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <ReactLoader />
+        )}
       </div>
-    </>
+    </div>
   );
 }

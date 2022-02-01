@@ -122,7 +122,7 @@ export default function Add() {
       setFile("");
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       setLoading(false);
       if (error.response) {
         toast.error(error.response.data.error, {
