@@ -178,103 +178,107 @@ export default function EditPost() {
         {place !== null && media ? (
           <div className="w-full h-full">
             <ToastContainer />
-            <div className="mt-4 w-4/5 md:w-3/5 mx-auto">
-              <h1 className="text-3xl text-gray-900 font-bold">Edit order</h1>
+            <div className="mt-4 w-4/5 md:w-full mx-auto">
+              <h1 className="text-2xl text-gray-600 font-bold md:ml-12 xl:ml-16">
+                Edit post
+              </h1>
             </div>
-            <div className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center w-4/5 mx-auto mb-8 mt-6 md:w-3/5">
-              {!file && !media ? (
-                <>
-                  <header className="flex flex-col justify-center items-center">
-                    <span className="mb-3 font-semibold text-gray-900 justify-center">
-                      Choose file to upload
-                    </span>
-                    <span className="mb-6 text-gray-400 justify-center">
-                      Only video or image
-                    </span>
-                    <span className="mb-3 text-gray-400 justify-center">
-                      Video less than 1 GB and up to 3 minutes
-                    </span>
-                  </header>
-                </>
-              ) : file?.type === "video/mp4" ||
-                (file?.type === "video/webm" && file) ? (
-                <div className="h-2/5 w-4/5 mx-auto">
-                  <ReactPlayer
-                    url={fileUrl}
-                    controls
-                    width="100%"
-                    height="100%"
+            <div className=" md:flex md:h-screen">
+              <div className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center w-4/5 mx-auto mb-8 mt-6 md:w-1/3 xl:w-1/4 md:relative md:left-4 md:rounded-md md:h-3/4">
+                {!file && !media ? (
+                  <>
+                    <header className="flex flex-col justify-center items-center">
+                      <span className="mb-3 font-semibold text-gray-900 justify-center">
+                        Choose file to upload
+                      </span>
+                      <span className="mb-6 text-gray-400 justify-center">
+                        Only video or image
+                      </span>
+                      <span className="mb-3 text-gray-400 justify-center">
+                        Video less than 1 GB and up to 3 minutes
+                      </span>
+                    </header>
+                  </>
+                ) : file?.type === "video/mp4" ||
+                  (file?.type === "video/webm" && file) ? (
+                  <div className="h-2/5 w-4/5 mx-auto">
+                    <ReactPlayer
+                      url={fileUrl}
+                      controls
+                      width="100%"
+                      height="100%"
+                    />
+                  </div>
+                ) : file?.type === "image/jpeg" && file ? (
+                  <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
+                    <img src={fileUrl} className=" w-full h-full" />
+                  </div>
+                ) : media.split(".").pop() === "mp4" ||
+                  (media.split(".").pop() === "webm" && !file) ? (
+                  <div className="h-2/5 w-4/5 mx-auto">
+                    <ReactPlayer
+                      url={media}
+                      controls
+                      width="100%"
+                      height="100%"
+                    />
+                  </div>
+                ) : media.split(".").pop() === "jpeg" && !file ? (
+                  <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
+                    <img src={media} className=" w-full h-full" />
+                  </div>
+                ) : (
+                  <p>Something went wrong !</p>
+                )}
+                <div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => {
+                      setFile(e.target.files[0]);
+                      e.target.value = "";
+                    }}
+                    ref={hiddenFileInput}
                   />
+                  <button
+                    onClick={handleClick}
+                    className="mt-4 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
+                  >
+                    Upload a file
+                  </button>
                 </div>
-              ) : file?.type === "image/jpeg" && file ? (
-                <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
-                  <img src={fileUrl} className=" w-full h-full" />
-                </div>
-              ) : media.split(".").pop() === "mp4" ||
-                (media.split(".").pop() === "webm" && !file) ? (
-                <div className="h-2/5 w-4/5 mx-auto">
-                  <ReactPlayer
-                    url={media}
-                    controls
-                    width="100%"
-                    height="100%"
-                  />
-                </div>
-              ) : media.split(".").pop() === "jpeg" && !file ? (
-                <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
-                  <img src={media} className=" w-full h-full" />
-                </div>
-              ) : (
-                <p>Something went wrong !</p>
-              )}
-              <div>
-                <input
-                  type="file"
-                  className="hidden"
-                  onChange={(e) => {
-                    setFile(e.target.files[0]);
-                    e.target.value = "";
-                  }}
-                  ref={hiddenFileInput}
-                />
-                <button
-                  onClick={handleClick}
-                  className="mt-4 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
-                >
-                  Upload a file
-                </button>
               </div>
-            </div>
-            <div className=" mb-12 flex flex-col w-4/5 md:w-3/5 mx-auto gap-3">
-              <h4 className="ml-1 font-semibold">Description</h4>
-              <form
-                onSubmit={onsubmit}
-                className="flex flex-col justify-evenly"
-              >
-                <input
-                  className=" w-full m-auto focus:outline-none focus:placeholder-gray-600 text-gray-700 placeholder-gray-400 pl-12 rounded-md py-4 border border-gray-300"
-                  type="text"
-                  placeholder="Add description"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                />
-                <button
-                  disabled={isInvalid}
-                  className={`bg-indigo-500 text-white rounded-md w-48 py-3 mt-16 text-center mx-auto  ${
-                    isInvalid && "opacity-50"
-                  }`}
-                  onClick={() => setLoading(true)}
+              <div className=" mb-12 flex flex-col w-4/5 md:w-1/2 xl:w-3/5 mx-auto gap-3 md:mb-8 md:mt-4 lg:relative lg:right-8">
+                <h4 className="ml-1 font-semibold">Description</h4>
+                <form
+                  onSubmit={onsubmit}
+                  className="flex flex-col justify-evenly"
                 >
-                  {loading ? "Loading.." : "Send"}
-                </button>
-              </form>
-              <div className="flex items-center justify-center">
-                <button
-                  className="bg-gray-500 text-white rounded-md w-48 py-3 mt-4 text-center"
-                  onClick={() => setFile("")}
-                >
-                  Discard
-                </button>
+                  <input
+                    className=" w-full m-auto focus:outline-none focus:placeholder-gray-600 text-gray-700 placeholder-gray-400 pl-12 rounded-md py-4 border border-gray-300"
+                    type="text"
+                    placeholder="Add description"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                  <button
+                    disabled={isInvalid}
+                    className={`bg-indigo-500 text-white rounded-md w-48 py-3 mt-16 text-center mx-auto  ${
+                      isInvalid && "opacity-50"
+                    }`}
+                    onClick={() => setLoading(true)}
+                  >
+                    {loading ? "Loading.." : "Send"}
+                  </button>
+                </form>
+                <div className="flex items-center justify-center">
+                  <button
+                    className="bg-gray-500 text-white rounded-md w-48 py-3 mt-4 text-center"
+                    onClick={() => setFile("")}
+                  >
+                    Discard
+                  </button>
+                </div>
               </div>
             </div>
           </div>
