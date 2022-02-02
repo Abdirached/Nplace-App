@@ -176,9 +176,9 @@ export default function EditPost() {
       <Navbar />
       <div className="w-full h-full">
         {place !== null && media ? (
-          <div className="w-full h-full">
+          <div className="w-full h-full mt-8">
             <ToastContainer />
-            <div className="mt-4 w-4/5 md:w-full mx-auto">
+            <div className="mt-4 w-4/5 md:w-full mx-auto mb-4">
               <h1 className="text-2xl text-gray-600 font-bold md:ml-12 xl:ml-16">
                 Edit post
               </h1>
@@ -248,7 +248,7 @@ export default function EditPost() {
                   </button>
                 </div>
               </div>
-              <div className=" mb-12 flex flex-col w-4/5 md:w-1/2 xl:w-3/5 mx-auto gap-3 md:mb-8 md:mt-4 lg:relative lg:right-8">
+              <div className=" mb-12 flex flex-col w-4/5 md:w-1/2 xl:w-3/5 mx-auto gap-3 md:mb-8 md:mt-3 lg:relative lg:right-8">
                 <h4 className="ml-1 font-semibold">Description</h4>
                 <form
                   onSubmit={onsubmit}

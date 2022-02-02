@@ -47,9 +47,9 @@ export default function Add() {
     }
   }, [file]);
 
-  const mimeTypes = ["video/mp4", "video/WebM", "image/jpeg"];
+  const mimeTypes = ["video/mp4", "video/webm", "image/jpeg"];
   useEffect(() => {
-    if (file && file?.size > 20971520) {
+    if (file && file?.size > 40971520) {
       toast.error("file over limit", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 5000,
@@ -152,83 +152,99 @@ export default function Add() {
       <Navbar />
       <div className="w-full h-full">
         {place !== null ? (
-          <div className="w-full h-full">
+          <div className="w-full h-full mt-8">
             <ToastContainer />
-            <div className="mt-8 w-4/5 md:w-3/5 mx-auto">
-              <h1 className="text-4xl text-gray-900 font-semibold">
+            <div className="mt-4 w-4/5 md:w-full mx-auto mb-4">
+              <h1 className="text-2xl text-gray-600 font-bold md:ml-12 xl:ml-16">
                 Send order
               </h1>
             </div>
-            <div className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center w-4/5 mx-auto mb-12 mt-10 md:w-3/5">
-              {!file ? (
-                <>
-                  <header className="flex flex-col justify-center items-center">
-                    <span className="mb-3 font-semibold text-gray-900 justify-center">
-                      Choose file to upload
-                    </span>
-                    <span className="mb-6 text-gray-400 justify-center">
-                      Only video or image
-                    </span>
-                    <span className="mb-3 text-gray-400 justify-center">
-                      Video less than 1 GB and up to 3 minutes
-                    </span>
-                  </header>
+            <div className=" md:flex md:h-screen">
+              <div className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center w-4/5 mx-auto mb-8 mt-6 md:w-1/3 xl:w-1/4 md:relative md:left-4 md:rounded-md md:h-3/4">
+                {!file ? (
+                  <>
+                    <header className="flex flex-col justify-center items-center">
+                      <span className="mb-3 font-semibold text-gray-900 justify-center">
+                        Choose file to upload
+                      </span>
+                      <span className="mb-6 text-gray-400 justify-center">
+                        Only video or image
+                      </span>
+                      <span className="mb-3 text-gray-400 justify-center">
+                        Video less than 1 GB and up to 3 minutes
+                      </span>
+                    </header>
+                  </>
+                ) : file?.type === "video/mp4" ||
+                  file?.type === "video/webm" ? (
+                  <div className="h-2/5 w-4/5 mx-auto">
+                    <ReactPlayer
+                      url={fileUrl}
+                      controls
+                      width="100%"
+                      height="100%"
+                    />
+                  </div>
+                ) : file?.type === "image/jpeg" ? (
+                  <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
+                    <img src={fileUrl} className=" w-full h-full" />
+                  </div>
+                ) : (
+                  <p>Something went wrong !</p>
+                )}
+                <div>
                   <input
                     type="file"
                     className="hidden"
-                    onChange={(e) => setFile(e.target.files[0])}
+                    onChange={(e) => {
+                      setFile(e.target.files[0]);
+                      e.target.value = "";
+                    }}
                     ref={hiddenFileInput}
                   />
                   <button
                     onClick={handleClick}
-                    className="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
+                    className="mt-4 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
                   >
                     Upload a file
                   </button>
-                </>
-              ) : file?.type === "video/mp4" || file?.type === "video/WebM" ? (
-                <div className="w-4/5 h-2/5">
-                  <ReactPlayer
-                    url={fileUrl}
-                    controls
-                    width="100%"
-                    height="100%"
-                  />
                 </div>
-              ) : file?.type === "image/jpeg" ? (
-                <div>
-                  <img
-                    src={fileUrl}
-                    className=" w-3/5 md:w-2/5 md:h-2/5 mx-auto"
-                  />
-                </div>
-              ) : (
-                <p>Something went wrong !</p>
-              )}
-            </div>
-            <div className=" mb-12 flex flex-col w-4/5 md:w-3/5 mx-auto gap-3">
-              <h4 className="ml-1 font-semibold">Description</h4>
-              <form
-                onSubmit={onsubmit}
-                className="flex flex-col justify-evenly"
-              >
-                <input
-                  className=" w-full m-auto focus:outline-none focus:placeholder-gray-600 text-gray-700 placeholder-gray-400 pl-12 rounded-md py-4 border border-gray-300"
-                  type="text"
-                  placeholder="Add description"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                />
-                <button
-                  disabled={isInvalid}
-                  className={`bg-indigo-500 text-white rounded-lg w-full py-3 mt-16 text-center mx-auto  ${
-                    isInvalid && "opacity-50"
-                  }`}
-                  onClick={() => setLoading(true)}
+              </div>
+              <div className=" mb-12 flex flex-col w-4/5 md:w-1/2 xl:w-3/5 mx-auto gap-3 md:mb-8 md:mt-3 lg:relative lg:right-8">
+                <h4 className="ml-1 font-semibold">Description</h4>
+                <form
+                  onSubmit={onsubmit}
+                  className="flex flex-col justify-evenly"
                 >
-                  {loading ? "Loading.." : "Send"}
-                </button>
-              </form>
+                  <input
+                    className=" w-full m-auto focus:outline-none focus:placeholder-gray-600 text-gray-700 placeholder-gray-400 pl-12 rounded-md py-4 border border-gray-300"
+                    type="text"
+                    placeholder="Add description"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                  <button
+                    disabled={isInvalid}
+                    className={`bg-indigo-500 text-white rounded-md w-48 py-3 mt-16 text-center mx-auto  ${
+                      isInvalid && "opacity-50"
+                    }`}
+                    onClick={() => setLoading(true)}
+                  >
+                    {loading ? "Loading.." : "Send"}
+                  </button>
+                </form>
+                <div className="flex items-center justify-center">
+                  <button
+                    className="bg-gray-500 text-white rounded-md w-48 py-3 mt-4 text-center"
+                    onClick={() => {
+                      setFile("");
+                      setContent("");
+                    }}
+                  >
+                    Discard
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
