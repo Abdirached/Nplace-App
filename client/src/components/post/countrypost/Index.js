@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Skeleton from "react-loading-skeleton";
+import ReactPlayer from "react-player";
+import ReactLoader from "../../ReactLoader";
 import Header from "../Header";
-import Audio from "../Audio";
 import Footer from "../Footer";
 import UselocationListner from "../../../hooks/UseLocationListner";
 import PostChat from "../PostChat";
@@ -55,7 +55,24 @@ export default function CountryPost() {
               firstname={data.User.firstName}
               lastName={data.User.lastName}
             />
-            <Audio src={data.video} caption={data.content} />
+            {data.video.split(".").pop() === "mp4" ||
+            data.video.split(".").pop() === "webm" ? (
+              <div className="mx-auto mt-4 h-1/5" style={{ width: "95%" }}>
+                <ReactPlayer
+                  url={data.video}
+                  controls
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+            ) : data.video.split(".").pop() === "jpeg" ||
+              data.video.split(".").pop() === "jpg" ? (
+              <div className="mx-auto mt-4 h-1/5" style={{ width: "95%" }}>
+                <img src={data.video} className=" w-full h-full" />
+              </div>
+            ) : (
+              <p className="text-center mt-2">Something went wrong !</p>
+            )}
             <Footer caption={data.content} firstname={data.User.firstName} />
             {currentUserId !== data.userId ? (
               <button
@@ -83,7 +100,7 @@ export default function CountryPost() {
           </div>
         ))
       ) : (
-        <Skeleton count={4} width={550} height={150} className="mb-4" />
+        <ReactLoader />
       )}
     </div>
   );

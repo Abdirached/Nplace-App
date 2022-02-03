@@ -210,7 +210,7 @@ export default function EditPost() {
                     />
                   </div>
                 ) : file?.type === "image/jpeg" && file ? (
-                  <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
+                  <div className="w-4/5 md:h-2/5 mx-auto">
                     <img src={fileUrl} className=" w-full h-full" />
                   </div>
                 ) : media.split(".").pop() === "mp4" ||
@@ -223,8 +223,9 @@ export default function EditPost() {
                       height="100%"
                     />
                   </div>
-                ) : media.split(".").pop() === "jpeg" && !file ? (
-                  <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
+                ) : media.split(".").pop() === "jpeg" ||
+                  (media.split(".").pop() === "jpg" && !file) ? (
+                  <div className="w-4/5 md:h-2/5 mx-auto">
                     <img src={media} className=" w-full h-full" />
                   </div>
                 ) : (
