@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import Skeleton from "react-loading-skeleton";
-import { UserContext } from "../context/UserProvider";
+import UserContext from "../context/UserProvider";
 const axios = require("axios");
 export default function Sidebar() {
   const { user } = useContext(UserContext);

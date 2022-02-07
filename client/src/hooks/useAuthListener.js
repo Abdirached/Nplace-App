@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 export default function useAuthListener() {
-  const currentUser = JSON.parse(localStorage.getItem("userId"));
-  const role = JSON.parse(localStorage.getItem("userRole"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("userId")));
+  const [role, setRole] = useState(
+    JSON.parse(localStorage.getItem("userRole"))
+  );
   useEffect(() => {
-    console.log(currentUser);
+    console.log(user, role);
   }, []);
-  return { currentUser, role };
+  return { user, role };
 }

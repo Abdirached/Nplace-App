@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import UselocationListner from "../hooks/UseLocationListner";
 import ReactLoader from "../components/ReactLoader";
 import { ToastContainer, toast } from "react-toastify";
@@ -173,7 +172,6 @@ export default function EditPost() {
   };
   return (
     <div className="h-full">
-      <Navbar />
       <div className="w-full h-full">
         {place !== null && media ? (
           <div className="w-full h-full mt-8">

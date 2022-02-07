@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { MdCloudUpload, MdMail, MdHome, MdMenu, MdClose } from "react-icons/md";
-import { UserContext } from "../context/UserProvider";
+import UserContext from "../context/UserProvider";
 import logo from "../images/keekeen2.png";
 
 export default function Navbar() {
