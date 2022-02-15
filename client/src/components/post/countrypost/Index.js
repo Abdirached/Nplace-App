@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import io from "socket.io-client";
 import ReactPlayer from "react-player";
 import ReactLoader from "../../ReactLoader";
 import Header from "../Header";
@@ -10,6 +11,9 @@ const axios = require("axios");
 
 export default function CountryPost() {
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
+  const socket = io("http://localhost:5000", {
+    query: { currentUserId },
+  });
   const { place } = UselocationListner();
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
@@ -43,6 +47,19 @@ export default function CountryPost() {
       isMounted = false;
     };
   }, [place]);
+  useEffect(() => {
+    socket.on("newPost", (data) => {
+      // console.log(data);
+      if (data) {
+        setPosts((prev) => [data, ...prev]);
+      } else {
+        console.log("no realtime posts yet");
+      }
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
   return (
     <div className=" relative md:w-2/3 mr-auto w-full mt-4">
       {posts.length !== 0 ? (

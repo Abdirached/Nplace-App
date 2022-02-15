@@ -40,6 +40,9 @@ io.on("connection", (socket) => {
       });
     }
   );
+  socket.on("newPost", (data) => {
+    socket.broadcast.emit("newPost", data);
+  });
   console.log("a user connected");
 });
 // importing models

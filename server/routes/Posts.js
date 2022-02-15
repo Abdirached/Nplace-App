@@ -173,7 +173,23 @@ router.post("/", requireLogin, (req, res) => {
     userId: req.user.userId,
   })
     .then((result) => {
-      res.json({ post: result });
+      Post.findOne({
+        where: { postId: result.postId },
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: ["password", "email", "phonenumber"],
+            },
+          },
+        ],
+      })
+        .then((response) => {
+          res.json({ post: response });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     })
     .catch((err) => {
       console.log(err);

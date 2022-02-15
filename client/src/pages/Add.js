@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import io from "socket.io-client";
 import ReactPlayer from "react-player";
-import Navbar from "../components/Navbar";
+import UserContext from "../context/UserProvider";
 import UselocationListner from "../hooks/UseLocationListner";
 import ReactLoader from "../components/ReactLoader";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,6 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 const axios = require("axios");
 
 export default function Add() {
+  const { user } = useContext(UserContext);
+  const socket = io("http://localhost:5000", {
+    query: { currentUserId: user },
+  });
   const [url, setUrl] = useState();
   const [fields, setFields] = useState();
   const [content, setContent] = useState("");
@@ -21,6 +26,12 @@ export default function Add() {
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
+  useEffect(() => {
+    console.log("socket connected in addjs component");
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
   useEffect(() => {
     const signedurl = async function getSignedUrl() {
       try {
@@ -109,6 +120,7 @@ export default function Add() {
         },
       });
       console.log(response);
+      socket.emit("newPost", response.data.post);
       setContent("");
       toast.success("Successfully Posted!", {
         position: toast.POSITION.BOTTOM_CENTER,
