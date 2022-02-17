@@ -1,15 +1,18 @@
 import { useState, useEffect, useContext } from "react";
+import io from "socket.io-client";
 import Sidebar from "./Sidebar";
 import Messages from "./chatmessages/Messages";
 import { MessagesProvider } from "../../context/MessagesProvider";
 const axios = require("axios");
-
 export default function Index() {
+  const currentUserId = JSON.parse(localStorage.getItem("userId"));
+  const socket = io("http://localhost:5000", { query: { currentUserId } });
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [closed, setClosed] = useState(false);
-  // console.log(chats);
-  const currentUserId = JSON.parse(localStorage.getItem("userId"));
+  useEffect(() => {
+    console.log(chats);
+  }, [chats]);
   useEffect(() => {
     let mounted = true;
     const fetchChats = async function fetchCurrentUserChats() {
@@ -24,7 +27,7 @@ export default function Index() {
         );
         console.log(response);
         if (mounted) {
-          setChats(response.data);
+          setChats(response.data.chats);
         }
       } catch (error) {
         console.log(error);
@@ -35,19 +38,34 @@ export default function Index() {
       mounted = false;
     };
   }, [currentUserId]);
-
+  useEffect(() => {
+    socket.on("getNewchat", (data) => {
+      // console.log(data);
+      if (data) {
+        setChats((prev) => [data, ...prev]);
+      } else {
+        console.log("no realtime chats yet");
+      }
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [currentChat]);
   return (
     <MessagesProvider>
-      <div className="w-full h-full">
+      <div className="w-full overflow-y-hidden" style={{ height: "89.5vh" }}>
         {!closed ? (
-          <div className="flex">
-            <div className="w-full h-screen bg-white border-r md:w-1/2 lg:w-2/5 fixed overflow-y-auto">
+          <div className="flex overflow-y-hidden" style={{ height: "89.5vh" }}>
+            <div
+              className="w-full bg-white border-r md:w-1/2 lg:w-2/5 sticky top-0 overflow-y-auto bottom-0"
+              style={{ height: "89.5vh" }}
+            >
               <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
                 <span className=" font-semibold mr-3 text-gray-700 mb-4 mt-4 ml-4 md:mb-3">
                   Chats
                 </span>
               </div>
-              {chats.chats?.map((chat) => (
+              {chats?.map((chat) => (
                 <div
                   key={chat.chatId}
                   className={`mb-6 mt-6 bg-gray-100 mx-auto rounded-md ${
@@ -66,7 +84,10 @@ export default function Index() {
                 </div>
               ))}
             </div>
-            <div className="hidden md:block lg:w-3/5 md:w-1/2 w-full md:ml-auto">
+            <div
+              className="hidden md:block lg:w-3/5 md:w-1/2 w-full overflow-y-auto"
+              style={{ height: "89.5vh" }}
+            >
               <Messages
                 currentUserId={currentUserId}
                 currentChat={currentChat}
@@ -78,13 +99,16 @@ export default function Index() {
           </div>
         ) : (
           <div className="flex">
-            <div className="hidden md:block w-full h-screen bg-white border-r md:w-1/2 lg:w-2/5 fixed overflow-y-auto">
+            <div
+              className="hidden md:block w-full bg-white border-r md:w-1/2 lg:w-2/5 sticky top-0 overflow-y-auto bottom-0"
+              style={{ height: "89.5vh" }}
+            >
               <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
                 <span className=" font-semibold mr-3 text-gray-700 mb-4 mt-4 ml-4 md:mb-3">
                   Chats
                 </span>
               </div>
-              {chats.chats?.map((chat) => (
+              {chats?.map((chat) => (
                 <div
                   key={chat.chatId}
                   className={`mb-6 mt-6 bg-gray-100 mx-auto rounded-md ${
@@ -103,7 +127,10 @@ export default function Index() {
                 </div>
               ))}
             </div>
-            <div className="md:w-1/2 lg:w-3/5 w-full md:ml-auto">
+            <div
+              className="md:w-1/2 lg:w-3/5 w-full overflow-y-auto"
+              style={{ height: "89.5vh" }}
+            >
               <Messages
                 currentUserId={currentUserId}
                 currentChat={currentChat}

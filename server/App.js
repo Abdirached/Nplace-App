@@ -14,20 +14,10 @@ io.on("connection", (socket) => {
   const currentUserId = socket.handshake.query.currentUserId;
   console.log(currentUserId);
   socket.join(currentUserId);
-  socket.on(
-    "sendMessage",
-    ({ senderId, receiverId, text, messageId, chatId, createdAt }) => {
-      console.log(text);
-      socket.to(senderId).to(receiverId).emit("getMessage", {
-        senderId,
-        receiverId,
-        text,
-        messageId,
-        chatId,
-        createdAt,
-      });
-    }
-  );
+  socket.on("sendMessage", (data) => {
+    console.log(data.text);
+    socket.to(data.senderId).to(data.receiverId).emit("getMessage", data);
+  });
   socket.on(
     "chatStatus",
     ({ senderId, receiverId, messageId, chatId, isRead }) => {
@@ -41,7 +31,10 @@ io.on("connection", (socket) => {
     }
   );
   socket.on("newPost", (data) => {
-    socket.broadcast.emit("newPost", data);
+    socket.broadcast.emit("getNewPost", data);
+  });
+  socket.on("newChat", (data) => {
+    socket.to(data.ownerOne).to(data.ownerTwo).emit("getNewchat", data);
   });
   console.log("a user connected");
 });

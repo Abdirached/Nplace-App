@@ -71,6 +71,7 @@ router.post("/:firstUserId/:secondUserId", requireLogin, (req, res) => {
     defaults: {
       ownerOne: req.params.firstUserId,
       ownerTwo: req.params.secondUserId,
+      isRead: false,
     },
   })
     .then((chat) => {

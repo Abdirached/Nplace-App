@@ -48,7 +48,7 @@ export default function CountryPost() {
     };
   }, [place]);
   useEffect(() => {
-    socket.on("newPost", (data) => {
+    socket.on("getNewPost", (data) => {
       // console.log(data);
       if (data) {
         setPosts((prev) => [data, ...prev]);
@@ -107,6 +107,7 @@ export default function CountryPost() {
                 postUserId={data.userId}
                 postUserName={data.User.firstName}
                 setOpen={setOpen}
+                socket={socket}
               />
             ) : null}
             <div>

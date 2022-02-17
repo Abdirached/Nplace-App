@@ -88,17 +88,7 @@ export default function Messages({
     socket.on("getMessage", (data) => {
       console.log(currentChat);
       if (currentChat == data.chatId) {
-        setMessages((prev) => [
-          ...prev,
-          {
-            senderId: data.senderId,
-            receiverId: data.receiverId,
-            text: data.text,
-            messageId: data.messageId,
-            chatId: data.chatId,
-            createdAt: data.createdAt,
-          },
-        ]);
+        setMessages((prev) => [...prev, data]);
       } else {
         console.log("wrong room");
       }
@@ -115,7 +105,7 @@ export default function Messages({
           person.length !== 0 &&
           personToChat === person.userId ? (
             <div>
-              <div className="flex items-center mb-4 border-b shadow-sm sticky z-20 bg-white top-16">
+              <div className="flex items-center mb-4 border-b shadow-sm sticky z-20 bg-white top-0">
                 <button
                   onClick={() => {
                     setClosed(!closed);

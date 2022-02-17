@@ -1,48 +1,67 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 const axios = require("axios");
 
-export default function PostChat({ postUserId, postUserName, setOpen }) {
+export default function PostChat({
+  postUserId,
+  postUserName,
+  setOpen,
+  socket,
+}) {
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
-  const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
-  const chatOwners = [chat?.ownerOne, chat?.ownerTwo];
-  const personToChat = chatOwners.find((person) => person !== currentUserId);
-
-  useEffect(() => {
-    const createChat = async function createChatForPost() {
-      try {
-        const response = await axios({
-          method: "post",
-          url: `http://localhost:5000/Chats/${currentUserId}/${postUserId}`,
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        });
-        console.log(response.data);
-        setChat(response.data[0]);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    createChat();
-  }, [postUserId, currentUserId]);
   const onSubmit = async function onSubmitMessage(e) {
     e.preventDefault();
     try {
+      const responseForCreateChat = await axios({
+        method: "post",
+        url: `http://localhost:5000/Chats/${currentUserId}/${postUserId}`,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      });
+      console.log(responseForCreateChat.data[0]);
       const response = await axios({
         method: "post",
-        url: `http://localhost:5000/Chats/chat/${chat.chatId}/messages`,
+        url: `http://localhost:5000/Chats/chat/${responseForCreateChat.data[0].chatId}/messages`,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
         data: {
           senderId: currentUserId,
-          receiverId: personToChat,
+          receiverId: postUserId,
           text: message,
         },
       });
       console.log(response.data);
       setMessage("");
+      if (responseForCreateChat.data[1]) {
+        const newChatData = {
+          ...responseForCreateChat.data[0],
+          Messages: response.data.message,
+        };
+        console.log(newChatData);
+        socket.emit("newChat", newChatData);
+      } else {
+        console.log("chat already exists");
+      }
+      socket.emit("sendMessage", response.data.message);
+      const readStatusResponse = await axios({
+        method: "put",
+        url: `http://localhost:5000/Chats/chat/${responseForCreateChat.data[0].chatId}`,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        data: {
+          isRead: false,
+        },
+      });
+      socket.emit("chatStatus", {
+        senderId: currentUserId,
+        receiverId: postUserId,
+        messageId: response.data.message.messageId,
+        chatId: response.data.message.chatId,
+        isRead: readStatusResponse.data.chat[1][0].isRead,
+      });
     } catch (error) {
       console.log(error);
     }
