@@ -53,12 +53,12 @@ export default function Index() {
   }, [currentChat]);
   return (
     <MessagesProvider>
-      <div className="w-full overflow-y-hidden" style={{ height: "89.5vh" }}>
+      <div className="w-full overflow-y-hidden" style={{ height: "89.99vh" }}>
         {!closed ? (
-          <div className="flex overflow-y-hidden" style={{ height: "89.5vh" }}>
+          <div className="flex overflow-y-hidden" style={{ height: "89.99vh" }}>
             <div
               className="w-full bg-white border-r md:w-1/2 lg:w-2/5 sticky top-0 overflow-y-auto bottom-0"
-              style={{ height: "89.5vh" }}
+              style={{ height: "89.99vh" }}
             >
               <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
                 <span className=" font-semibold mr-3 text-gray-700 mb-4 mt-4 ml-4 md:mb-3">
@@ -86,7 +86,7 @@ export default function Index() {
             </div>
             <div
               className="hidden md:block lg:w-3/5 md:w-1/2 w-full overflow-y-auto"
-              style={{ height: "89.5vh" }}
+              style={{ height: "89.99vh" }}
             >
               <Messages
                 currentUserId={currentUserId}
@@ -101,7 +101,7 @@ export default function Index() {
           <div className="flex">
             <div
               className="hidden md:block w-full bg-white border-r md:w-1/2 lg:w-2/5 sticky top-0 overflow-y-auto bottom-0"
-              style={{ height: "89.5vh" }}
+              style={{ height: "89.99vh" }}
             >
               <div className="text-2xl mt-1 flex items-center border-b md:border-b-0">
                 <span className=" font-semibold mr-3 text-gray-700 mb-4 mt-4 ml-4 md:mb-3">
@@ -129,7 +129,7 @@ export default function Index() {
             </div>
             <div
               className="md:w-1/2 lg:w-3/5 w-full overflow-y-auto"
-              style={{ height: "89.5vh" }}
+              style={{ height: "89.99vh" }}
             >
               <Messages
                 currentUserId={currentUserId}

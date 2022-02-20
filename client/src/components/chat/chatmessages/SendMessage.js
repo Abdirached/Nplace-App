@@ -44,7 +44,7 @@ export default function SendMessage({ chat, currentUserId, socket }) {
     } catch (error) {}
   };
   return (
-    <div className="border-t-2 border-gray-200 px-4 pt-4 mb-2">
+    <div className="border-t-2 border-gray-200 px-4 pt-4">
       <form onSubmit={onSubmit} className="flex">
         <input
           name="addComment"
@@ -52,7 +52,7 @@ export default function SendMessage({ chat, currentUserId, socket }) {
           onChange={(e) => setMessage(e.target.value)}
           type="text"
           placeholder="Write Something"
-          className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3"
+          className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3 mb-4"
         />
         <button
           type="submit"
