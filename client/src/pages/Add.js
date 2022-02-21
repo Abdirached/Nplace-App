@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import io from "socket.io-client";
 import ReactPlayer from "react-player";
 import UserContext from "../context/UserProvider";
+import { SocketContext } from "../context/SocketProvider";
 import UselocationListner from "../hooks/UseLocationListner";
 import ReactLoader from "../components/ReactLoader";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,9 +11,7 @@ const axios = require("axios");
 
 export default function Add() {
   const { user } = useContext(UserContext);
-  const socket = io("http://localhost:5000", {
-    query: { currentUserId: user },
-  });
+  const socket = useContext(SocketContext);
   const [url, setUrl] = useState();
   const [fields, setFields] = useState();
   const [content, setContent] = useState("");
@@ -28,9 +27,6 @@ export default function Add() {
   };
   useEffect(() => {
     console.log("socket connected in addjs component");
-    return () => {
-      socket.disconnect();
-    };
   }, []);
   useEffect(() => {
     const signedurl = async function getSignedUrl() {

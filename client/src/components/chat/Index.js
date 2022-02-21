@@ -1,15 +1,16 @@
 import { useState, useEffect, useContext } from "react";
-import io from "socket.io-client";
 import Sidebar from "./Sidebar";
 import Messages from "./chatmessages/Messages";
 import { MessagesProvider } from "../../context/MessagesProvider";
+import { SocketContext } from "../../context/SocketProvider";
 const axios = require("axios");
 export default function Index() {
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
-  const socket = io("http://localhost:5000", { query: { currentUserId } });
+  const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [closed, setClosed] = useState(false);
+  console.log(socket);
   useEffect(() => {
     console.log(chats);
   }, [chats]);
@@ -39,6 +40,7 @@ export default function Index() {
     };
   }, [currentUserId]);
   useEffect(() => {
+    if (!socket) return;
     socket.on("getNewchat", (data) => {
       // console.log(data);
       if (data) {
@@ -48,9 +50,9 @@ export default function Index() {
       }
     });
     return () => {
-      socket.disconnect();
+      socket.off("getNewchat");
     };
-  }, [currentChat]);
+  }, []);
   return (
     <MessagesProvider>
       <div className="w-full overflow-y-hidden" style={{ height: "89.99vh" }}>

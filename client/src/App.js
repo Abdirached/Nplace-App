@@ -9,6 +9,7 @@ import {
 //importing components
 import useAuthListener from "./hooks/useAuthListener";
 import UserContext from "./context/UserProvider";
+import { SocketProvider } from "./context/SocketProvider";
 import Navbar from "./components/Navbar";
 // importing pages
 import HomeCountry from "./pages/HomeCountry";
@@ -30,51 +31,53 @@ function App() {
     <Router>
       <Switch>
         {user ? (
-          <UserContext.Provider value={{ user, role }}>
-            <Navbar />
-            {role === "buyer" ? (
-              <>
-                <Route exact path="/Posts/:postId">
-                  <SinglePostPage />
-                </Route>
-                <Route exact path="/Posts/:postId/Edit">
-                  <EditPost />
-                </Route>
-                <Route exact path="/Profile">
-                  <Profile />
-                </Route>
-                <Route exact path="/Add">
-                  <Add />
-                </Route>
-                <Route exact path="/Notifications">
-                  <Notifications />
-                </Route>
-                <Route exact path="/Chat">
-                  <Chat />
-                </Route>
-                <Redirect to="/Add" />
-              </>
-            ) : role === "seller" ? (
-              <>
-                <Route exact path="/">
-                  <HomeCountry />
-                </Route>
-                <Route exact path="/HomeProvince">
-                  <HomeProvince />
-                </Route>
-                <Route exact path="/Profile">
-                  <Profile />
-                </Route>
-                <Route exact path="/Notifications">
-                  <Notifications />
-                </Route>
-                <Route exact path="/Chat">
-                  <Chat />
-                </Route>
-                <Redirect to="/" />
-              </>
-            ) : null}
-          </UserContext.Provider>
+          <SocketProvider user={user}>
+            <UserContext.Provider value={{ user, role }}>
+              <Navbar />
+              {role === "buyer" ? (
+                <>
+                  <Route exact path="/Posts/:postId">
+                    <SinglePostPage />
+                  </Route>
+                  <Route exact path="/Posts/:postId/Edit">
+                    <EditPost />
+                  </Route>
+                  <Route exact path="/Profile">
+                    <Profile />
+                  </Route>
+                  <Route exact path="/Add">
+                    <Add />
+                  </Route>
+                  <Route exact path="/Notifications">
+                    <Notifications />
+                  </Route>
+                  <Route exact path="/Chat">
+                    <Chat />
+                  </Route>
+                  <Redirect to="/Add" />
+                </>
+              ) : role === "seller" ? (
+                <>
+                  <Route exact path="/">
+                    <HomeCountry />
+                  </Route>
+                  <Route exact path="/HomeProvince">
+                    <HomeProvince />
+                  </Route>
+                  <Route exact path="/Profile">
+                    <Profile />
+                  </Route>
+                  <Route exact path="/Notifications">
+                    <Notifications />
+                  </Route>
+                  <Route exact path="/Chat">
+                    <Chat />
+                  </Route>
+                  <Redirect to="/" />
+                </>
+              ) : null}
+            </UserContext.Provider>
+          </SocketProvider>
         ) : (
           <>
             <Route exact path="/SignUp" component={Signup} />

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import io from "socket.io-client";
 import ReactPlayer from "react-player";
 import ReactLoader from "../../ReactLoader";
 import Header from "../Header";
 import Footer from "../Footer";
+import { SocketContext } from "../../../context/SocketProvider";
 import UselocationListner from "../../../hooks/UseLocationListner";
 import PostChat from "../PostChat";
 import { formatDistance } from "date-fns";
@@ -11,9 +12,7 @@ const axios = require("axios");
 
 export default function CountryPost() {
   const currentUserId = JSON.parse(localStorage.getItem("userId"));
-  const socket = io("http://localhost:5000", {
-    query: { currentUserId },
-  });
+  const socket = useContext(SocketContext);
   const { place } = UselocationListner();
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
@@ -48,6 +47,7 @@ export default function CountryPost() {
     };
   }, [place]);
   useEffect(() => {
+    if (!socket) return;
     socket.on("getNewPost", (data) => {
       // console.log(data);
       if (data) {
@@ -57,7 +57,7 @@ export default function CountryPost() {
       }
     });
     return () => {
-      socket.disconnect();
+      socket.off("getNewPost");
     };
   }, []);
   return (

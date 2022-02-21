@@ -5,6 +5,7 @@ import ReactLoader from "../../ReactLoader";
 import SendMessage from "./SendMessage";
 import { MdArrowBack } from "react-icons/md";
 import { MessagesContext } from "../../../context/MessagesProvider";
+import { SocketContext } from "../../../context/SocketProvider";
 const axios = require("axios");
 export default function Messages({
   currentUserId,
@@ -13,7 +14,7 @@ export default function Messages({
   closed,
   setClosed,
 }) {
-  const socket = io("http://localhost:5000", { query: { currentUserId } });
+  const socket = useContext(SocketContext);
   const { messages, setMessages } = useContext(MessagesContext);
   const [chat, setChat] = useState([]);
   const [person, setPerson] = useState([]);
@@ -85,16 +86,17 @@ export default function Messages({
     };
   }, [currentChat]);
   useEffect(() => {
+    if (!socket) return;
     socket.on("getMessage", (data) => {
-      console.log(currentChat);
-      if (currentChat == data.chatId) {
+      console.log(data);
+      if (currentChat === data.chatId) {
         setMessages((prev) => [...prev, data]);
       } else {
         console.log("wrong room");
       }
     });
     return () => {
-      socket.disconnect();
+      socket.off("getMessage");
     };
   }, [currentChat]);
   return (

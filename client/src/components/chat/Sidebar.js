@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
-import io from "socket.io-client";
 import { MessagesContext } from "../../context/MessagesProvider";
+import { SocketContext } from "../../context/SocketProvider";
 const axios = require("axios");
 
 export default function Sidebar({
@@ -11,7 +11,7 @@ export default function Sidebar({
   setClosed,
   currentChat,
 }) {
-  const socket = io("http://localhost:5000", { query: { currentUserId } });
+  const socket = useContext(SocketContext);
   const { messages } = useContext(MessagesContext);
   const [person, setPerson] = useState([]);
   const [chatStatus, setChatStatus] = useState([]);
@@ -81,13 +81,14 @@ export default function Sidebar({
     };
   }, [personToChat]);
   useEffect(() => {
+    if (!socket) return;
     socket.on("getChatStatus", (data) => {
       setChatStatus(data);
     });
     return () => {
-      socket.disconnect();
+      socket.off("getChatStatus");
     };
-  }, [currentChat]);
+  }, []);
   return (
     <div className="w-full">
       <button

@@ -11,12 +11,12 @@ const io = new Server(httpServer, {
 const cors = require("cors");
 // socketio
 io.on("connection", (socket) => {
-  const currentUserId = socket.handshake.query.currentUserId;
-  console.log(currentUserId);
-  socket.join(currentUserId);
+  const user = socket.handshake.query.user;
+  console.log(user);
+  socket.join(user);
   socket.on("sendMessage", (data) => {
     console.log(data.text);
-    socket.to(data.senderId).to(data.receiverId).emit("getMessage", data);
+    io.to(data.senderId).to(data.receiverId).emit("getMessage", data);
   });
   socket.on(
     "chatStatus",
