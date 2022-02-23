@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 const axios = require("axios");
 
-export default function SendMessage({ chat, currentUserId, socket }) {
+export default function SendMessage({ chat, user, socket }) {
   const [message, setMessage] = useState("");
   const chatOwners = [chat.ownerOne, chat.ownerTwo];
-  const personToChat = chatOwners.find((person) => person !== currentUserId);
+  const personToChat = chatOwners.find((person) => person !== user);
   const onSubmit = async function onSubmitMessage(e) {
     e.preventDefault();
     try {
@@ -15,7 +15,7 @@ export default function SendMessage({ chat, currentUserId, socket }) {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
         data: {
-          senderId: currentUserId,
+          senderId: user,
           receiverId: personToChat,
           text: message,
         },
@@ -35,7 +35,7 @@ export default function SendMessage({ chat, currentUserId, socket }) {
       });
       console.log(readStatusResponse.data);
       socket.emit("chatStatus", {
-        senderId: currentUserId,
+        senderId: user,
         receiverId: personToChat,
         messageId: response.data.message.messageId,
         chatId: response.data.message.chatId,

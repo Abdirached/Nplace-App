@@ -1,17 +1,17 @@
 import { useEffect, useState, useContext } from "react";
-import io from "socket.io-client";
 import ReactPlayer from "react-player";
 import ReactLoader from "../../ReactLoader";
 import Header from "../Header";
 import Footer from "../Footer";
 import { SocketContext } from "../../../context/SocketProvider";
 import UselocationListner from "../../../hooks/UseLocationListner";
+import UserContext from "../../../context/UserProvider";
 import PostChat from "../PostChat";
 import { formatDistance } from "date-fns";
 const axios = require("axios");
 
 export default function CountryPost() {
-  const currentUserId = JSON.parse(localStorage.getItem("userId"));
+  const { user } = useContext(UserContext);
   const socket = useContext(SocketContext);
   const { place } = UselocationListner();
   const [posts, setPosts] = useState([]);
@@ -91,7 +91,7 @@ export default function CountryPost() {
               <p className="text-center mt-2">Something went wrong !</p>
             )}
             <Footer caption={data.content} firstname={data.User.firstName} />
-            {currentUserId !== data.userId ? (
+            {user !== data.userId ? (
               <button
                 onClick={() => {
                   setOpen(!open);

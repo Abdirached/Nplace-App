@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import Sidebar from "./Sidebar";
 import Messages from "./chatmessages/Messages";
+import UserContext from "../../context/UserProvider";
 import { MessagesProvider } from "../../context/MessagesProvider";
 import { SocketContext } from "../../context/SocketProvider";
 const axios = require("axios");
 export default function Index() {
-  const currentUserId = JSON.parse(localStorage.getItem("userId"));
+  const { user } = useContext(UserContext);
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -19,7 +20,7 @@ export default function Index() {
     const fetchChats = async function fetchCurrentUserChats() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/Chats/${currentUserId}`,
+          `http://localhost:5000/Chats/${user}`,
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -38,7 +39,7 @@ export default function Index() {
     return () => {
       mounted = false;
     };
-  }, [currentUserId]);
+  }, [user]);
   useEffect(() => {
     if (!socket) return;
     socket.on("getNewchat", (data) => {
@@ -77,7 +78,7 @@ export default function Index() {
                 >
                   <Sidebar
                     chat={chat}
-                    currentUserId={currentUserId}
+                    user={user}
                     setCurrentChat={setCurrentChat}
                     closed={closed}
                     setClosed={setClosed}
@@ -91,7 +92,7 @@ export default function Index() {
               style={{ height: "89.99vh" }}
             >
               <Messages
-                currentUserId={currentUserId}
+                user={user}
                 currentChat={currentChat}
                 setCurrentChat={setCurrentChat}
                 closed={closed}
@@ -120,7 +121,7 @@ export default function Index() {
                 >
                   <Sidebar
                     chat={chat}
-                    currentUserId={currentUserId}
+                    user={user}
                     setCurrentChat={setCurrentChat}
                     closed={closed}
                     setClosed={setClosed}
@@ -134,7 +135,7 @@ export default function Index() {
               style={{ height: "89.99vh" }}
             >
               <Messages
-                currentUserId={currentUserId}
+                user={user}
                 currentChat={currentChat}
                 setCurrentChat={setCurrentChat}
                 closed={closed}

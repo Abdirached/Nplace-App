@@ -5,7 +5,7 @@ const axios = require("axios");
 
 export default function Sidebar({
   chat,
-  currentUserId,
+  user,
   setCurrentChat,
   closed,
   setClosed,
@@ -17,7 +17,7 @@ export default function Sidebar({
   const [chatStatus, setChatStatus] = useState([]);
   const [read, setRead] = useState(chat.isRead);
   const chatOwners = [chat?.ownerOne, chat?.ownerTwo];
-  const personToChat = chatOwners.find((person) => person !== currentUserId);
+  const personToChat = chatOwners.find((person) => person !== user);
   console.log(chatStatus?.isRead);
   // console.log(chat.Messages[chat.Messages.length - 1]);
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Sidebar({
       if (
         messages &&
         messages[messages.length - 1]?.chatId === currentChat &&
-        messages[messages.length - 1]?.senderId !== currentUserId
+        messages[messages.length - 1]?.senderId !== user
       ) {
         try {
           const response = await axios({
@@ -118,7 +118,7 @@ export default function Sidebar({
         <div className="flex flex-col justify-items-start items-start justify-evenly m-2">
           <p className="text-gray-500">10:45pm</p>
           {!read &&
-          chat.Messages[chat.Messages.length - 1]?.senderId !== currentUserId &&
+          chat.Messages[chat.Messages.length - 1]?.senderId !== user &&
           chat.chatId !== currentChat ? (
             <span className="text-xs px-2 font-bold bg-blue-500 text-white rounded py-0.5 mt-1 ml-3">
               new
@@ -127,7 +127,7 @@ export default function Sidebar({
           {chatStatus.length !== 0 &&
           !chatStatus.isread &&
           chatStatus.chatId !== currentChat &&
-          chatStatus.senderId !== currentUserId &&
+          chatStatus.senderId !== user &&
           chatStatus.chatId === chat.chatId &&
           read ? (
             <span className="text-xs px-2 font-bold bg-blue-500 text-white rounded py-0.5 mt-1 ml-3">

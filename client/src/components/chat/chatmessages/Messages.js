@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import io from "socket.io-client";
 import { formatRelative } from "date-fns";
 import ReactLoader from "../../ReactLoader";
 import SendMessage from "./SendMessage";
@@ -8,7 +7,7 @@ import { MessagesContext } from "../../../context/MessagesProvider";
 import { SocketContext } from "../../../context/SocketProvider";
 const axios = require("axios");
 export default function Messages({
-  currentUserId,
+  user,
   currentChat,
   setCurrentChat,
   closed,
@@ -19,7 +18,7 @@ export default function Messages({
   const [chat, setChat] = useState([]);
   const [person, setPerson] = useState([]);
   const chatOwners = [chat.ownerOne, chat.ownerTwo];
-  const personToChat = chatOwners.find((person) => person !== currentUserId);
+  const personToChat = chatOwners.find((person) => person !== user);
   // console.log(chatMessages);
   const messagesEndRef = useRef(null);
   useEffect(() => {
@@ -133,7 +132,7 @@ export default function Messages({
                     key={message.messageId}
                     className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
                   >
-                    {message.senderId !== currentUserId ? (
+                    {message.senderId !== user ? (
                       <div className="flex flex-col">
                         <div className="flex items-end">
                           <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
@@ -182,11 +181,7 @@ export default function Messages({
                   </div>
                 ))}
                 <div ref={messagesEndRef}></div>
-                <SendMessage
-                  chat={chat}
-                  currentUserId={currentUserId}
-                  socket={socket}
-                />
+                <SendMessage chat={chat} user={user} socket={socket} />
               </div>
             </div>
           ) : (
