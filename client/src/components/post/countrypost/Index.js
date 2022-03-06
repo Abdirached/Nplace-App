@@ -11,7 +11,7 @@ import { formatDistance } from "date-fns";
 const axios = require("axios");
 
 export default function CountryPost() {
-  const { user } = useContext(UserContext);
+  const { user, auth } = useContext(UserContext);
   const socket = useContext(SocketContext);
   const { place } = UselocationListner();
   const [posts, setPosts] = useState([]);
@@ -27,7 +27,7 @@ export default function CountryPost() {
             `http://localhost:5000/Posts/country/${place}`,
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("jwt"),
+                Authorization: "Bearer " + auth,
               },
             }
           );
@@ -108,6 +108,8 @@ export default function CountryPost() {
                 postUserName={data.User.firstName}
                 setOpen={setOpen}
                 socket={socket}
+                auth={auth}
+                user={user}
               />
             ) : null}
             <div>

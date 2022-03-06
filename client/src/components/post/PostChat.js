@@ -6,17 +6,18 @@ export default function PostChat({
   postUserName,
   setOpen,
   socket,
+  auth,
+  user,
 }) {
-  const currentUserId = JSON.parse(localStorage.getItem("userId"));
   const [message, setMessage] = useState("");
   const onSubmit = async function onSubmitMessage(e) {
     e.preventDefault();
     try {
       const responseForCreateChat = await axios({
         method: "post",
-        url: `http://localhost:5000/Chats/${currentUserId}/${postUserId}`,
+        url: `http://localhost:5000/Chats/${user}/${postUserId}`,
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
+          Authorization: "Bearer " + auth,
         },
       });
       console.log(responseForCreateChat.data[0]);
@@ -24,10 +25,10 @@ export default function PostChat({
         method: "post",
         url: `http://localhost:5000/Chats/chat/${responseForCreateChat.data[0].chatId}/messages`,
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
+          Authorization: "Bearer " + auth,
         },
         data: {
-          senderId: currentUserId,
+          senderId: user,
           receiverId: postUserId,
           text: message,
         },
@@ -49,14 +50,14 @@ export default function PostChat({
         method: "put",
         url: `http://localhost:5000/Chats/chat/${responseForCreateChat.data[0].chatId}`,
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
+          Authorization: "Bearer " + auth,
         },
         data: {
           isRead: false,
         },
       });
       socket.emit("chatStatus", {
-        senderId: currentUserId,
+        senderId: user,
         receiverId: postUserId,
         messageId: response.data.message.messageId,
         chatId: response.data.message.chatId,

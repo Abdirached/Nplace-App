@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import UselocationListner from "../hooks/UseLocationListner";
+import UserContext from "../context/UserProvider";
 import ReactLoader from "../components/ReactLoader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const axios = require("axios");
 
 export default function EditPost() {
+  const {auth} = useContext(UserContext)
   const [media, setMedia] = useState("");
   const [file, setFile] = useState("");
   const [url, setUrl] = useState();
@@ -32,7 +34,7 @@ export default function EditPost() {
           `http://localhost:5000/Storage/signedurl/${file?.name}`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + auth,
             },
           }
         );
@@ -86,7 +88,7 @@ export default function EditPost() {
           `http://localhost:5000/Posts/${postId}`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + auth,
             },
           }
         );
@@ -122,7 +124,7 @@ export default function EditPost() {
         method: "put",
         url: `http://localhost:5000/Posts/${postId}/editpost`,
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
+          Authorization: "Bearer " + auth,
         },
         data: {
           country,

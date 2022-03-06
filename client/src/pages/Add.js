@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const axios = require("axios");
 
 export default function Add() {
-  const { user } = useContext(UserContext);
+  const { auth } = useContext(UserContext);
   const socket = useContext(SocketContext);
   const [url, setUrl] = useState();
   const [fields, setFields] = useState();
@@ -35,7 +35,7 @@ export default function Add() {
           `http://localhost:5000/Storage/signedurl/${file?.name}`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + auth,
             },
           }
         );
@@ -106,7 +106,7 @@ export default function Add() {
         method: "post",
         url: "http://localhost:5000/Posts",
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
+          Authorization: "Bearer " + auth,
         },
         data: {
           country,

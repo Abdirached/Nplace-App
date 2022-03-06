@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import UserContext from "../context/UserProvider";
 const axios = require("axios");
 export default function Sidebar() {
-  const { user } = useContext(UserContext);
+  const { user, auth } = useContext(UserContext);
   console.log(user);
   const [currentUserInfo, setCurrentUserInfo] = useState([]);
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function Sidebar() {
           `http://localhost:5000/Profile/${user}`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + auth,
             },
           }
         );

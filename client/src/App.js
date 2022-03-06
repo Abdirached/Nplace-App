@@ -26,13 +26,13 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
 function App() {
-  const { user, role } = useAuthListener();
+  const { user, role, auth } = useAuthListener();
   return (
     <Router>
       <Switch>
         {user ? (
           <SocketProvider user={user}>
-            <UserContext.Provider value={{ user, role }}>
+            <UserContext.Provider value={{ user, role, auth }}>
               <Navbar />
               {role === "buyer" ? (
                 <>

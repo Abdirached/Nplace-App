@@ -6,7 +6,7 @@ import { MessagesProvider } from "../../context/MessagesProvider";
 import { SocketContext } from "../../context/SocketProvider";
 const axios = require("axios");
 export default function Index() {
-  const { user } = useContext(UserContext);
+  const { user, auth } = useContext(UserContext);
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -23,7 +23,7 @@ export default function Index() {
           `http://localhost:5000/Chats/${user}`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + auth,
             },
           }
         );
@@ -83,6 +83,7 @@ export default function Index() {
                     closed={closed}
                     setClosed={setClosed}
                     currentChat={currentChat}
+                    auth={auth}
                   />
                 </div>
               ))}
@@ -97,6 +98,7 @@ export default function Index() {
                 setCurrentChat={setCurrentChat}
                 closed={closed}
                 setClosed={setClosed}
+                auth={auth}
               />
             </div>
           </div>
@@ -126,6 +128,7 @@ export default function Index() {
                     closed={closed}
                     setClosed={setClosed}
                     currentChat={currentChat}
+                    auth={auth}
                   />
                 </div>
               ))}
@@ -140,6 +143,7 @@ export default function Index() {
                 setCurrentChat={setCurrentChat}
                 closed={closed}
                 setClosed={setClosed}
+                auth={auth}
               />
             </div>
           </div>

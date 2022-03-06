@@ -12,6 +12,7 @@ export default function Messages({
   setCurrentChat,
   closed,
   setClosed,
+  auth,
 }) {
   const socket = useContext(SocketContext);
   const { messages, setMessages } = useContext(MessagesContext);
@@ -36,7 +37,7 @@ export default function Messages({
             `http://localhost:5000/Profile/${personToChat}`,
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("jwt"),
+                Authorization: "Bearer " + auth,
               },
             }
           );
@@ -66,7 +67,7 @@ export default function Messages({
             `http://localhost:5000/Chats/chat/${currentChat}`,
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("jwt"),
+                Authorization: "Bearer " + auth,
               },
             }
           );
@@ -181,7 +182,12 @@ export default function Messages({
                   </div>
                 ))}
                 <div ref={messagesEndRef}></div>
-                <SendMessage chat={chat} user={user} socket={socket} />
+                <SendMessage
+                  chat={chat}
+                  user={user}
+                  socket={socket}
+                  auth={auth}
+                />
               </div>
             </div>
           ) : (

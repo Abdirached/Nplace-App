@@ -106,5 +106,8 @@ app.use("/Storage", storageRouter);
 // forgot password route
 const forgotPasswordRouter = require("./routes/ForgetPassword");
 app.use("/forgot-password", forgotPasswordRouter);
+// google signup
+const googleSignupRouter = require("./routes/GoogleAuth");
+app.use("/auth", googleSignupRouter);
 
 httpServer.listen(5000, console.log("server is running on 5000"));

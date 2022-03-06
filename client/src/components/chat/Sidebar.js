@@ -10,6 +10,7 @@ export default function Sidebar({
   closed,
   setClosed,
   currentChat,
+  auth,
 }) {
   const socket = useContext(SocketContext);
   const { messages } = useContext(MessagesContext);
@@ -37,7 +38,7 @@ export default function Sidebar({
             method: "put",
             url: `http://localhost:5000/Chats/chat/${currentChat}`,
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + auth,
             },
             data: {
               isRead: true,
@@ -63,7 +64,7 @@ export default function Sidebar({
           `http://localhost:5000/Profile/${personToChat}`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + auth,
             },
           }
         );

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 const axios = require("axios");
 
 export default function SignIn() {
@@ -7,7 +8,17 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [socialError, setSocialError] = useState("");
   const isInvalid = password === "" || email === "";
+  useEffect(() => {
+    const errorMessage = Cookies.get("Error");
+    setSocialError(errorMessage);
+    return () => {
+      Cookies.remove("Error");
+      console.log("leaving");
+    };
+  }, []);
+
   const onSubmit = async function postData(e) {
     e.preventDefault();
     try {
@@ -24,9 +35,9 @@ export default function SignIn() {
         setError(response.data.error);
         return;
       }
-      localStorage.setItem("jwt", response.data.token);
-      localStorage.setItem("userId", JSON.stringify(response.data.userId));
-      localStorage.setItem("userRole", JSON.stringify(response.data.role));
+      Cookies.set("auth", response.data.token);
+      Cookies.set("user", response.data.userId);
+      Cookies.set("role", response.data.role);
       console.log("successfull signin");
       history.push("/");
     } catch (error) {
@@ -94,6 +105,19 @@ export default function SignIn() {
           </form>
           {error && <p className="my-4 text-red-500">{error}</p>}
           <hr className="my-6 border-gray-300 w-full"></hr>
+          <button
+            disabled={isInvalid}
+            type="submit"
+            className="w-full block bg-red-500 hover:bg-red-400 focus:bg-red-400 text-white font-semibold rounded-lg
+              px-4 py-3 mt-6"
+          >
+            <a href="http://localhost:5000/auth//signin/google">
+              Log In with google
+            </a>
+          </button>
+          {socialError && !error ? (
+            <p className="my-4 text-red-500">{socialError}</p>
+          ) : null}
           <p className="mt-8">
             Need an account?{" "}
             <Link
