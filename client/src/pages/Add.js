@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import io from "socket.io-client";
 import ReactPlayer from "react-player";
+import Footer from "../components/Footer";
 import UserContext from "../context/UserProvider";
 import { SocketContext } from "../context/SocketProvider";
 import UselocationListner from "../hooks/UseLocationListner";
@@ -251,6 +252,7 @@ export default function Add() {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
       ) : (
         <ReactLoader />

@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import ReactPlayer from "react-player";
 import ReactLoader from "../../ReactLoader";
 import Header from "../Header";
-import Footer from "../Footer";
+import Footer from "../CardFooter";
 import { SocketContext } from "../../../context/SocketProvider";
 import UselocationListner from "../../../hooks/UseLocationListner";
 import UserContext from "../../../context/UserProvider";

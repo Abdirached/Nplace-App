@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import Header from "../Header";
 import Audio from "../Audio";
-import Footer from "../Footer";
+import Footer from "../CardFooter";
 import Comments from "./Comments";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { HiOutlineDotsVertical } from "react-icons/hi";
