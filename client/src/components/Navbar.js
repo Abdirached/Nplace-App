@@ -12,19 +12,19 @@ export default function Navbar() {
       <div className="h-full w-full">
         {role === "buyer" ? (
           <div className="flex justify-between h-full">
-            <div className="text-gray-700 text-center flex items-center align-items cursor-default md:ml-4">
+            <div className="text-gray-700 text-center flex items-center align-items cursor-default md:ml-6">
               <img src={logo} className="mt-4 mb-2 w-48 h-40" />
             </div>
-            <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items mr-4">
+            <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items gap-6 mr-6">
               <Link to="/Add" aria-label="Add">
-                <MdCloudUpload className=" text-3xl font-bold mr-4" />
+                <MdCloudUpload className=" text-3xl" />
               </Link>
               <Link to="/Chat" aria-label="Notifications">
-                <MdMail className=" text-3xl font-bold mr-4" />
+                <MdMail className=" text-3xl" />
               </Link>
               <Link to="/Profile" aria-label="Profile">
                 <img
-                  className="rounded-full h-8 w-8 flex mr-4"
+                  className="rounded-full h-8 w-8 flex"
                   src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                   alt="profile picture"
                 />
@@ -71,19 +71,19 @@ export default function Navbar() {
           </div>
         ) : role === "seller" ? (
           <div className="flex justify-between h-full">
-            <div className="text-gray-700 text-center flex items-center align-items cursor-default md:ml-4">
+            <div className="text-gray-700 text-center flex items-center align-items cursor-default md:ml-6">
               <img src={logo} className="mt-4 mb-2 w-48 h-40" />
             </div>
-            <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items mr-4">
+            <div className=" hidden md:flex text-gray-700 text-center  justify-evenly items-center align-items gap-6 mr-6">
               <Link to="/" aria-label="Home">
-                <MdHome className=" text-3xl font-bold mr-3" />
+                <MdHome className=" text-3xl" />
               </Link>
               <Link to="/Chat" aria-label="Notifications">
-                <MdMail className=" text-3xl font-bold mr-4" />
+                <MdMail className=" text-3xl" />
               </Link>
               <Link to="/Profile" aria-label="Profile">
                 <img
-                  className="rounded-full h-8 w-8 flex mr-4"
+                  className="rounded-full h-8 w-8"
                   src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                   alt="profile picture"
                 />

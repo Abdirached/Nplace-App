@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import ReactPlayer from "react-player";
 import Skeleton from "react-loading-skeleton";
 import UserContext from "../context/UserProvider";
 const axios = require("axios");
@@ -26,54 +27,39 @@ export default function Profile() {
     currentUser();
   }, [user]);
   return (
-    <div className="h-screen relative sm:grid sm:grid-cols-3 md:grid-cols-4 bg-gray-50">
-      <div className="w-full flex sm:flex-col sm:relative sm:top-8">
-        <div className="ml-4 w-36 sm:flex sm:justify-center lg:w-4/5 sm:w-full lg:pl-24">
-          {currentUserInfo.user ? (
-            <img
-              className="rounded-full h-24 w-24 object-fill sm:h-32 sm:w-32"
-              alt={`${currentUserInfo.user.firstName} profile`}
-              src={currentUserInfo.user.avatar}
-            />
-          ) : (
-            <Skeleton circle height={150} width={150} count={1} />
-          )}
-        </div>
-        <div className="ml-3 flex flex-col w-full lg:pl-24">
-          <div className="relative flex top-4 sm:top-4 sm:justify-center lg:w-4/5 sm:w-full">
-            <p className="text-xl font-bold">
-              {currentUserInfo.user?.firstName}
-            </p>
-            <p className="text-xl font-bold ml-1">
-              {currentUserInfo.user?.lastName}
-            </p>
-          </div>
-          <div className="flex relative top-7 sm:top-8 w-20  sm:justify-center lg:w-4/5 sm:w-full">
-            <button
-              type="submit"
-              className="bg-blue-medium text-white w-full rounded h-8 font-bold sm:w-20"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
+    <div className="h-full relative sm:grid sm:grid-cols-3 md:grid-cols-4">
+      <div className="text-center mt-8">
+        {currentUserInfo.user ? (
+          <img
+            src={currentUserInfo.user?.avatar}
+            className="rounded-full w-20 mb-4 mx-auto h-20"
+            alt="Avatar"
+          />
+        ) : (
+          <Skeleton circle height={80} width={80} count={1} />
+        )}
+        <h5 className="text-xl font-medium leading-tight mb-2">
+          {currentUserInfo.user?.firstName} {currentUserInfo.user?.lastName}
+        </h5>
       </div>
-      <div className="relative top-8 flex-col sm:col-span-2 md:col-span-3">
-        <h2 className="font-bold lg:pl-12 lg:pb-4 mt-2 pl-10 mb-2">
-          Market Contributions
-        </h2>
+      <div className="relative mt-12 flex-col sm:col-span-2 md:col-span-3">
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
           {!currentUserInfo.posts
             ? new Array(3)
                 .fill(0)
-                .map((_, i) => <Skeleton key={i} width={300} height={50} />)
+                .map((_, i) => <Skeleton key={i} width={250} height={150} />)
             : currentUserInfo.posts.length > 0
             ? currentUserInfo.posts.map((post) => (
                 <div
                   key={post.postId}
                   className="relative w-full flex justify-center lg:w-4/5 lg:left-12"
                 >
-                  <audio controls src={post.video} className="bg-gray-100" />
+                  <ReactPlayer
+                    controls
+                    url={post.video}
+                    width={350}
+                    height={150}
+                  />
                 </div>
               ))
             : null}
