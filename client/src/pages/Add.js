@@ -55,7 +55,7 @@ export default function Add() {
     }
   }, [file]);
 
-  const mimeTypes = ["video/mp4", "video/webm", "image/jpeg"];
+  const mimeTypes = ["video/mp4", "video/webm"];
   useEffect(() => {
     if (file && file?.size > 40971520) {
       toast.error("file over limit", {
@@ -87,6 +87,8 @@ export default function Add() {
 
   const onsubmit = async function onsubmitVideo(e) {
     e.preventDefault();
+    setLoading(true);
+    console.log("sending order");
     try {
       const country = place;
       const province = place;
@@ -175,10 +177,10 @@ export default function Add() {
                       Choose file to upload
                     </span>
                     <span className="mb-6 text-gray-400 justify-center">
-                      Only video or image
+                      Only video
                     </span>
                     <span className="mb-3 text-gray-400 justify-center">
-                      Video less than 1 GB and up to 3 minutes
+                      Less than 1 GB and up to 3 minutes
                     </span>
                   </header>
                 </>
@@ -190,10 +192,6 @@ export default function Add() {
                     width="100%"
                     height="100%"
                   />
-                </div>
-              ) : file?.type === "image/jpeg" ? (
-                <div className="w-4/5 md:w-3/5 md:h-2/5 mx-auto">
-                  <img src={fileUrl} className=" w-full h-full" />
                 </div>
               ) : (
                 <p>Something went wrong !</p>
@@ -230,18 +228,18 @@ export default function Add() {
                   onChange={(e) => setContent(e.target.value)}
                 />
                 <button
-                  disabled={isInvalid}
+                  disabled={isInvalid || loading}
                   className={`bg-indigo-500 text-white rounded-md w-48 py-3 mt-16 text-center mx-auto  ${
                     isInvalid && "opacity-50"
                   }`}
-                  onClick={() => setLoading(true)}
                 >
-                  {loading ? "Loading.." : "Send"}
+                  {loading ? "Sending..." : "Send"}
                 </button>
               </form>
               <div className="flex items-center justify-center">
                 <button
-                  className="bg-gray-500 text-white rounded-md w-48 py-3 mt-4 text-center"
+                  disabled={loading}
+                  className="bg-gray-300 rounded-md w-48 py-3 mt-4 text-center outline-none text-gray-700"
                   onClick={() => {
                     setFile("");
                     setContent("");

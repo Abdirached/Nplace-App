@@ -15,7 +15,7 @@ export default function Navbar() {
         {role === "buyer" ? (
           <div className="flex justify-between h-full">
             <div className="text-gray-700 text-center flex items-center align-items cursor-default ml-4 md:ml-6 gap-3">
-              <img src={logo} className="w-10 h-10 rounded-full" />
+              <img src={logo} className="w-12 h-12 rounded-full" />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                 Offerflow
               </span>
@@ -159,7 +159,7 @@ export default function Navbar() {
         ) : role === "seller" ? (
           <div className="flex justify-between h-full">
             <div className="text-gray-700 text-center flex items-center align-items cursor-default md:ml-6 ml-4 gap-3">
-              <img src={logo} className="w-10 h-10 rounded-full" />
+              <img src={logo} className="w-12 h-12 rounded-full" />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                 Offerflow
               </span>
