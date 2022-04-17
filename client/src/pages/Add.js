@@ -163,13 +163,13 @@ export default function Add() {
       {place !== null ? (
         <div className="w-full h-full mt-8">
           <ToastContainer />
-          <div className="mt-4 w-4/5 md:w-full mx-auto mb-4">
-            <h1 className="text-2xl text-gray-600 font-bold md:ml-12 xl:ml-16">
+          <div className="mt-10 w-11/12 md:w-full mx-auto">
+            <h1 className="text-lg text-gray-600 font-semibold md:ml-16 xl:ml-20">
               Send order
             </h1>
           </div>
           <div className=" md:flex md:h-screen">
-            <div className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center w-4/5 mx-auto mb-8 mt-6 md:w-1/3 xl:w-1/4 md:relative md:left-4 md:rounded-md md:h-3/4">
+            <div className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center mx-auto mb-4 md:mb-2 mt-6 md:mt-10 w-72 md:relative md:left-4 md:rounded-md md:h-5/6 hover:border-indigo-500">
               {!file ? (
                 <>
                   <header className="flex flex-col justify-center items-center">
@@ -185,7 +185,7 @@ export default function Add() {
                   </header>
                 </>
               ) : file?.type === "video/mp4" || file?.type === "video/webm" ? (
-                <div className="h-2/5 w-4/5 mx-auto">
+                <div className=" w-11/12 mx-auto">
                   <ReactPlayer
                     url={fileUrl}
                     controls
@@ -208,14 +208,14 @@ export default function Add() {
                 />
                 <button
                   onClick={handleClick}
-                  className="mt-4 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
+                  className="mt-4 rounded-sm px-10 py-1.5 bg-indigo-500 hover:bg-indigo-600 focus:shadow-outline focus:outline-none text-white"
                 >
                   Upload a file
                 </button>
               </div>
             </div>
-            <div className=" mb-12 flex flex-col w-4/5 md:w-1/2 xl:w-3/5 mx-auto gap-3 md:mb-8 md:mt-3 lg:relative lg:right-8">
-              <h4 className="ml-1 font-semibold">Description</h4>
+            <div className=" mb-12 flex flex-col w-11/12 md:w-1/2 xl:w-3/5 mx-auto gap-3 md:mb-8 md:mt-3 lg:relative lg:right-2">
+              <h4 className="ml-1 font-medium text-gray-600">Description</h4>
               <form
                 onSubmit={onsubmit}
                 className="flex flex-col justify-evenly"
@@ -229,7 +229,7 @@ export default function Add() {
                 />
                 <button
                   disabled={isInvalid || loading}
-                  className={`bg-indigo-500 text-white rounded-md w-48 py-3 mt-16 text-center mx-auto  ${
+                  className={`bg-indigo-400 text-white rounded-md w-48 py-3 mt-16 text-center mx-auto font-medium  ${
                     isInvalid && "opacity-50"
                   }`}
                 >
@@ -239,7 +239,7 @@ export default function Add() {
               <div className="flex items-center justify-center">
                 <button
                   disabled={loading}
-                  className="bg-gray-300 rounded-md w-48 py-3 mt-4 text-center outline-none text-gray-700"
+                  className="bg-red-500 rounded-md w-48 py-3 mt-4 text-center outline-none text-white hover:bg-red-600 font-medium"
                   onClick={() => {
                     setFile("");
                     setContent("");
