@@ -1,24 +1,40 @@
 # Nplace
 
-A request marketplace: **buyers post what they need** — free text plus specifications,
-tagged by country and province — and **sellers respond** through comments and real-time chat.
+A **location-based reverse marketplace**: buyers post what they need — text, specifications,
+video — in their area. Sellers in that area see the orders in their own feed and respond with
+offers through a built-in real-time chat. **Buyers get competing options; sellers get volume.**
 
-Built by hand in 2021–2022 (before AI assistance), as a full-stack project from
-database schema to Redux state to WebSocket plumbing.
+Built by hand in 2021–2022 (before AI assistance), full-stack from database schema to
+WebSocket plumbing.
+
+## How it works
+
+1. **A buyer posts an order** — what they need, specifications, an optional video, and their
+   country / province.
+2. **Local sellers see it in their feed** — orders are location-tagged, so each seller's home
+   feed shows the demand relevant to their area.
+3. **A seller sends an offer through chat** — messaging from a post opens (or continues) a
+   real-time conversation between that seller and the buyer.
+4. **The buyer compares offers** — multiple sellers can pitch on the same order; the buyer
+   collects options in chat and continues with the best one.
+
+Reverse flow: demand is published first, supply competes for it.
 
 ## Features
 
-- **Auth**: email/password (bcrypt + JWT) and Google OAuth for both buyer and seller
-  roles; sessions carried in httpOnly cookies
-- **Requests (Posts)**: create / edit / delete posts with text, specifications and a
-  video attachment; browse feeds by country and province
-- **Discussions**: comments and threaded replies with edit/delete
-- **Real-time chat**: Socket.IO per-user rooms, read receipts (`chatStatus`),
-  new-chat and new-post broadcasts
-- **Audio messages**: in-browser recording through a custom `useRecorder` hook
-- **Notifications**: per-user notification records
-- **Uploads**: direct-to-S3 uploads with server-issued, size-limited presigned POST policies
-- **Password reset**: email flow via Amazon SES with signed, expiring JWT links
+- **Location-based order feeds** — posts tagged by country and province; dedicated
+  `HomeCountry` / `HomeProvince` feeds
+- **Offers via real-time chat** — Socket.IO per-user rooms, read receipts (`chatStatus`),
+  `newChat` / `newPost` / `sendMessage` events; in-browser **audio messages** through a
+  custom `useRecorder` hook
+- **Order management** — create / edit / delete posts with text, specifications and a video
+  attachment
+- **Auth** — email/password (bcrypt + JWT) and Google OAuth for both buyer and seller roles;
+  sessions carried in httpOnly cookies
+- **Discussions** — comments and threaded replies with edit/delete
+- **Notifications** — per-user notification records
+- **Uploads** — direct-to-S3 uploads with server-issued, size-limited presigned POST policies
+- **Password reset** — email flow via Amazon SES with signed, expiring JWT links
 
 ## Architecture
 
@@ -90,11 +106,13 @@ See `server/.env.example`:
 
 Never commit your real `.env` — it is git-ignored.
 
-## How it works
+## Implementation notes
 
 - The client requests a presigned POST from `GET /Storage/signedurl/:filename` and uploads
   the file straight to S3; object keys are UUID-prefixed to avoid collisions.
 - The API and Socket.IO share one HTTP server. Each socket joins a room keyed by the user id;
   chat messages, read receipts and feed updates are broadcast to the relevant rooms only.
+- Messaging from a post goes through `POST /Chats/:user/:postUserId`, which either creates
+  the conversation or reuses the existing one before the offer message is sent.
 - Passwords from Google sign-ups are random 32-byte values — accounts authenticate through
   Google or the reset flow, never a default password.
