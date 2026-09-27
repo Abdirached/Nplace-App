@@ -36,7 +36,7 @@ router.post("/reset-link", (req, res) => {
                 Data: "reset email",
               },
             },
-            Source: "abdirashidhersi5@gmail.com",
+            Source: process.env.EMAIL_SENDER,
           })
           .promise();
 

@@ -1,8 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = new Sequelize("maindb", "postgres", "main1234", {
-  host: "localhost",
-  dialect: "postgres",
-});
+const sequelize = require("../db");
 const CommentModel = require("./Comment");
 const CommentReplyModel = require("./CommentReply");
 const PostModel = sequelize.define("Post", {

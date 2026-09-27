@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 require("dotenv").config();
 
@@ -34,7 +35,7 @@ passport.use(
         lastName: profile.name.familyName,
         email: profile.emails[0].value,
         phonenumber: null,
-        password: "123456",
+        password: crypto.randomBytes(32).toString("hex"),
         avatar: profile.photos[0].value,
         role: "seller",
       });
@@ -89,7 +90,7 @@ passport.use(
         lastName: profile.name.familyName,
         email: profile.emails[0].value,
         phonenumber: null,
-        password: "123456",
+        password: crypto.randomBytes(32).toString("hex"),
         avatar: profile.photos[0].value,
         role: "buyer",
       });

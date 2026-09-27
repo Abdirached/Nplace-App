@@ -38,8 +38,8 @@ io.on("connection", (socket) => {
   });
   console.log("a user connected");
 });
-// importing models
-const { Sequelize } = require("sequelize");
+// importing models (all models share one connection from ./db)
+const sequelize = require("./db");
 const UserModel = require("./models/User");
 const PostModel = require("./models/Post");
 const CommentModel = require("./models/Comment");
@@ -47,21 +47,11 @@ const CommentReplyModel = require("./models/CommentReply");
 const NotificationModel = require("./models/Notification");
 const ChatModel = require("./models/Chat");
 const MessageModel = require("./models/Message");
-// requiring env
-require("dotenv").config();
-// connect DB
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  { host: process.env.HOST, dialect: process.env.DIALECT }
-);
-try {
-  sequelize.authenticate();
-  console.log("Connection has been established successfully.");
-} catch (error) {
-  console.error("Unable to connect to the database:", error);
-}
+// connect DB (shared connection, also used by the models)
+sequelize
+  .authenticate()
+  .then(() => console.log("Connection has been established successfully."))
+  .catch((error) => console.error("Unable to connect to the database:", error));
 
 const modelSync = async function dbSync() {
   try {
